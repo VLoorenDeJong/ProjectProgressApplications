@@ -1,0 +1,89 @@
+﻿@page
+@model ProjectProgressWebFront1.Pages.testPageModel
+@{
+}
+<label class="navbar-dark">Please select the project to change:</label>
+<form method="post">
+    <div>
+        <div>
+            <input class="table-dark" asp-for="@Model.ProjectTitle" type="text" placeholder="ProjectTitle" />
+            <button type="submit" class="bg-dark">Zoek</button>
+        </div>
+        <br />
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Projects:</th>
+                    </tr>
+                </thead>
+
+                @foreach (var project in Model.AllProjects)
+                {
+                    <tbody>
+                        <tr>
+                            <td>
+
+                                @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.ToDo)
+                                {
+                                    <label asp-for="@project.Title" class="alert-danger"> @project.Title</label>
+                                }
+
+
+                                @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Doing)
+                                {
+                                    <label asp-for="@project.Title" class="alert-dark"> @project.Title</label>
+                                }
+
+                                @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done)
+                                {
+                                    <label asp-for="@project.Title" class="alert-success"> @project.Title</label>
+                                }
+                                <div class="progress">
+                                    <progress class="progress-bar-animated" value="@project.Progress" />
+                                </div>
+                            <td />
+                            <td>
+
+                                @if (project.Title == Model.MainGoal)
+                                {
+                                    <button type="submit" asp-route-title="@project.Title" asp-page="/ProjectPage"> Edit   </button>
+                                }
+                                @if (project.Title != Model.MainGoal)
+                                {
+                                    <button type="submit" asp-route-title="@project.Title" asp-page="/ProjectPage"> Edit   </button>
+
+                                    if (project.SubProjectIds.Count == 0)
+                                    {
+                                        @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.ToDo)
+                                        {
+                                            <button type="submit" asp-route-title="@project.Title" asp-page-handler="StartProject"> Start project   </button>
+
+                                        }
+
+                                        @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Doing)
+                                        {
+                                            <button type="submit" asp-route-title="@project.Title" asp-page-handler="FinishProject">Finish project</button>
+                                            <button type="submit" asp-route-title="@project.Title" asp-page-handler="StopProject">Stop project</button>
+                                        }
+
+                                        @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done)
+                                        {
+                                            <button type="submit" asp-route-title="@project.Title" asp-page-handler="RestartProject">Restart</button>
+                                        }
+
+                                        <button type="submit" asp-route-title="@project.Title" asp-page-handler="DeleteProject" padding="10"> Remove project   </button>
+                                    }
+
+                                }
+
+                            </td>
+                        </tr>
+                    </tbody>
+                }
+
+
+            </table>
+        </div>
+    </div>
+</form>

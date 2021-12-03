@@ -1,0 +1,110 @@
+﻿@page
+@model ProgressApplicationMVP.Pages.TimeUnitPageModel
+@{
+    ViewData["Title"] = "Time unit page";
+}
+<h2>Add time to a project:</h2>
+<form method="post">
+    <div class="row">
+        <div>
+            <input type="number" asp-for="@Model.HoursPutIn" value="@Model.HoursPutIn" class="table-dark" min="0" />
+            @if (Model.ForgotHours == true)
+            {
+                <br />
+                <label class="alert-danger">Please enter the hours</label>
+            }
+            <br />
+            <input type="radio" asp-for="@Model.Classification" value="@ProjectProgressLibrary.Enums.HourClassification.Practical" />
+            <label asp-for="@Model.Classification">Practical</label>
+            <br />
+            <input type="radio" asp-for="@Model.Classification" value="@ProjectProgressLibrary.Enums.HourClassification.General" />
+            <label asp-for="@Model.Classification">General</label>
+            <br />
+            <input type="radio" asp-for="@Model.Classification" value="@ProjectProgressLibrary.Enums.HourClassification.Theoretical" />
+            <label asp-for="@Model.Classification">Theory</label>
+            <br />
+            @if (Model.TimeUnitLoaded == true)
+            {
+                <div class="p-2">
+                    <input type="datetime" asp-for="@Model.TimeStamp" value="@Model.TimeStamp" class="table-dark text-muted" placeholder="@Model.TimeStamp" />
+                </div>
+            }
+            @if (Model.FromManagementPage == false && Model.TimeUnitLoaded == false)
+            {
+                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="Save">Save</button>
+            }
+            @if (Model.FromManagementPage == true)
+            {
+                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="SaveChangeProject">Save</button>
+            }
+            @if (Model.TimeUnitLoaded == true)
+            {
+                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.TimeUnitToAdd.TimeUnitId" asp-page-handler="SaveChangedTimeUnit">Save</button>
+
+            }
+        </div>
+        <div>
+            <table class="table">
+                @if (Model.FromManagementPage == false)
+                {
+                    <thead>
+                        @if (Model.ForgotProjectSelection == true)
+                        {
+                            <tr>
+                                <td>
+                                    <label class="alert-danger">Please select a project</label>
+                                </td>
+                            </tr>
+                        }
+
+
+                        <tr>
+                            <th> Select project:</th>
+                        </tr>
+                    </thead>
+                    @foreach (var project in Model.AllProjects)
+                    {
+
+                        @if (project.ProjectStatus != ProjectProgressLibrary.Enums.ProjectStatus.Done && project.Title != Model.ProjectTitle)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            <label class="p-2"><input asp-for="@Model.ProjectTitle" type="radio" value="@project.Title" name="projectTitle" />@project.Title</label>
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </tbody>
+
+                        }
+
+
+                        @if (project.ProjectStatus != ProjectProgressLibrary.Enums.ProjectStatus.Done && project.Title == Model.ProjectTitle)
+                        {
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <h6>
+                                            <label><input asp-for="@Model.ProjectTitle" type="radio" value="@project.Title" name="projectTitle" checked="checked" />@project.Title</label>
+                                        </h6>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        }
+                    }
+                }
+                @if (Model.FromManagementPage == true)
+                {
+                    <tr>
+                        <td>
+                            <h6>
+                                <label><input asp-for="@Model.ProjectTitle" type="radio" value="@Model.ProjectTitle" name="projectTitle" checked="checked" />@Model.ProjectTitle</label>
+                            </h6>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </div>
+</form>

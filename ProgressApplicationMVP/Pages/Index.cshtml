@@ -1,0 +1,61 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+<div class="text-center">
+    <h1>
+        <label class="display-4">
+            Progress tracking app
+            @if (Model._MainGoal == "Demoing the app")
+            {
+                <label>
+                    DEMO
+                </label>
+            }
+        </label>
+    </h1>
+    <h2 class="display-4">MVP</h2>
+    @if (Model._MainGoal == "Demoing the app")
+    {
+<h2>
+    <label><strong>(Returning to this page resets the changes that are made)</strong></label>
+</h2>
+    }
+</div>
+<div class="text-sm-left">
+
+    <h3>Features:</h3>
+    <ul>
+        <li>Adding projects</li>
+        <li>Save your challenges of the project and all the solutions</li>
+        <li>Save your ideas for future additions to the project and leave a runway suggestions for when you start that addition</li>
+        <li>Add hours to a project</li>
+        <li>Classify the time you put in in a catagory</li>
+        <li>Make a project status switch between ToDo/Doing/Done</li>
+        <li>Assign a new main project to the project if the project changes</li>
+    </ul>
+    <h3>Future features</h3>
+    <ul>
+        <li>Statistics on index page</li>
+        <li>Adding comments to a time unit</li>
+        <li>Sign in</li>
+        <li>Multiple users</li>
+        <li>Add a picture to a project</li>
+        <li>Indication of why a project can not be removed</li>
+        <li>Character input cap on project title</li>
+    </ul>
+    <h3>Known bugs:</h3>
+    <ul>
+        <li>Front end code</li>
+        <li>Timestamp is UTC time</li>
+        <li>Demo version removes entries upon homepage load new demo user</li>
+        <li>Adding time to subproject does not start main project</li>
+        <li>Numeric counters in challenges and additions order numbers like text 1, 10, 2</li>
+    </ul>
+    <h3>Bugfixes under review:</h3>
+    <ul>
+        <li>When shifting projects around a negative hour count can be calculated</li>
+        <li>Subtract subproject hours from all projects above</li>
+    </ul>
+</div>

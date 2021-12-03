@@ -1,0 +1,103 @@
+﻿@page
+@model PresentationWebFront.Pages.ProgressPageModel
+@{
+}
+
+<form method="post">
+    <div id="page-section-top p-2">
+        <div id="page-section-search-search-date-section" class="p-4">
+            <div id="page-section-search-date-field" class="p-2 ">
+                <input type="date" asp-for="@Model.SearchDate" value="@Model.SearchDate" class="table-dark text-muted" />
+            </div>
+            <div id="page-section-search-button" class="p-2">
+                <button type="submit" asp-route-classification="All" asp-page-handler="searchdate" class="btn btn-dark text-muted">Zoek</button>
+            </div>
+        </div>
+    </div>
+    @if (Model.SearchEnabled == true)
+    {
+        <label class="p-2">Voortgang sinds <strong>@Model.SearchDate.ToShortDateString()</strong></label>
+    }
+    <div id="page-section-finished-projects-table" class="p-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="@Model.FinishedProjects"><strong>Afgeronde projecten</strong></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.FinishedProjects">Afrondings datum</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model.FinishedProjects)
+                {
+                    <tr>
+                        <td>
+                            <label asp-for="@project.Title">@project.Title</label>
+                        </td>
+                        <td>
+                            <label asp-for="@project.DateDone">@project.DateDone.ToShortDateString()</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="page-section-started-projects-table" class="p-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="@Model.StartedProjects"><strong>Gestarte projecten</strong></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.FinishedProjects">Start datum</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model.StartedProjects)
+                {
+                    <tr>
+                        <td>
+                            <label asp-for="@project.Title">@project.Title</label>
+                        </td>
+                        <td>
+                            <label asp-for="@project.DateDone">@project.DateDoing.ToShortDateString()</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <div id="page-section-added-projects-table" class="p-2">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        <label asp-for="@Model.AddedProjects"><strong>Toegevoegde projecten</strong></label>
+                    </th>
+                    <th>
+                        <label asp-for="@Model.FinishedProjects">Toevoegings datum</label>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var project in Model.AddedProjects)
+                {
+                    <tr>
+                        <td>
+                            <label asp-for="@project.Title">@project.Title</label>
+                        </td>
+                        <td>
+                            <label asp-for="@project.DateDone">@project.DateCreated.ToShortDateString()</label>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+</form>

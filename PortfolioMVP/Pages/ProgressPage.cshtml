@@ -1,0 +1,160 @@
+﻿@page
+@model PortfolioMVP.Pages.ProgressPageModel
+@{
+    ViewData["Title"] = "Voortgang";
+}
+
+<form method="post">
+    <div class="scrollable-page" id="page-section">
+        <div class="div-page-content-head-section">
+            <!--Title-->
+            <div class="div-page-title">
+                <label class="label-page-title page-text">Voortgang</label>
+            </div>
+
+            <!--Explanation section-->
+            <div class="div-explanation-section">
+                <label class="label-about-me-text-section page-text">Hier is de voortgang van mijn projecten te vinden.</label>
+                <br />
+                <label class="label-about-me-text-section  page-text">Deze voortgang wordt bij gehouden in mijn eigen Progress Application.</label>
+                <br />
+                <label class="label-about-me-text-section  page-text">Wanneer ik een project toevoeg, start of afrond is dat hier te zien.</label>
+                <br />
+                <a href="https://demo.victorloorendejong.nl" target="_blank">
+                    <label class="label-about-me-text-section page-text">Klik <labek class="border-bottom ">hier</labek> om zelf de applicatie demo te proberen.</label>
+                </a>
+            </div>
+
+
+            <!--Search section-->
+            <div id="page-section-search" class="div-input-section d-inline-flex">
+                <!--Date field button combination-->
+                <div id="page-section-search-date-section" class="div-input-field-button-combination-section">
+                    <label class="page-text label-search-field">Bekijk voortgang sinds:</label>
+                    <div id="page-section-search-date-field" class="div-input-field-section">
+                        <input type="date" class="menu-text text-field-formatting" asp-for="SearchDate" />
+                    </div>
+                    <div id="page-section-search-button" class="div-button-section">
+                        <button type="submit" class="button-formatting button-text menu-text" asp-page-handler="SearchDate">Zoek</button>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--Result tables section-->
+            @if (Model.SearchEnabled == true)
+            {
+                <div class="div-table-title-section">
+                    <label class="page-text label-result-text">Voortgang sinds <label class="page-text label-result-seacrhed">@Model.DayOfWeek @Model.SearchDate.ToString("dd.MM.yyyy")</label></label>
+                </div>
+            }
+        </div>
+        <!--Results table Finished-->
+        <div id="page-section-finished-projects-table" class="div-table-section">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="div-table-title-column-head-section">
+                                <label asp-for="@Model.FinishedProjects" class="label-table-head label-table-title page-text">Afgeronde projecten</label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="div-table-sub-column-head-section">
+                                <label asp-for="@Model.FinishedProjects" class="label-table-head page-text">Afrondings datum</label>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.FinishedProjects)
+                    {
+                        <tr>
+                            <td>
+                                <div class="div-table-row-title-item-section">
+                                    <label asp-for="@project.Title" class="label-table-row page-text">@project.Title</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="div-table-sub-column-item-section">
+                                    <label asp-for="@project.DateDone" class="label-table-row page-text">@project.DateDone.ToString("dd.MM.yyyy")</label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!--Results table Started-->
+        <div id="page-section-started-projects-table" class="div-table-section">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="div-table-title-column-head-section">
+                                <label asp-for="@Model.StartedProjects" class="label-table-head label-table-title page-text">Gestarte projecten</label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="div-table-sub-column-head-section">
+                                <label asp-for="@Model.StartedProjects" class="label-table-head page-text">Start datum</label>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.StartedProjects)
+                    {
+                        <tr>
+                            <td>
+                                <div class="div-table-row-title-item-section">
+                                    <label asp-for="@project.Title" class="label-table-row page-text">@project.Title</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="div-table-sub-column-item-section">
+                                    <label asp-for="@project.DateDoing" class="label-table-row page-text">@project.DateDoing.ToString("dd.MM.yyyy")</label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        <!--Results table Added-->
+        <div id="page-section-added-projects-table" class="div-table-section">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <div class="div-table-title-column-head-section">
+                                <label asp-for="@Model.AddedProjects" class="label-table-head label-table-title page-text">Toegevoegde projecten</label>
+                            </div>
+                        </th>
+                        <th>
+                            <div class="div-table-sub-column-head-section">
+                                <label asp-for="@Model.FinishedProjects" class="label-table-head page-text">Toevoegings datum</label>
+                            </div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var project in Model.AddedProjects)
+                    {
+                        <tr>
+                            <td>
+                                <div class="div-table-row-title-item-section">
+                                    <label asp-for="@project.Title" class="label-table-row page-text">@project.Title</label>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="div-table-sub-column-item-section">
+                                    <label asp-for="@project.DateCreated" class="label-table-row page-text">@project.DateCreated.ToString("dd.MM.yyyy")</label>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+                </table>
+        </div>
+</form>

@@ -1,0 +1,99 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Portfolio</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body style="background-color:#eba434">
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">Portfolio</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/Index">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/Projects" asp-route-pagetitle="Projecten">Projecten</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/DemoPage">Demo's</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/Projects" asp-route-pagetitle="Leerpad">Leerpad</a>
+                        </li>
+                        @*<li class="nav-item">
+            <a class="nav-link text-light" asp-area="" asp-page="/Projects" asp-route-pagetitle="Contributies">Contributies</a>
+        </li>*@
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/ProgressPage">Voortgang</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/TimeUnitOverviewPage">Uren verklaring</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/AboutMe">Over mij</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/SolutionsPage" asp-route-pageclassification="All">Oplossingen</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/TestPage" asp-route-pageclassification="All">Test</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    
+    <footer class="footer text-muted">  
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-dark border-bottom border-top box-shadow mb-3">
+            <div class="text-md-left">
+                <a href="https://www.scrum.org/user/894962"><img src="~/Pictures/badge-psmi.svg" width="50" height="50" alt="PSMI logo" /></a>
+                <a href="~/Victor Looren de Jong ITIL Foundation-Cert.pdf"><img src="~/Pictures/itil4foundation.webp" width="50" height="50" alt="ITIL4 logo" /></a>
+                <a href="TimCoreyFundamentalsPage"><img src="~/Pictures/CourseCardFundamentals.png" width="50" height="50" alt="C#Fundamentals logo" /></a>
+            </div>
+            <div class="container">
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-md-left">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li class="nav-item">
+                                    <a class="nav-link text-muted">Uren</a>
+                                </li>
+                                <li class="nav-item">
+                                    <label class="nav-link text-light">Totaal - @Model.TotalHours</label>
+                                </li>
+                                <li class="nav-item">
+                                    <label class="nav-link text-light">Algemeen - @Model.GeneralHours</label>                                    
+                                </li>
+                                <li class="nav-item">
+                                    <label class="nav-link text-light">In code - @Model.PracticalHours</label>                                    
+                                </li>
+                                <li class="nav-item">
+                                    <label class="nav-link text-light">Theorie - @Model.TheoreticalHours</label>
+                                </li>
+                            </ul>
+                </div>
+            </div>
+        </nav>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

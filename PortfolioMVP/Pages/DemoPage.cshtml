@@ -1,0 +1,133 @@
+﻿@page
+@model PortfolioMVP.Pages.DemoPageModel
+@{
+    ViewData["Title"] = "Demo's";
+}
+@{ string plural = "s";}
+@{ string title = "Developer";}
+<form method="post">
+    <div id="wrapper">
+        <div class="scrollable-page d-inline-flex">
+            <div id="sidebar-wrapper" class="div-side-menu">
+                <!--Catagory link-->
+                <div class="sidebar-heading div-side-menu-catagory-item side-menu-item">
+                    <a class="list-group list-group-flush bg-dark" asp-page="DemoPage">
+                        <label class="side-menu-item side-menu-catagory-item-label menu-text">
+                            Demo's
+                        </label>
+                    </a>
+                </div>
+                @foreach (var demoModel in Model.AllDemoModels)
+                {
+                    @if (Model.DemoModelToShow.Title == demoModel.Title)
+                    {
+                        <!--Selected project-->
+                        <div class="sidebar-heading div-side-menu-selected div-side-menu-selected-project side-menu-item">
+                            <label class="side-menu-item side-menu-deper-project-selected-project-item menu-text">
+                                @demoModel.Title
+                            </label>
+                        </div>
+                    }
+                    @if (Model.DemoModelToShow.Title != demoModel.Title)
+                    {
+                        <!-- sub sub project title menu item-->
+                        <div class="list-group list-group-flush div-side-menu-sub-project side-menu-item">
+                            <a class="list-group list-group-flush bg-dark" asp-page="DemoPage" asp-route-pagetitle="@demoModel.Title">
+                                <label class="side-menu-item side-menu-sub-project-item-label menu-text">
+                                    @demoModel.Title
+                                </label>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+            <!--Page Content-->
+            <div div id="page-content" class="div-page-content">
+                <div class="div-page-content-head-section">
+                    <div class="div-page-title">
+                        <label class="label-page-title page-text">@Model.DemoModelToShow.Title</label>
+                    </div>
+                </div>
+                <!--Title-->
+                @if (Model.ShowPicture == true && string.IsNullOrEmpty(Model.DemoModelToShow.ProjectLink) == false)
+                {
+
+                    <div class="div-photo-section">
+                        <a href="@Model.DemoModelToShow.ProjectLink" target="_blank" class="img-project-photo">
+                            <img class="img-project-photo" src="~/@Model.ProjectPictureFilePath" alt="@Model.PageTitle-Photo" />
+                        </a>
+                    </div>
+                }
+                @if (Model.DemoModelToShow.Title != "Demo pagina")
+                {
+
+                    <!--Links section-->
+            <div class="div-links-section">
+                <!--Demo Link section-->
+                @if (string.IsNullOrEmpty(@Model.DemoModelToShow.ProjectLink) == true)
+                {
+                    <div class="div-demo-link-section">
+                        <label class="label-demo-link page-text">
+                            (De link naar de demo komt hier zo snel als mogelijk)
+                        </label>
+                    </div>
+                }
+                @if (string.IsNullOrEmpty(@Model.DemoModelToShow.ProjectLink) == false)
+                {
+                    <div class="div-demo-link-section">
+                        <a href="@Model.DemoModelToShow.ProjectLink" class="label-demo-link page-text" target="_blank">
+                            Klik hier om de demo te proberen
+                        </a>
+                    </div>
+                }
+                @if (string.IsNullOrEmpty(Model.DemoModelToShow.GitHubLink) == true)
+                {
+                    <!--GitHub Link section-->
+                    <div class="div-github-link-section">
+                            <img class="img-github-logo page-text" src="~/pictures/GitHubLogo.png" alt="GitHubLogo" />
+                            <label class="label-demo-link page-text">
+                                (De GitHub link komt hier zo snel als mogelijk)
+                            </label>
+                    </div>
+                }
+                @if (string.IsNullOrEmpty(Model.DemoModelToShow.GitHubLink) == false)
+                {
+                    <!--GitHub Link section-->
+                    <div class="div-github-link-section">
+                        <a href="@Model.DemoModelToShow.GitHubLink" target="_blank">
+                            <img class="img-github-logo page-text" src="~/Pictures/GitHubLogo.png" alt="GitHubLogo" />
+                            View source code
+                        </a>
+                    </div>
+                }
+            </div>
+                }
+                <!--Description-->
+                <div class="div-description-outcome-status-text-section">
+                    <label class="label-text-section-head page-text">
+                        Omschrijving
+                    </label>
+                    <br />
+                    <label class="page-text label-text-section-text">@Model.DemoModelToShow.ShortDescription</label>
+                </div>
+                @if (Model.DemoModelToShow.Title != "Demo pagina")
+                {
+
+                    <!--Developer names section-->
+                    <div class="div-description-outcome-status-text-section">
+                        @if (Model.DemoModelToShow.DeveloperNames.Count > 1)
+                        {
+                            title = title + plural;
+                        }
+                        <label class="page-text label-text-section-head">@title</label>
+                        @foreach (var developerName in Model.DemoModelToShow.DeveloperNames)
+                        {
+                            <br />
+                            <label class="page-text label-text-section-text">@developerName</label>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</form>

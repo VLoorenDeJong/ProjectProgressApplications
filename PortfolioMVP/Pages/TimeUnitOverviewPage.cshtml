@@ -1,0 +1,300 @@
+﻿@page
+@model PortfolioMVP.Pages.TimeUnitOverviewPageModel
+@{
+    ViewData["Title"] = "Uren verklaring";
+}
+<form method="post">
+    <div class="scrollable-page" id="page-section">
+        <div class="div-page-content-head-section">
+            <!--Title-->
+            <div class="div-page-title">
+                <label class="label-page-title page-text">Uren verklaring</label>
+            </div>
+
+            <!--Explanation section-->
+            <div class="div-explanation-section">
+                <label class="label-about-me-text-section page-text">Op deze pagina wordt weergegeven welke tijd ik waar aan heb besteed. </label>
+                <br />
+                <label class="label-about-me-text-section  page-text">Er zijn 3 catagorien waar ik op kan klokken, algemeen, praktijk en theorie.</label>
+                <br />
+                <label class="label-about-me-text-section page-text">Deze uren houd ik iedere dag bij in mijn eigen Progress Application.</label>
+                <br />
+                <a href="https://demo.victorloorendejong.nl" target="_blank">
+                    <label class="label-about-me-text-section page-text">Klik <labek class="border-bottom ">hier</labek> om zelf de applicatie demo te proberen.</label>
+                </a>
+            </div>
+
+            <!--Search section-->
+            <div id="page-section-search" class="div-input-section d-inline-flex">
+
+                <!--Date field button combination-->
+                <div id="page-section-search-date-section" class="div-input-field-button-combination-section">
+                    <label class="page-text label-search-field">Bekijk uren sinds:</label>
+                    <div id="page-section-search-date-field" class="div-input-field-section">
+                        <input type="date" class="menu-text text-field-formatting" asp-for="@Model.SearchDate" />
+                    </div>
+                    <div id="page-section-search-button" class="div-button-section">
+                        <button type="submit" class="button-formatting button-text menu-text" asp-page-handler="SearchDate">Zoek</button>
+                    </div>
+                </div>
+
+                <!--Text field-buttoncombination-->
+                <div id="page-section-search-text-section" class="div-input-field-button-combination-section">
+                    <label class="page-text label-search-field">Bekijk uren voor project:</label>
+                    <div id="page-section-search-text-field" class="div-input-field-section">
+                        <input type="text" spellcheck="true" placeholder="Project titel" class="menu-text text-field-formatting" asp-for="@Model.SearchTerm" />
+                    </div>
+                    <div id="page-section-search-button" class="div-button-section">
+                        <button type="submit" class="button-formatting button-text menu-text" asp-page-handler="SearchProject">Zoek</button>
+                    </div>
+                </div>
+            </div>
+
+            <!--Explanation section-->
+            <div class="div-explanation-section">
+                <label class="label-about-me-text-section page-text">Om te zien hoeveel tijd een project heeft gekost,</label>
+                <br />
+                <label class="label-about-me-text-section page-text">of hoe veel uren ik de laatste maand aan het leren ben geweest,</label>
+                <br />
+                <label class="label-about-me-text-section page-text">kan in de velden hier boven op project titel en datum gezocht worden.</label>
+                <br />
+                <label class="label-about-me-text-section page-text">Een gedetaileerdere uiteenzetting staat lager op de pagina.</label>
+            </div>
+
+            @if (Model.SearchProjectEnabled == true)
+            {
+                <!--Table section-->
+                <div class="div-table-title-section">
+                    <label class="page-text label-table-title">Gevonden project met <label class="label-result-seacrhed">@Model.SearchTerm </label></label>
+                </div>
+                <div id="page-section-added-projects-table" class="div-table-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="div-table-title-column-head-section">
+                                        <label class="label-table-head label-table-title page-text">Project titel</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Totaal</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Algemeen</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">In code</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Theoretisch</label>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in Model.ProjectsToFind)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="div-table-row-title-item-section">
+                                            <label class="label-table-row page-text" asp-for="@project.Title">@project.Title</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@project.TotalHours">@project.TotalHours</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@project.GeneralHours">@project.GeneralHours</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@project.PracticalHours">@project.PracticalHours</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@project.TheoreticalHours">@project.TheoreticalHours</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            @if (Model.SearchByDateEnabled == true)
+            {<!--Table section-->
+                @if (Model.IsFirstPage == false)
+                {
+                    <div class="div-table-title-section">
+                        <label class="page-text label-table-title">Uren gemaakt sinds: <label class="label-result-seacrhed">@Model.DayOfWeek @Model.SearchDate.ToString("dd.MM.yyyy")</label></label>
+                    </div>
+                }
+                <div id="page-section-added-projects-table" class="div-table-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="div-table-title-column-head-section">
+                                        <label class="label-table-head label-table-title page-text">Totaal</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Algemeen</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">In code</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Theorie</label>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="div-table-row-title-item-section">
+                                        <label class="label-table-row page-text">@Model.SearchTotalHours</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="div-table-sub-column-item-section">
+                                        <label class="label-table-row page-text">@Model.SearchGeneralHours</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="div-table-sub-column-item-section">
+                                        <label class="label-table-row page-text">@Model.SearchPracticalHours</label>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="div-table-sub-column-item-section">
+                                        <label class="label-table-row page-text">@Model.SearchTheoreticalHours</label>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+                <!--Table section-->
+                <div class="div-table-title-section">
+                    <label class="page-text label-table-title">Er is gewerkt aan</label>
+                </div>
+                <div id="page-section-added-projects-table" class="div-table-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="div-table-title-column-head-section">
+                                        <label class="label-table-head label-table-title page-text">Project</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Uren</label>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var project in Model.WorkedOnProjects)
+                            {
+
+                                <tr>
+                                    <td>
+                                        <div class="div-table-row-title-item-section">
+                                            <label class="label-table-row page-text">@project.ProjectTitle</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text">@project.TotalHours</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <!--Table section-->
+                <div class="div-table-title-section">
+                    <label class="page-text label-table-title">Opgeslagen tijd eenheden</label>
+                </div>
+                <div id="page-section-added-projects-table" class="div-table-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="div-table-title-column-head-section">
+                                        <label class="label-table-head label-table-title page-text">Project titel</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Date</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Uren</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Classificatie</label>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var timeUnit in Model.TimeUnitsToShow)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="div-table-row-title-item-section">
+                                            <label class="label-table-row page-text" asp-for="@timeUnit.ProjectTitle">@timeUnit.ProjectTitle</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@timeUnit.TimeStamp">@timeUnit.TimeStamp.ToString("dd.MM.yyyy")</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@timeUnit.HoursPutIn">@timeUnit.HoursPutIn</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="div-table-sub-column-item-section">
+                                            <label class="label-table-row page-text" asp-for="@timeUnit.Classification">@timeUnit.Classification</label>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+            }
+        </div>
+</form>

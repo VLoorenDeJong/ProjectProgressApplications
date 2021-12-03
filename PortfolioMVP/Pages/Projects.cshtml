@@ -1,0 +1,276 @@
+﻿@page
+@model PortfolioMVP.Pages.ProjectsModel
+@{
+    ViewData["Title"] = "Projecten";
+}
+@{ string word = "";}
+@{ string current = "zijn";}
+@{ string past = "waren";}
+<form method="post">
+    <div id="wrapper">
+        <div class="scrollable-page d-inline-flex">
+            <!--Side Menu-->
+            <div id="sidebar-wrapper" class="div-side-menu">
+                <!--Catagory link-->
+                <div class="sidebar-heading div-side-menu-catagory-item side-menu-item">
+                    <a class="list-group list-group-flush bg-dark" asp-page="Projects" asp-route-pagetitle="@Model.BasePage">
+                        <label class="side-menu-item side-menu-catagory-item-label menu-text">
+                            @Model.BasePage
+                        </label>
+                    </a>
+                </div>
+                <!--If it is a page with no loaded project-->
+                @if (Model.IsDeperPage == false)
+                {
+                    <!--Load all subproject titles of the main project-->
+                    @foreach (var subProject in Model.AllPresentationModels)
+                    {
+                        <!--Sub project title menu item-->
+                        <div class="sidebar-heading div-side-menu-main-project">
+                            <a class="list-group list-group-flush bg-dark" asp-page="Projects" asp-route-pagetitle="@subProject.ProjectTitle"
+                                                                                               asp-route-basepage="@Model.BasePage"
+                                                                                               asp-route-basepagetitle="@Model.BasePageTitle">
+                                <label class="side-menu-item div-side-menu-project menu-text">
+                                    @subProject.ProjectTitle
+                                </label>
+                            </a>
+                        </div>
+                        <!--Load all sub sub project titles of the main project-->
+                      
+                        foreach (var subSubproject in subProject.SubprojectPresentationModels)
+                        {
+                            <!-- sub sub project title menu item-->
+                            <div class="list-group list-group-flush side-menu-item div-side-menu-sub-project">
+                                <a class="list-group list-group-flush bg-dark menu-text" asp-page="Projects"    asp-route-pagetitle="@subSubproject.Title"
+                                                                                                                asp-route-basepage="@Model.BasePage"
+                                                                                                                asp-route-basepagetitle="@Model.BasePageTitle">
+                                    <label class="side-menu-item side-menu-sub-project-item-label">@subSubproject.Title</label>
+                                </a>
+                            </div>
+                        }
+
+                      
+                    }
+                }
+                <!--if a project is loaded-->
+                @if (Model.IsDeperPage == true)
+                {
+                    <!--If item is not the catagory-->
+                    @if (Model.PagePresentationProject.MainProjectTitle != Model.BasePage)
+                    {
+                        <!--Load title main project-->
+                        <div class="sidebar-heading div-side-menu-selected-main-project">
+                            <a class="list-group list-group-flush bg-dark" asp-page="Projects" asp-route-pagetitle="@Model.PagePresentationProject.MainProjectTitle"
+                                                                                               asp-route-basepage="@Model.BasePage"
+                                                                                               asp-route-basepagetitle="@Model.BasePageTitle">
+                                <label class="side-menu-item side-menu-deper-project-main-project-item-label menu-text">
+                                    @Model.PagePresentationProject.MainProjectTitle
+                                </label>
+                            </a>
+                        </div>
+                    }
+
+                    <!--Selected project-->
+                    <div class="sidebar-heading div-side-menu-selected div-side-menu-selected-project">
+                        <label class="side-menu-item side-menu-deper-project-selected-project-item menu-text">
+                            @Model.PagePresentationProject.ProjectTitle
+                        </label>
+                    </div>
+
+                    <!--Load all subproject titles of selected project-->
+                    @foreach (var subProject in Model.PagePresentationProject.SubprojectPresentationModels)
+                    {
+                        <div class="sidebar-heading div-side-menu-selected-sub-project">
+                            <a class="list-group list-group-flush bg-dark" asp-page="Projects" asp-route-pagetitle="@subProject.Title"
+                                                                                               asp-route-basepage="@Model.BasePage"
+                                                                                               asp-route-basepagetitle="@Model.BasePageTitle">
+                                <label class="side-menu-item side-menu-deper-project-sub-project-item-label menu-text">
+                                    @subProject.Title.ToString()
+                                </label>
+                            </a>
+                        </div>
+                    }
+                }
+            </div>
+            <!--Page content-->
+            <div div id="page-content" class="div-page-content">
+                <div class="div-page-content-head-section">
+                    <!--Title-->
+                    <div class="div-page-title">
+                        <label class="label-page-title page-text">@Model._PageTitle</label>
+                    </div>
+                </div>
+                @if (Model.WorkedOn == true)
+                {
+
+                    <div class="div-last-worked-on-section" id="last-worked-on-remark">
+                        <label class="label-last-worked-on page-text">Aan dit project is het laatst gewerkt. </label>
+                    </div>
+                    <div id="project-link-text">
+                        <br />
+                        <a asp-page="Projects" asp-route-pageTitle="@Model.MostRecentProject.Title"
+                           asp-route-basepage="@Model.BasePage"
+                           asp-route-basepagetitle="@Model.BasePageTitle"
+                           asp-route-subprojectclicked="true">
+                            <label class="label-most-recent-worked-on page-text"> @Model.MostRecentProject.Title </label>
+                        </a>
+                    </div>
+                    @if (Model.ShowPicture == true)
+                    {
+                        <!--Photo here-->
+                        <div class="div-photo-section">
+                            <a asp-page="Projects" asp-route-pageTitle="@Model.MostRecentProject.Title"
+                               asp-route-basepage="@Model.BasePage"
+                               asp-route-basepagetitle="@Model.BasePageTitle"
+                               asp-route-subprojectclicked="true">
+                                <img class="img-project-photo" src="~/@Model.ProjectPictureFilePath" alt="ProjectPhoto" />
+                            </a>
+                        </div>
+                    }
+                    @if (Model.ShowPicture == false && string.IsNullOrEmpty(Model.MostRecentProject.ShortDescription) == false)
+                    {
+                        <!--Description-->
+                        <div class="div-description-outcome-status-text-section">
+                            <label class="page-text label-text-section-text">@Model.MostRecentProject.ShortDescription</label>
+                        </div>
+                    }
+                }
+                @if (Model.WorkedOn == false && Model.SubProjectClicked == true)
+                {
+                    @if (Model.ShowPicture == true)
+                    {
+                        <!--Photo here-->
+                        <div class="div-photo-section">
+                            <img class="img-project-photo" src="~/@Model.ProjectPictureFilePath" alt="ProjectPhoto" />
+
+                        </div>
+                    }
+                    if (Model.PageProject.HasDemo == true)
+                    {
+
+                        <!--Links section-->
+                        <div class="div-links-section">
+                            @if (string.IsNullOrEmpty(Model.PageProject.DemoLink) == false)
+                            {                                
+                            <!--Demo Link section-->
+                            <div class="div-demo-link-section" >
+                                <a href="@Model.PageProject.DemoLink" class="label-demo-link page-text" target="_blank">
+                                    Klik hier om de demo te proberen
+                                </a>
+                            </div>
+                            }
+                            @if (string.IsNullOrEmpty(Model.PageProject.GitHubLink)== false)
+                            {
+                            <!--GitHub Link section-->
+                            <div class="div-github-link-section">
+                                <a href="@Model.PageProject.GitHubLink" target="_blank">
+                                    <img class="img-github-logo page-text" src="~/Pictures/GitHubLogo.png" />
+                                    View source code
+                                </a>
+                            </div>
+
+                            }
+                        </div>
+                    }
+                    @if (string.IsNullOrEmpty(Model.PagePresentationProject.ShortDescription) == false)
+                    {
+                        <!--Description-->
+                        <div class="div-description-outcome-status-text-section">
+                            <label class="label-text-section-head page-text">
+                                Omschrijving:
+                            </label>
+                            <br />
+                            <label class="page-text label-text-section-text">@Model.PageProject.ShortDescription</label>
+                        </div>
+                    }
+                    @if (string.IsNullOrEmpty(Model.PagePresentationProject.Outcome) == false)
+                    {
+                        <!--Outcome-->
+                        <div class="div-description-outcome-status-text-section">
+                            <label class="label-text-section-head page-text">
+                                Uitkomst:
+                            </label>
+                            <br />
+                            <label class="page-text label-text-section-text">@Model.PageProject.Outcome</label>
+                        </div>
+                    }
+                    @if (Model.PagePresentationProject.Challenges.Count > 0)
+                    {
+                        @switch (Model.PagePresentationProject.ProjectStatus)
+                        {
+                            case ProjectProgressLibrary.Enums.ProjectStatus.ToDo:
+                                word = current;
+                                break;
+                            case ProjectProgressLibrary.Enums.ProjectStatus.Doing:
+                                word = current;
+                                break;
+                            case ProjectProgressLibrary.Enums.ProjectStatus.Done:
+                                word = past;
+                                break;
+                            default:
+                                break;
+                        }
+                        <!--Challenges-->
+                        <div class="div-challenges-future-section">
+                            <label class="page-text label-text-section-head">Uitdagingen hierbij @word:</label>
+                            <br />
+                            <div class="d-inline-flex">
+                                <div class="div-filler"></div>
+                                <div class="div-challenges-future-list-section page-text">
+                                    <ul>
+                                        @foreach (var challenge in Model.PagePresentationProject.Challenges)
+                                        {
+                                            <li><div class="div-list-item"><label class="page-text label-challenge-future-item label-text-section-text">@challenge</label></div></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="div-filler"></div>
+                            </div>
+                        </div>
+                    }
+                    @if (Model.PagePresentationProject.FutureAdditions.Count > 0)
+                    {
+                        <!--Additions-->
+                        <div class="div-challenges-future-section test-class">
+                            <label class="page-text label-text-section-head">Toekomst plannen:</label>
+                            <br />
+                            <div class="d-inline-flex">
+                                <div class="div-filler"></div>
+                                <div class="div-challenges-future-list-section page-text">
+                                    <ul>
+                                        @foreach (var addition in Model.PagePresentationProject.FutureAdditions)
+                                        {
+                                            <li><label class="page-text label-challenge-future-item label-text-section-text">@addition</label></li>
+                                        }
+                                    </ul>
+                                </div>
+                                <div class="div-filler"></div>
+                            </div>
+                        </div>
+                    }
+                    <!--Status-->
+                    <div class="div-description-outcome-status-text-section">
+                        <label class="page-text label-text-section-head">Status:</label>
+                        <br />
+                        <label class="page-text label-text-section-text">@Model.PagePresentationProject.ProjectStatus</label>
+                    </div>
+                    @if (Model.PagePresentationProject.DeveloperNames.Count > 0)
+                    {
+                        <!--Developer names section-->
+                        <div class="div-description-outcome-status-text-section">
+                            <label class="page-text label-text-section-head">Developer:</label>
+                            <br />
+                            @foreach (var name in Model.PagePresentationProject.DeveloperNames)
+                            {
+                                <label class="page-text label-text-section-text">@name</label>
+                                <br />
+                            }
+                        </div>
+
+                    }
+
+                }
+            </div>
+        </div>
+    </div>  
+</form>

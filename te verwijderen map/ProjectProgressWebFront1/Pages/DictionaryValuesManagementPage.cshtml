@@ -1,0 +1,92 @@
+﻿@page
+@model ProjectProgressWebFront1.Pages.DictionaryValuesManagementPageModel
+@{
+}
+@*@{string delimiter = @Model.Delimiter;}*@
+<label asp-for="@Model.ProjectTitle">@Model.ProjectTitle</label>
+<label hidden="hidden" asp-for="@Model.Mode">@Model.Mode</label>
+<label hidden="hidden" asp-for="@Model.ItemTitle">@Model.ItemTitle</label>
+<form method="post">    
+    <div>
+        <br />        
+        <button class="btn btn-dark" asp-page-handler="BackToItem"  asp-route-projecttitle="@Model.ProjectTitle"
+                                                                    asp-route-mode="@Model.Mode"
+                                                                    asp-route-itemtitle="@Model.ItemTitle">@Model.Mode</button>
+        <button class="btn btn-dark" asp-page-handler="BackToProjectManagement">Project Management</button>
+        <br />
+        <br />
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="text" asp-for="@Model.ValueToAdd" class="table-dark" spellcheck="true" placeholder="@Model.ValueItemPlaceHolderText" />                   
+                    <button asp-page-handler="AddValue" asp-route-projecttitle="@Model.ProjectTitle"
+                                                        asp-route-mode="@Model.Mode"
+                                                        asp-route-itemtitle="@Model.ItemTitle">Add</button>
+                    @if (Model.IsNewValue == false)
+                    {
+                        <label class="alert-danger">This @Model.ValueItemPlaceHolderText.ToLower() already has been sugested</label>
+                    }
+                </th>
+            </tr>
+            <tr>
+                <th>@Model.ItemTitle @*@Model.ValueTableHead.ToLower()*@</th>
+                <th>
+                    <label>@Model.ValueTableHead</label>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (string value in @Model.ItemValuesList)
+            {
+            <tr>
+                <td>
+                    <label>@value</label>
+                    @if (Model.EditingEnabled == true && value == Model.OldValue)
+                    {
+                        <br />
+                        <input type="text" asp-for="@Model.NewValue" value="@Model.OldValue" class="table-dark" spellcheck="true" />
+                        <br />
+                        <br />
+                        <button class="btn btn-dark" asp-page-handler="saveeditedvalue" asp-route-projecttitle="@Model.ProjectTitle"
+                                                                                        asp-route-mode="@Model.Mode"
+                                                                                        asp-route-itemtitle="@Model.ItemTitle"
+                                                                                        asp-route-oldvalue="@value"
+                                                                                        asp-route-newvalue="@Model.NewValue">
+                                                                                        Save</button>
+                        
+                        
+                        
+                    }
+                </td>
+                
+                <td>
+                    @if (Model.EditingEnabled == true && value == Model.OldValue)
+                    {
+                        <button class="btn btn-outline-danger" asp-page-handler="RemoveValue"   asp-route-projecttitle="@Model.ProjectTitle"
+                                                                                                asp-route-mode="@Model.Mode"
+                                                                                                asp-route-itemtitle="@Model.ItemTitle"
+                                                                                                asp-route-oldvalue="@value">
+                                                                                                Remove</button>
+                    }
+                    @if (value != Model.OldValue)
+                    {
+                        <button class="btn btn-dark" asp-page-handler="EditValue"       asp-route-projecttitle="@Model.ProjectTitle"
+                                                                                        asp-route-mode="@Model.Mode"
+                                                                                        asp-route-itemtitle="@Model.ItemTitle"
+                                                                                        asp-route-oldvalue="@value">
+                                                                                        Edit</button>
+
+                    }
+                </td>
+                
+                
+            </tr>
+            }
+        </tbody>
+
+
+    </table>
+</form>

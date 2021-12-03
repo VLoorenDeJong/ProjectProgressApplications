@@ -1,0 +1,133 @@
+﻿@page
+@model PortfolioMVP.Pages.SolutionsPageModel
+@{
+    ViewData["Title"] = "Runways";
+}
+<form method="post">
+    <div id="wrapper">
+        <div class="scrollable-page">
+            <div class="div-page-content-head-section">
+                <!--Title-->
+                <div class="div-page-title">
+                    <label class="label-page-title page-text">Runways</label>
+                </div>
+                @*<div id="button row" class="div-button-row d-inline-flex">
+                <div class="div-button-section">
+                    <button type="submit" asp-route-classification="All" asp-page-handler="classification" class="menu-text button-formatting">Alle</button>
+                </div>
+                <div class="div-button-section">
+                    <button type="submit" asp-route-classification="Challenges" asp-page-handler="classification" class="menu-text button-formatting">Uidagingen</button>
+                </div>
+                <div class="div-button-section">
+                    <button type="submit" asp-route-classification="FutureAdditions" asp-page-handler="classification" class="menu-text button-formatting">Toekomstige features</button>
+                </div>
+            </div>*@
+            </div>
+
+
+            <!--Explanation section-->
+            <div class="div-explanation-section">
+                <label class="label-about-me-text-section page-text">Op deze pagina worden alle project uitdagingen en toekomstplannen weer gegeven.</label>
+                <br />
+                <label class="label-about-me-text-section page-text">Als ik een oplossing hier voor heb, dan sla ik het op in mijn Progress Application,</label>
+                <br />
+                <label class="label-about-me-text-section page-text">bij Challenges en Additions. Hierdoor kan ik terugvinden waar ik in mijn leerproces veel aan gehad heb.</label>
+                <br />
+                <label class="label-about-me-text-section page-text">Als andere mensen hier ook mee geholpen zijn, is dat helemaal mooi mee genomen.</label>
+                <br />
+                <a href="https://demo.victorloorendejong.nl" target="_blank">
+                    <label class="label-about-me-text-section page-text">Klik <labek class="border-bottom ">hier</labek> om zelf toekomstplannen en uitdagingen toe te voegen aan projecten.</label>
+                </a>
+            </div>
+
+            <!--Search section-->
+            <div id="page-section-search" class="div-input-section d-inline-flex">
+                <!--Field button combination-->
+                <div id="page-section-search-date-section" class="div-input-field-button-combination-section">
+                    <div id="page-section-search-date-field" class="div-input-field-section">
+                        <input type="text" spellcheck="true" placeholder="Probleem" class="menu-text text-field-formatting" asp-for="@Model.SearchTerm" />
+                    </div>
+                    <div id="page-section-search-button" class="div-button-section">
+                        <button type="submit" class="button-formatting button-text menu-text" asp-route-classification="All" asp-page-handler="search">Zoek</button>
+                    </div>
+                </div>
+            </div>
+            <!--Result section-->
+            <!--Result table title label-->
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.Challenges)
+            {
+                <div id="page-section-body-head" class="div-table-title-section">
+                    <label class="page-text label-result-text">Oplossingen voor <label class="label-result-seacrhed">uitdagingen</label></label>
+                </div>
+            }
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.FutureAdditions)
+            {
+                <div id="page-section-body-head" class="div-table-title-section">
+                    <label class="page-text label-result-text">Oplossingen voor <label class="label-result-seacrhed">features</label></label>
+                </div>
+            }
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.All)
+                @*{
+                <div id="page-section-body-head" class="div-table-title-section">
+                    <label class="page-text label-result-text label-result-seacrhed">Alle oplossingen</label>
+                </div>
+            }*@
+                @if (Model.SearchEnabled == true)
+                {
+                    <div id="page-section-body-head" class="div-table-title-section">
+                        <label class="page-text label-table-title">Alle oplossingen voor <label class="label-result-text">@Model.SearchTerm</label></label>
+                    </div>
+                }
+                <!--Result table-->
+                <!--Table section-->
+                <div id="page-section-added-projects-table" class="div-table-section">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <div class="div-table-title-column-head-section">
+                                        <label class="label-table-head label-table-title page-text">Probleem</label>
+                                    </div>
+                                </th>
+                                <th>
+                                    <div class="div-table-sub-column-head-section">
+                                        <label class="label-table-head page-text">Runway</label>
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var problem in Model.PageSolutions)
+                            {
+                                <tr>
+                                    <td>
+                                        <div class="div-table-row-title-item-section">
+                                            <label class="label-table-row page-text">@problem.Key</label>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        @foreach (var solution in problem.Values)
+                                        {
+                                            @if (solution.Contains("http") == true)
+                                            {
+                                                <div class="div-table-sub-column-item-section">
+                                                    <a href="@solution" target="_blank"><label class="label-table-row page-text">@solution</label> </a>
+
+                                                </div>
+                                            }
+                                            if (solution.Contains("http") == false)
+                                            {
+                                                <div class="div-table-sub-column-item-section">
+                                                    <label class="label-table-row page-text">@solution</label>
+                                                </div>
+                                            }
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+</form>

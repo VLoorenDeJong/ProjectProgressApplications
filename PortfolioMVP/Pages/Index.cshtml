@@ -1,0 +1,118 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+}
+<div id="wrapper">
+    <div class="scrollable-page">
+        @if (Model.FromDemoLink == false)
+        {
+            <!--Photo here-->
+            <div class="div-photo-section div-profile-picture-section">
+                <img class="img-index-profile-picture img-index-profile-picture" src="~/pictures/profielfoto.jpg" alt="Victor Looren de Jong Profiel foto" />
+            </div>
+            <div class="div-index-quote-section">
+                <label class="label-index-quote-label page-text">“Oprechte interesse is mijn drijvende kracht”</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text">Welkom op mijn software developer portfolio pagina.</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text">Op deze pagina laat ik zien waar ik mee bezig ben en wat ik tegen kom.</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text">Onderin staat hoeveel tijd ik bezig ben geweest</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text">en welke certificaten ik gehaald heb.</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text font-weight-bold">Kijk vooral rond en laat me weten wat je er van vindt.</label>
+            </div>
+            <div class="div-index-name-section">
+                <label class="label-index-name-label page-text">contact@victorloorendejong.nl</label>
+            </div>
+            <div>
+                <a href="https://www.linkedin.com/in/victor-looren-de-jong" alt="linked in pagina" target="_blank">
+                    <img class="img-linkedin-logo page-text" src="~/pictures/Linkedin.png" alt="LinkedInLogo" />
+                </a>
+            </div>
+        }
+
+        @if (Model.FromDemoLink == true)
+        {
+            <!--Title-->
+            <div class="div-page-title">
+                <label class="label-page-title page-text">Portfolio MVP demo home page</label>
+            </div>
+
+            <!--Explanation section-->
+    <div class="div-explanation-section div-index-explanation-section">
+        <label class="label-about-me-text-section page-text label-index-explanation-text">Deze pagina is bedoeld om te vertellen dat mijn hele portfolio een demonstratie applicatie is.</label>
+        <br />
+        <label class="label-about-me-text-section page-text label-index-explanation-text">In deze nieuwe tab is de zelfde portfolio geladen alleen een andere home page tekst.</label>
+        <br />
+        <label class="label-about-me-text-section page-text label-index-explanation-text">Het is gemaakt met Razor Pages en wordt in eigen beheer gehost.</label>
+
+    </div>
+            <!--Feature List-->
+            <div class="div-challenges-future-section">
+                <label class="page-text label-text-section-head">Features:</label>
+                <br />
+
+                <div class="d-inline-flex">
+                    <div class="div-filler"></div>
+                    <div class="div-challenges-future-list-section page-text">
+                        <ul>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Laten zien welke stappen ik ondernomen heb</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Reflecteren wat mijn kennis is</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Inzicht geven van mijn opleidingen</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Weergeven wie ik ben</label></li>
+                        </ul>
+                    </div>
+                    <div class="div-filler"></div>
+                </div>
+
+            </div>
+            <!--Future plans list-->
+            <div class="div-challenges-future-section">
+                <label class="page-text label-text-section-head">Toekomst plannen:</label>
+                <br />
+
+                <div class="d-inline-flex">
+                    <div class="div-filler"></div>
+                    <div class="div-challenges-future-list-section page-text">
+                        <ul>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Front end herschrijven ook voor mobiele apparaten</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Url's netjes maken</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Menu's' verbeteren</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Blog over mijn weg naar software developer</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Contributies</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Hobbys</label></li>
+                        </ul>
+                    </div>
+                    <div class="div-filler"></div>
+                </div>
+
+            </div>
+            <!--Known bug list-->
+            <div class="div-challenges-future-section">
+                <label class="page-text label-text-section-head">Known bugs:</label>
+                <br />
+
+                <div class="d-inline-flex">
+                    <div class="div-filler"></div>
+                    <div class="div-challenges-future-list-section page-text">
+                        <ul>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">List marker gaat op laatste lijn staan van list item</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">Bij een lange project titel komt de tekst buiten het zij menu</label></li>
+                            <li><label class="page-text label-challenge-future-item label-text-section-text">niet geschikt voor een klein scherm</label></li>
+                        </ul>
+                    </div>
+                    <div class="div-filler"></div>
+                </div>
+
+            </div>
+        }
+    </div>
+</div>

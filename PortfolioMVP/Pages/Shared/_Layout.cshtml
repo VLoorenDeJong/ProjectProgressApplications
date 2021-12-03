@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Portfolio Victor - @ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="background">
+    <header class="page-header-section">
+            <nav class=" navbar navbar-expand-sm navbar-toggleable-sm navbar-dark header-section border-bottom box-shadow mb-3 ">
+                <div class="container">
+                    <a class="navbar-brand menu-text" asp-area="" asp-page="/Index"><label class="label-main-page-title page-label page-main-iemts-color">Victor Looren de Jong</label></a>
+                    <button class="navbar-toggler page-main-iemts-color" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon page-main-iemts-color"></span>
+                    </button>
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text text-light" asp-area="" asp-page="/Index"><label class="label-page-top-menu-item">Home</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/Projects" asp-route-pagetitle="Projecten"><label class="label-page-top-menu-item">Projecten</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/DemoPage"><label class="label-page-top-menu-item">Demo's</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/Projects" asp-route-pagetitle="Leerpad"><label class="label-page-top-menu-item">Leerpad</label></a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a class="nav-link text-light menu-text" asp-area="" asp-page="/Projects" asp-route-pagetitle="Contributies"><label class="label-page-top-menu-item">Contributies</label></a>
+                            </li>*@
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/ProgressPage"><label class="label-page-top-menu-item">Voortgang</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/TimeUnitOverviewPage"><label class="label-page-top-menu-item">Uren verklaring</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/AboutMePage"><label class="label-page-top-menu-item">Over mij</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/SolutionsPage" asp-route-pageclassification="All"><label class="label-page-top-menu-item">Runways</label></a>
+                            </li>
+                            @*<li class="nav-item">
+                                <a class="nav-link text-page-top-menu-item menu-text" asp-area="" asp-page="/TestPage" asp-route-pageclassification="All"><label class="label-page-top-menu-item">Test</label></a>
+                            </li>*@
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+    </header>
+    <div class="container div-page-box">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+    @*MVP*@
+<div>
+    <footer class="border-top footer page-footer-section">    
+        <div>
+            <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light div-footer-section border-bottom border-top box-shadow ">
+                <div class="container">
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between text-md-center">
+                        <ul class="navbar-nav flex-grow-1">
+                            <li class="nav-item">
+                                <a class="nav-link navbar-brand menu-text" asp-page="/TimeUnitOverviewPage"><label class="label-footer-title page-main-iemts-color">Uren</label></a>
+                            </li>
+                            <li class="nav-item">
+                                <label class="label-footer-item menu-text">Totaal - @Model.TotalHours</label>
+                            </li>
+                            <li class="nav-item">
+                                <label class="label-footer-item menu-text">Algemeen - @Model.GeneralHours</label>
+                            </li>
+                            <li class="nav-item">
+                                <label class="label-footer-item menu-text">In code - @Model.PracticalHours</label>
+                            </li>
+                            <li class="nav-item">
+                                <label class="label-footer-item menu-text">Theorie - @Model.TheoreticalHours</label>
+                            </li>
+                        </ul>
+
+                        <ul  class="navbar-nav flex-grow-1">
+                            <li>
+                                <label class="label-footer-email">contact@victorloorendejong.nl</label>
+                            </li>
+                            <li>
+                                <a href="https://www.linkedin.com/in/victor-looren-de-jong" alt="linked in pagina" target="_blank">
+                                    <img class="img-linkedin-logo page-text" src="~/pictures/Linkedin.png" alt="LinkedInLogo" />
+                                </a>
+                            </li>
+                        </ul>
+                        <div class="div-footer-certificates-section">
+                            <ul class="navbar-nav flex-grow-1">
+                                <li>
+                                    <div class="div-footer-certificate-section">
+                                        <a href="https://www.scrum.org/user/894962" target="_blank"><img src="~/pictures/Scrum-org-PSM.png" class="img-certificate-picture" alt="PSMI logo" /></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="div-footer-certificate-section">
+                                        <a href="~/files/Victor Looren de Jong ITIL Foundation-Cert.pdf" target="_blank"><img src="~/pictures/ITIL4 FoundationsBadge.png" class="img-certificate-picture" alt="ITIL4 logo" /></a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="div-footer-certificate-section">
+                                        <a href="https://www.iamtimcorey.com/p/complete-foundation-in-c-course-series" target="_blank"><img src="~/pictures/CourseCardFundamentals.png" class="img-certificate-picture" alt="C#Fundamentals logo" /></a>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </footer>
+</div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

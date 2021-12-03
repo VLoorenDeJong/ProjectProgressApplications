@@ -1,0 +1,165 @@
+﻿@page
+@model ProgressApplicationMVP.Pages.ProjectManagementPageModel
+@{
+    ViewData["Title"] = "Project management";
+}
+<form method="post">
+
+
+    <div>
+        <div>
+            <input class="table-dark" type="text" spellcheck="true" asp-for="@Model.ProjectTitle" placeholder="Project title" />
+            <button type="submit" class="btn btn-dark" asp-route-title="@Model.ProjectTitle" asp-page-handler="SearchProject">Search</button>
+            <button type="submit" class="btn btn-outline-danger" asp-page-handler="ShowAll">ShowAll</button>
+        </div>
+        <br />
+        <div>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Project title</th>
+                        <th>Hours</th>
+                        @*<th>General</th>
+                        <th>Theoretical</th>
+                        <th>Practical</th>*@
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @foreach (var project in Model.AllProjects)
+                    {
+                    <tr>
+                        @if (project.Title != Model.MainGoal)
+                        {
+                            @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.ToDo)
+                            {
+                                <td>
+                                    <label asp-for="@project.Title" class="alert-danger p-2"> @project.Title</label>
+                                </td>
+                            }
+
+
+                            @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Doing)
+                            {
+                                <td>
+                                    <label asp-for="@project.Title" class="alert-warning p-2"> @project.Title</label>
+                                </td>
+                            }
+
+                            @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
+                            {
+                                <td>
+                                    <label asp-for="@project.Title" class="alert-success p-2"> @project.Title</label>
+                                </td>
+                            }
+
+                            @if (project.ProjectStatus != ProjectProgressLibrary.Enums.ProjectStatus.Done)
+                            {
+                                <td>
+                                    <label>@project.TotalHours</label>
+                                </td>
+                                                        @*<td>
+                                            <label>@project.GeneralHours</label>
+                                        </td>
+                                        <td>
+                                            <label>@project.TheoreticalHours</label>
+                                        </td>
+                                        <td>
+                                            <label>@project.PracticalHours</label>
+                                        </td>*@
+                            }
+                            @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
+                            {
+                                <td>
+                                    <label>@project.TotalHours</label>
+                                </td>
+                            }
+
+                            @if (project.ProjectStatus != ProjectProgressLibrary.Enums.ProjectStatus.Done)
+                            {
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page="TimeUnitPage"> Add hours   </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Challenge">Challenges</button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Future"> Additions   </button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="AddProject">Add project</button>
+                                </td>
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Edit">Edit project</button>
+                                </td>
+                                if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
+                                {
+
+                                    <td>
+                                        <label>@project.TotalHours</label>
+                                    </td>
+                                }
+
+                                if (project.SubProjectIds.Count == 0)
+                                {
+                                    @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.ToDo)
+                                    {
+                                        <td>
+                                            <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="StartProject"> Start project   </button>
+                                        </td>
+                                    }
+
+                                    @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Doing)
+                                    {
+                                        <td>
+                                            <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="FinishProject">Finish project</button>
+                                        </td>
+                                        <td>
+                                            <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="StopProject">Stop project</button>
+                                        </td>
+                                    }
+
+
+
+                                    if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.ToDo && Model.ShowAll == true)
+                                    {
+                                        <td>
+                                            <button type="submit" class="btn btn-outline-danger" asp-route-title="@project.Title" asp-page-handler="DeleteProject" padding="10"> Remove project   </button>
+                                        </td>
+                                    }
+                                }
+
+                            }
+                        }
+
+
+                        @if (project.Title != Model.MainGoal && project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
+                        {
+
+                            <td>
+                                <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Challenge">Challenges</button>
+                            </td>
+                            <td>
+                                <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Future"> Additions   </button>
+                            </td>
+                            @if (project.SubProjectIds.Count == 0)
+                            {
+                                <td>
+                                    <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="RestartProject">Resume project</button>
+                                </td>
+                            }
+
+                            <td>
+                                <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Edit">Edit project</button>
+                            </td>
+                        }
+
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</form>

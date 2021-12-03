@@ -1,0 +1,51 @@
+﻿@page
+@model ProgressApplicationMVP.Pages.TimeUnitManagementModel
+@{
+    ViewData["Title"] = "Time unit management";
+}
+<h3>Time unit management:</h3>
+<form method="post">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Time stamp </th>
+                <th>Project title </th>
+                <th>Hours</th>
+                <th>Activities</th>
+                <th></th>
+            </tr>
+        </thead>
+        @foreach (var timeUnit in Model.AllTimeUnits)
+        {
+            @if (timeUnit.ProjectTitle != null)
+            {
+
+                <tr>
+                    <td>
+                        <label asp-for="@timeUnit">@timeUnit.TimeStamp.ToString("dd/MM/yyyy  HH:mm")</label>
+                    </td>
+                    <td>
+                        <label asp-for="@timeUnit">@timeUnit.ProjectTitle</label>
+                    </td>
+                    <td>
+                        <label asp-for="@timeUnit">@timeUnit.HoursPutIn</label>
+                    </td>
+                    <td>
+                        <label asp-for="@timeUnit">@timeUnit.Classification</label>
+                    </td>
+
+                    <td>
+                        <button class="btn btn-dark" asp-route-timeunit="@timeUnit.TimeUnitId" asp-page-handler="Edit">Edit</button>
+                    </td>
+                    @* ToDo make delete button behind unlock Button *@
+
+                    <td>
+                        <button class="btn btn-danger" asp-route-timeunit="@timeUnit.TimeUnitId" asp-page-handler="Remove">Remove</button>
+                    </td>
+
+                </tr>
+            }
+
+        }
+    </table>
+</form>

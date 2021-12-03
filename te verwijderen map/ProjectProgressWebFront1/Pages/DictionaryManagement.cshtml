@@ -1,0 +1,114 @@
+﻿@page
+@model ProjectProgressWebFront1.Pages.DictionaryManagementModel
+@{
+}
+@{string delimiter = @Model.Delimiter;}
+<form method="post">
+    @*ToDo comment and hide when done*@
+    @*Uncomment and unhide for visual inspection*@
+    <label hidden="hidden" asp-for="@Model.ProjectTitle">@Model.ProjectTitle</label>
+    <label hidden="hidden" asp-for="@Model.Mode">@Model.Mode</label>
+    <div>
+        <input type="text" asp-for="@Model.ItemToSearch" class="table-dark" spellcheck="true" />
+        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn btn-dark">Search</button>
+        <br />
+        <br />
+        <div>
+            <button type="submit" asp-page-handler="GoBackToProjectManagement" class="btn btn-dark">Project management</button>         
+            <button class="btn btn-outline-danger" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="EditItems">Edit</button>
+        </div>
+        <br />
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <input type="text" asp-for="@Model.EnteredKey" class="table-dark" spellcheck="true" placeholder="@Model.KeyItemPlaceholderText" />
+                    <button class="btn btn-outline-dark" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="AddItem">Add</button>
+                    @if (Model.ItemKeyFound == true)
+                    {
+                        <br />
+                        <label class="alert-danger">Item already added</label>
+                    }
+                    @if (Model.NoKeyValueEnterred == true)
+                    {
+                        <br />
+                        <label class="alert-danger">Please enter a @Model.KeyItemPlaceholderText.ToLower()</label>
+                    }
+                    <br />
+                </th>
+            </tr>
+            <tr>
+                <th><label>@Model.ProjectTitle @Model.KeyTableHead.ToLower()</label></th>
+                <th><label>@Model.ValueTableHead</label></th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var key in Model.DictionaryToChange)
+            {
+                <tr>
+                    <td>
+                        <br />
+                        @if (@Model.EditEnabled == false)
+                        {
+                            <label>@key.Key</label>
+                        }
+                        @if (@Model.EditEnabled == true)
+                        {
+                            @if (@key.Key != @Model.OldKey)
+                            {
+                                <label>@key.Key</label>
+                                <label hidden="hidden">@key.Key</label>
+                                <button class="btn btn-dark" asp-page-handler="EditKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Edit</button>
+                                <div class="p-5">
+                                    <button class="btn btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button>
+                                </div>
+                                
+                            }
+                            @if (@key.Key == Model.OldKey)
+                            {
+                                <label>@key.Key</label>
+                                <input type="text" value="@Model.OldKey" asp-for="@Model.NewKeyValue" class="table-dark" />
+                                <button class="btn btn-dark" asp-page-handler="SaveKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Save</button>
+
+                                <div class="p-5">
+                                    <button class="btn btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button> 
+                                </div>
+                               
+                            }
+
+
+                        }
+
+                    </td>
+                    <td>
+                        @foreach (string value in key.Value)
+                        {
+
+                            if (value.Contains("http") == true)
+                            {
+                                <div class="p-2">
+                                    <a href="@value" target="_blank"><label id="dictionary-display-challenge-value" class="p-1 text-dark font-italic">@value@value</label></a>
+                                </div>
+                               
+                            }
+                            @if (value.Contains("http") == false)
+                            {
+                                <div class="p-2">
+                                    <label id="dictionary-display-challenge-value" class="p-1 text-dark font-italic">@value</label>
+                                </div>
+                               
+                            }
+                            @*<br />
+            <label><strong>@value</strong></label>
+            <br />*@
+                        }
+                        <br />
+                        <button class="btn btn-dark" asp-page-handler="EditValues" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Edit</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</form>
