@@ -1,7 +1,8 @@
 # ProjectProgressApplications
-An application set to monitor progress and display it in a Portfolio
+This is a combination of solutions, a Progress tracker and my Portfolio application. The Progress application is also set up as a CMS for parts of the portfolio.
 
 ## Progress application 
+An application set to monitor your progress and display it in a Portfolio
 
 ### Features:
 * Create/Read/Update/Delete projects
@@ -22,4 +23,14 @@ An application set to monitor progress and display it in a Portfolio
 * When shifting projects around a negative hour count can be calculated
 * Subtract subproject hours from all projects above
 
+#### Build notes
+* check the location of the save files in the appsettings.json
 
+## Portfolio application
+This application is my portfolio you can visit it @ www.victorloorendejong.nl 
+
+### Features
+* Displaying project details
+* Repository of your progress application solutions and runways
+* Displaying the hours per project and catagory
+* 
