@@ -3,6 +3,7 @@ This is a combination of solutions, a Progress tracker and my Portfolio applicat
 
 ## Progress application 
 An application set to monitor your progress and display it in a Portfolio
+There is a demo available @ https://demo.victorloorendejong.nl/
 
 ### Features:
 * Create/Read/Update/Delete projects
@@ -11,6 +12,16 @@ An application set to monitor your progress and display it in a Portfolio
 * Add time to the project in three catagories (Theoretical/Practical/General)
 * Create a project tree with sub projects
 * Set the projetc status(ToDo/Doing/Done)
+
+### Future plans
+* Statiatic reports of a corporate level
+* Adding comments to a time unit
+* User sign in
+* Multiple users
+* Add a picture to the project
+* Indication why a project can not be removed
+* Character limit on text fields
+* Adding a SQL database option
 
 ### Known bugs
 * Beginner front end code
@@ -23,14 +34,27 @@ An application set to monitor your progress and display it in a Portfolio
 * When shifting projects around a negative hour count can be calculated
 * Subtract subproject hours from all projects above
 
+
+### Future additions
+
 #### Build notes
 * check the location of the save files in the appsettings.json
+
 
 ## Portfolio application
 This application is my portfolio you can visit it @ www.victorloorendejong.nl 
 
 ### Features
+* Displaying my current knowledge and understanding of C# projects
 * Displaying project details
-* Repository of your progress application solutions and runways
+* Find your runways and solutions of all the projects based on the Challenge or Addition title
 * Displaying the hours per project and catagory
-* 
+* Displaying certificates and contact info
+
+### Future additions
+* Rewrite front end code 
+* Clean up the urls 
+* More funtional menu's
+* Create a blog section
+* Add a contributions section
+* Add a hobby section
