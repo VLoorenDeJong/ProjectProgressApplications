@@ -1,7 +1,7 @@
 # ProjectProgressApplications
 This is a combination of solutions, a Progress tracker and my Portfolio application. The Progress application is also set up as a CMS for parts of the portfolio.
 
-### If there are any problems or suggestions for the app please contact me @ contact@victorloorendejong.nl
+### If there are any questions, problems or suggestions for the app please contact me @ contact@victorloorendejong.nl
  
 
 ## Progress application 
