@@ -59,15 +59,15 @@
                                 <td>
                                     <label>@project.TotalHours</label>
                                 </td>
-                                                        @*<td>
-                                            <label>@project.GeneralHours</label>
-                                        </td>
-                                        <td>
-                                            <label>@project.TheoreticalHours</label>
-                                        </td>
-                                        <td>
-                                            <label>@project.PracticalHours</label>
-                                        </td>*@
+                                @*<td>
+                    <label>@project.GeneralHours</label>
+                </td>
+                <td>
+                    <label>@project.TheoreticalHours</label>
+                </td>
+                <td>
+                    <label>@project.PracticalHours</label>
+                </td>*@
                             }
                             @if (project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
                             {
@@ -137,6 +137,9 @@
                         @if (project.Title != Model.MainGoal && project.ProjectStatus == ProjectProgressLibrary.Enums.ProjectStatus.Done && Model.ShowAll == true)
                         {
 
+                            <td>
+                                <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="AddProject">Add project</button>
+                            </td>
                             <td>
                                 <button type="submit" class="btn btn-dark" asp-route-title="@project.Title" asp-page-handler="Challenge">Challenges</button>
                             </td>

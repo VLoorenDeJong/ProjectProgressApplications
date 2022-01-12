@@ -145,8 +145,6 @@
 
                         </div>
                     }
-                    if (Model.PageProject.HasDemo == true)
-                    {
 
                         <!--Links section-->
                         <div class="div-links-section">
@@ -164,14 +162,14 @@
                             <!--GitHub Link section-->
                             <div class="div-github-link-section">
                                 <a href="@Model.PageProject.GitHubLink" target="_blank">
-                                    <img class="img-github-logo page-text" src="~/Pictures/GitHubLogo.png" />
-                                    View source code
+                                    <img class="img-github-logo page-text" src="~/pictures/GitHubLogo.png" />
+                                    View repository
                                 </a>
                             </div>
 
                             }
                         </div>
-                    }
+                  
                     @if (string.IsNullOrEmpty(Model.PagePresentationProject.ShortDescription) == false)
                     {
                         <!--Description-->

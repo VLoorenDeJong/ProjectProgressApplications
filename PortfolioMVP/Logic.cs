@@ -573,19 +573,19 @@ namespace PortfolioMVP
                     // Create list of ToDo projects
                     outputList = projectList.Where(x => x.DateCreated >= selectionDate).ToList();
                     // Order by date Created
-                    outputList = outputList.OrderBy(x => x.DateCreated).ToList();
+                    outputList = outputList.OrderByDescending(x => x.DateCreated).ToList();
                     break;
                 case ProjectStatus.Doing:
                     // Create list of Doing projects
                     outputList = projectList.Where(x => x.DateDoing >= selectionDate).ToList();
                     // Order by date Doing
-                    outputList = outputList.OrderBy(x => x.DateDoing).ToList();
+                    outputList = outputList.OrderByDescending(x => x.DateDoing).ToList();
                     break;
                 case ProjectStatus.Done:
                     // Create list of Done projects
                     outputList = projectList.Where(x => x.DateDone >= selectionDate).ToList();
                     // Order by date Done
-                    outputList = outputList.OrderBy(x => x.DateDone).ToList();
+                    outputList = outputList.OrderByDescending(x => x.DateDone).ToList();
                     break;
                 default:
                     break;

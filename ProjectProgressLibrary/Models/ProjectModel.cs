@@ -27,7 +27,7 @@ namespace ProjectProgressLibrary.Models
         public string Title { get; set; }       
         public string ShortDescription { get; set; }
         public string Outcome { get; set; }
-        public string DeveloperName { get; set; } = "Victor Looren de Jong";
+        public string DeveloperName { get; set; }
         public string DemoLink { get; set; }
         public string GitHubLink { get; set; }
         public bool ShowItem { get; set; } = false;
@@ -158,7 +158,6 @@ namespace ProjectProgressLibrary.Models
         {
             DateCreated = CreateDateFromString(creatationDateTime);
         }
-
         public void SetDateDoing(string startedDateTime = null)
         {
             DateDoing = CreateDateFromString(startedDateTime);

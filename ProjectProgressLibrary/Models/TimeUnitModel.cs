@@ -21,6 +21,7 @@ namespace ProjectProgressLibrary.Models
         public HourClassification Classification { get; private set; }
         public Guid ProjectId { get; private set; }
         public DateTime TimeStamp { get; private set; }
+        public string Description { get; private set; }
         public void SetTimeUnitId(string stringGuid)
         {
             bool guidValidated = stringGuid.ValidateGuid();
@@ -114,6 +115,10 @@ namespace ProjectProgressLibrary.Models
 
             TimeStamp = CreateDateFromString(stringDateTime);
         }  
+        public void SetDescription(string description)
+        {
+            Description = description;
+        }
         private void CreateTimeStamp()
         {
             TimeStamp = DateTime.Now;
