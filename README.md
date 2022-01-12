@@ -1,6 +1,9 @@
 # ProjectProgressApplications
 This is a combination of solutions, a Progress tracker and my Portfolio application. The Progress application is also set up as a CMS for parts of the portfolio.
 
+### If there are any problems or suggestions for the app please contact me @ contact@victorloorendejong.nl
+ 
+
 ## Progress application 
 An application set to monitor your progress and display it in a Portfolio
 There is a demo available @ https://demo.victorloorendejong.nl/
@@ -66,5 +69,4 @@ This application is my portfolio you can visit it @ www.victorloorendejong.nl
 #### Build notes
 *To start the application the foloing prjects are mendatory in the CSV file: Projecten, Leerpad
 
-# If there are any problems or suggestions for the app please contact me @ contact@victorloorendejong.nl
- 
+
