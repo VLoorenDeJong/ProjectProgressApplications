@@ -14,7 +14,7 @@ There is a demo available @ https://demo.victorloorendejong.nl/
 * Set the projetc status(ToDo/Doing/Done)
 
 ### Future plans
-* Statiatic reports of a corporate level
+* Statistic reports of a corporate level
 * Adding comments to a time unit
 * User sign in
 * Multiple users
