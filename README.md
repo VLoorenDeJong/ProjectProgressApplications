@@ -18,6 +18,7 @@ There is a demo available @ https://demo.victorloorendejong.nl/
 
 ### Future plans
 * Statistic reports of a corporate level
+* Adding financial records
 * Adding comments to a time unit
 * User sign in
 * Multiple users
