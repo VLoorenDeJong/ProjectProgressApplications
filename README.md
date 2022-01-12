@@ -66,6 +66,7 @@ This application is my portfolio you can visit it @ www.victorloorendejong.nl
 * List marker moves to last line when multiple lines
 * Long project tilte goes outside the menu
 * Does not scale well to small screens
+* In the ProgressPage and TimeUnitOverviewPage entering a blank date different this happen per platform
 
 #### Build notes
 * To start the application the folowing prjects are mendatory in the CSV file: Projecten, Leerpad
