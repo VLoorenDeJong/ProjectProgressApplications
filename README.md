@@ -34,11 +34,9 @@ There is a demo available @ https://demo.victorloorendejong.nl/
 * When shifting projects around a negative hour count can be calculated
 * Subtract subproject hours from all projects above
 
-
-### Future additions
-
 #### Build notes
-* check the location of the save files in the appsettings.json
+* Check the location of the save files in the appsettings.json before use
+
 
 
 ## Portfolio application
@@ -50,6 +48,7 @@ This application is my portfolio you can visit it @ www.victorloorendejong.nl
 * Find your runways and solutions of all the projects based on the Challenge or Addition title
 * Displaying the hours per project and catagory
 * Displaying certificates and contact info
+* More then 90% of the styling is done with css
 
 ### Future additions
 * Rewrite front end code 
@@ -58,3 +57,14 @@ This application is my portfolio you can visit it @ www.victorloorendejong.nl
 * Create a blog section
 * Add a contributions section
 * Add a hobby section
+
+### Known bugs
+* List marker moves to last line when multiple lines
+* Long project tilte goes outside the menu
+* Does not scale well to small screens
+
+#### Build notes
+*To start the application the foloing prjects are mendatory in the CSV file: Projecten, Leerpad
+
+# If there are any problems or suggestions for the app please contact me @ contact@victorloorendejong.nl
+ 
