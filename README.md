@@ -68,6 +68,6 @@ This application is my portfolio you can visit it @ www.victorloorendejong.nl
 * Does not scale well to small screens
 
 #### Build notes
-* To start the application the foloing prjects are mendatory in the CSV file: Projecten, Leerpad
+* To start the application the folowing prjects are mendatory in the CSV file: Projecten, Leerpad
 
 
