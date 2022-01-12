@@ -5,7 +5,7 @@ This is a combination of solutions, a Progress tracker and my Portfolio applicat
  
 
 ## Progress application 
-An application set to monitor your progress and display it in a Portfolio
+An application to monitor your project progress and time registration
 There is a demo available @ https://demo.victorloorendejong.nl/
 
 ### Features:
