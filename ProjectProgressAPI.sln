@@ -9,6 +9,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgressApplicationMVP", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMVP\PortfolioMVP.csproj", "{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioApp2.0", "PortfolioApp2.0\PortfolioApp2.0.csproj", "{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorServerTestApp", "BlazorServerTestApp\BlazorServerTestApp.csproj", "{AD338B46-831A-453A-A3CB-37DC40424C8C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AD338B46-831A-453A-A3CB-37DC40424C8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AD338B46-831A-453A-A3CB-37DC40424C8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AD338B46-831A-453A-A3CB-37DC40424C8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AD338B46-831A-453A-A3CB-37DC40424C8C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
