@@ -11,6 +11,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMV
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerTestApp", "BlazerTestApp\BlazerTestApp.csproj", "{3296105A-B4F7-48C2-8858-B63BC7FF100D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerServerTestApp", "BlazerServerTestApp\BlazerServerTestApp.csproj", "{DE99F714-E341-4A6B-9749-8A5827DEA0E3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerWebAsseblyAppNetCore.Server", "BlazerWebAsseblyAppNetCore\Server\BlazerWebAsseblyAppNetCore.Server.csproj", "{7015693A-7DCB-4862-B6C7-2B0AADEDFD27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerWebAsseblyAppNetCore.Client", "BlazerWebAsseblyAppNetCore\Client\BlazerWebAsseblyAppNetCore.Client.csproj", "{1AFFAF27-CD75-4CAA-A099-112B85016738}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerWebAsseblyAppNetCore.Shared", "BlazerWebAsseblyAppNetCore\Shared\BlazerWebAsseblyAppNetCore.Shared.csproj", "{66A39B00-83CF-4F58-A1E3-CB03088EEF73}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +41,22 @@ Global
 		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DE99F714-E341-4A6B-9749-8A5827DEA0E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DE99F714-E341-4A6B-9749-8A5827DEA0E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DE99F714-E341-4A6B-9749-8A5827DEA0E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DE99F714-E341-4A6B-9749-8A5827DEA0E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7015693A-7DCB-4862-B6C7-2B0AADEDFD27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7015693A-7DCB-4862-B6C7-2B0AADEDFD27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7015693A-7DCB-4862-B6C7-2B0AADEDFD27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7015693A-7DCB-4862-B6C7-2B0AADEDFD27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AFFAF27-CD75-4CAA-A099-112B85016738}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AFFAF27-CD75-4CAA-A099-112B85016738}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AFFAF27-CD75-4CAA-A099-112B85016738}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AFFAF27-CD75-4CAA-A099-112B85016738}.Release|Any CPU.Build.0 = Release|Any CPU
+		{66A39B00-83CF-4F58-A1E3-CB03088EEF73}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{66A39B00-83CF-4F58-A1E3-CB03088EEF73}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{66A39B00-83CF-4F58-A1E3-CB03088EEF73}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{66A39B00-83CF-4F58-A1E3-CB03088EEF73}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

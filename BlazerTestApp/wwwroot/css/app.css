@@ -7,7 +7,7 @@ html, body {
 a, .btn-link {
     color: #0366d6;
 }
-
+    
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
@@ -48,3 +48,555 @@ a, .btn-link {
         right: 0.75rem;
         top: 0.5rem;
     }
+
+
+
+
+/*Page text section*/
+
+.label-index-quote-label {
+    font-family: Candara;
+    font-size: 3em;
+}
+
+.menu-text {
+    font-family: 'Segoe UI';
+    padding-left: 10px;
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+}
+
+.page-text {
+    color: #343a40;
+    font-family: Calibri;
+}
+
+
+/*Page color section*/
+
+/*page colors*/
+.header-section {
+    background-color: #353A40;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+    background-color: #eba434;
+}
+
+.div-footer-section {
+    background-color: #353A40;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+navbar-toggle-button {
+    box-shadow: unset;
+    border-bottom: solid;
+    /*navbar-light border-bottom box-shadow*/
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.page-main-iemts-color {
+    color: #eba434;
+}
+
+.label-main-page-title {
+}
+
+.label-page-top-menu-item {
+    color: #C0C0C0;
+}
+
+.label-footer-title {
+}
+
+.label-footer-item {
+    color: #C0C0C0;
+    font-size: 0.8em;
+}
+
+.label-footer-email {
+    color: #eba434;
+    margin-left: 10px;
+    margin-right: 10px;
+    font-size: 0.9em;
+}
+/*Side menu color settings*/
+div.scrollable-side-menu {
+    background-color: #343a40;
+    min-width: 100px;
+    max-width: 200px;
+    max-height: 700px;
+    overflow-x: hidden;
+    text-align: center;
+    direction: rtl;
+    padding-block: 30px;
+}
+
+.div-side-menu {
+    background-color: #343a40;
+    width: 150px;
+    text-align: center;
+    direction: rtl;
+    flex-direction: column;
+}
+
+.div-side-menu-selected-project {
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    border-top: solid;
+    border-top-width: 1px;
+    color: white;
+}
+
+.div-page-box {
+    margin-bottom: 100px;
+}
+
+/*Side menu div items*/
+.div-side-menu-catagory-item {
+}
+
+.div-side-menu-main-project {
+    color: white;
+    border-bottom: solid;
+    border-bottom-width: 1px;
+    border-top: solid;
+    border-top-width: 1px;
+}
+
+.div-side-menu-project {
+    color: white;
+}
+
+.div-side-menu-sub-project {
+}
+
+.div-side-menu-selected-main-project {
+}
+
+.div-side-menu-selected-sub-project {
+}
+
+.side-menu-item {
+    text-align: center;
+    direction: ltr;
+}
+
+/*Side menu labels*/
+.side-menu-catagory-item-label {
+    color: #777;
+    font-size: 1.5em;
+    border-bottom: solid;
+    border-bottom-width: 3px;
+    margin-bottom: 25px;
+}
+
+.side-menu-main-project-item-label {
+    color: gray;
+    font-size: 1em;
+}
+
+.side-menu-sub-project-item-label {
+    color: darkgray;
+    padding-bottom: 10px;
+}
+
+.side-menu-deper-project-main-project-item-label {
+    color: gray;
+}
+
+.side-menu-deper-project-selected-project-item {
+    color: lightgray;
+}
+
+.side-menu-deper-project-sub-project-item-label {
+    color: gray;
+}
+
+.label-page-title {
+    font-size: 2em;
+    color: black;
+}
+
+
+/*Scrollable section*/
+div.scrollable-menu-page-content {
+    margin-left: 50px;
+    min-width: 600px;
+    max-width: 900px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    align-items: center;
+    max-height: 700px;
+    overflow-x: hidden;
+    text-align: center;
+    align-items: center;
+    padding-block: 30px;
+}
+
+div.scrollable-no-menu-page {
+    margin-left: auto;
+    margin-right: auto;
+    max-height: 700px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: center;
+}
+
+div.scrollable-page {
+    padding-top: 100px;
+    text-align: center;
+}
+/*Page div section*/
+.div-page-content {
+    text-align: center;
+    width: 700px;
+    margin-left: 50px;
+}
+
+.div-page-container {
+}
+
+/*Page content section*/
+
+/*Photo section*/
+.div-photo-section {
+    padding: 20px;
+}
+
+.div-about-me-picture {
+    margin-top: -90px;
+}
+
+.div-profile-picture-section {
+    width: 1500px;
+}
+
+.div-profile-picture-filler {
+}
+
+/*Img section*/
+.img-about-me-picture {
+    max-height: 300px;
+    max-width: 400px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-index-profile-picture {
+    max-width: 200px;
+    max-height: 300px;
+    border-radius: 50%;
+}
+
+.img-project-photo {
+    max-height: 300px;
+    max-width: 150px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.img-github-logo {
+    max-height: 40px;
+    max-width: 40px;
+}
+
+.img-linkedin-logo {
+    max-height: 35px;
+    max-width: 35px;
+}
+
+.img-certificate-picture {
+    max-height: 50px;
+    max-width: 50px;
+}
+
+/*Link section*/
+.div-links-section {
+    margin-top: 5px;
+    margin-bottom: 30px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.div-demo-link-section {
+}
+
+.div-github-link-section {
+    text-anchor: start;
+}
+
+/*Tekst section*/
+.input-field-text {
+}
+
+.div-explanation-section {
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.div-index-explanation-section {
+    border-block: solid;
+    color: black;
+}
+
+.div-page-content-head-section {
+}
+
+.div-page-title {
+    font-size: 2.5em;
+}
+
+.div-description-outcome-status-text-section {
+    padding: 10px;
+}
+
+.div-challenges-future-section {
+}
+
+.div-list-item {
+}
+
+.div-filler {
+}
+
+.div-challenges-future-list-section {
+}
+
+.div-name-section {
+    padding-top: 30px;
+}
+
+.div-about-me-page-tekst-section {
+    margin-top: -25px;
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.div-index-quote-section {
+    margin-top: 50px;
+}
+
+.div-index-name-section {
+    text-align: center;
+    padding-left: 50px;
+}
+
+.div-table-section {
+    padding-block: 1em;
+    max-width: 900px;
+}
+
+.div-table-title-section {
+}
+
+.div-last-worked-on-section {
+    text-align: center;
+}
+
+.div-table-title-column-head-section {
+    text-align: left;
+}
+
+.div-table-sub-column-head-section {
+    text-align: left;
+}
+
+.div-table-row-title-item-section {
+    text-align: left;
+}
+
+.div-table-sub-column-item-section {
+    text-align: left;
+}
+/*Input section*/
+.div-input-field-button-combination-section {
+    padding-left: 100px;
+    padding-right: 100px;
+}
+
+.div-input-section {
+}
+
+.div-input-field-section {
+    padding-block: 5px;
+}
+
+.div-button-section {
+    padding-block: 20px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+.div-button-row {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+/*Header section*/
+.page-header-section {
+    position: fixed;
+    width: 100%;
+}
+
+/*Footer section*/
+.page-footer-section {
+    position: fixed;
+}
+
+.div-footer-certificates-section {
+    padding-right: 20px;
+}
+
+.div-footer-certificate-section {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+
+
+/*Labels section*/
+.label-page-title {
+    font-size: 2em;
+    color: black;
+}
+
+.label-demo-link {
+    font-size: 1.5em;
+    font-weight: bold;
+    border-bottom-width: 1px;
+}
+
+.label-github-link {
+}
+
+.label-text-section-head {
+    font-style: oblique;
+    margin-bottom: 0px;
+}
+
+.label-text-section-text {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.label-about-me-text-section {
+    margin-bottom: -10px;
+    font-weight: bold;
+}
+
+.label-name-text {
+    font-size: 2em;
+}
+
+.label-email-text {
+    font-style: oblique;
+}
+
+.label-index-name-label {
+}
+
+.label-result-text {
+}
+
+.label-result-seacrhed {
+    font-weight: bold;
+    border-width: 1px;
+}
+
+.label-table-title {
+    font-size: 1.2em;
+}
+
+.label-table-head {
+    font-style: oblique;
+}
+
+.label-table-row {
+}
+
+.label-most-recent-worked-on {
+    font-size: 1.4em;
+}
+
+.label-last-worked-on {
+    padding-top: 30px;
+    font-style: oblique;
+    border-bottom: solid;
+    border-width: 1px;
+}
+
+.label-challenge-future-item {
+    margin-bottom: 0px;
+}
+
+.label-search-field {
+}
+
+.label-index-explanation-text {
+    font-size: 1.3em;
+}
+/*List section*/
+ul {
+    text-align: left;
+    list-style-position: outside;
+    list-style-type: circle;
+}
+/*/*Misc section*/
+a:link {
+    color: #343a40;
+}
+
+a:visited {
+    color: black;
+}
+
+.a-menu-link-hover {
+    background-color: #1D2124;
+}
+
+.button-text {
+    padding-block: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    font-family: 'Segoe UI';
+}
+
+.button-formatting {
+    background-color: #343A40;
+    border-radius: 5px;
+    border: none;
+    height: 40px;
+    color: white;
+    font-size: 1em;
+}
+
+.text-field-formatting {
+    border-radius: 5px;
+    background-color: #343A40;
+    height: 30px;
+    color: #6C757D;
+    border: none;
+    padding-left: 15px;
+    padding-top: 0px;
+    padding-right: 15px;
+    padding-bottom: 0px;
+    font-family: Calibri;
+}

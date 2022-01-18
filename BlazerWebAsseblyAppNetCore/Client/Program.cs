@@ -8,13 +8,12 @@ using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BlazerTestApp
+namespace BlazerWebAsseblyAppNetCore.Client
 {
     public class Program
     {
         public static async Task Main(string[] args)
         {
-            
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
