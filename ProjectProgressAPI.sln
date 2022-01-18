@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgressApplicationMVP", "P
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMVP\PortfolioMVP.csproj", "{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazerTestApp", "BlazerTestApp\BlazerTestApp.csproj", "{3296105A-B4F7-48C2-8858-B63BC7FF100D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3296105A-B4F7-48C2-8858-B63BC7FF100D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
