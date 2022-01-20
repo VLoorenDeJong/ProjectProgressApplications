@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ProjectProgressLibrary
+namespace ProjectProgressLibrary.Validation
 {
    public static class DataValidation
     {

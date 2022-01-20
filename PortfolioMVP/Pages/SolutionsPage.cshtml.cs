@@ -6,11 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PortfolioMVP.Models;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Enums.Enums;
-using static PortfolioMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
+using static ProjectProgressLibrary.Enums;
 
 namespace PortfolioMVP.Pages
 {
@@ -37,7 +36,9 @@ namespace PortfolioMVP.Pages
         public List<SolutionModel> PageSolutions { get; set; }
 
 
+
         // Backend
+        private readonly IStartConfig _startConfig;
         private readonly ILogger _logger;
         private readonly IDataAccess _db;
         private readonly IConfiguration _config;
@@ -46,11 +47,12 @@ namespace PortfolioMVP.Pages
         private ProjectModel MainProject { get; set; }
 
 
-        public SolutionsPageModel(ILogger<SolutionsPageModel> logger, IConfiguration config, IDataAccess db)
+        public SolutionsPageModel(ILogger<SolutionsPageModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _mainGoal) = GetDbConfig(config, db, "index");
+            (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             AllProjects = _db.ReadAllProjectRecords(_mainGoal);
 
@@ -60,7 +62,7 @@ namespace PortfolioMVP.Pages
         public void OnGet()
         {
             LoadPageSettings();
-            PageSolutions = LoadAllDictionaries(AllProjects, DictionaryClassification);
+            PageSolutions = _db.LoadAllDictionaries(AllProjects, DictionaryClassification);
             if (SearchEnabled == true && string.IsNullOrEmpty(SearchTerm) == false)
             {
                 PageSolutions = PageSolutions.Where(x => x.Key.ToLower().Contains(SearchTerm.ToLower())).ToList();

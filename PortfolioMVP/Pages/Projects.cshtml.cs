@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PortfolioMVP.Models;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {
@@ -52,7 +51,9 @@ namespace PortfolioMVP.Pages
 
 
 
+
         // Back end
+        private readonly IStartConfig _startConfig;
         private readonly ILogger<ProjectsModel> _logger;
         private readonly IDataAccess _db;
         private readonly IConfiguration _config;
@@ -66,14 +67,15 @@ namespace PortfolioMVP.Pages
 
         private List<Guid> SubProjectIds = new List<Guid>();
 
-        public ProjectsModel(ILogger<ProjectsModel> logger, IConfiguration config, IDataAccess db)
+        public ProjectsModel(ILogger<ProjectsModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _MainGoal) = GetDbConfig(config, db, "index");
+            (_db, _MainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
-            _projectPhotosFolderPath = GetProjectPhotosFolderPath(config);
+            _projectPhotosFolderPath = _startConfig.GetProjectPhotosFolderPath(config);
 
         }
 
@@ -117,7 +119,7 @@ namespace PortfolioMVP.Pages
             PageProject = _db.GetProjectByTitle(pageTitle, AllProjects);
             // ToDo test if this is needed?
             SubProjectIds = _db.GetSubprojectIds(PageProject);
-            PagePresentationProject = CreatePresentationProject(PageProject, AllProjects, _db);
+            PagePresentationProject = _db.CreatePresentationProject(PageProject, AllProjects, _db);
 
             LoadSubProjectTitles();
             LoadAllNeededPresentationModels();
@@ -125,7 +127,7 @@ namespace PortfolioMVP.Pages
             LoadPageHours(PageProject);
 
 
-            (ProjectPictureFilePath, ShowPicture) = SetUpPictureShowing(pageTitle, _db, _projectPhotosFolderPath);
+            (ProjectPictureFilePath, ShowPicture) = _startConfig.SetUpPictureShowing(pageTitle, _db, _projectPhotosFolderPath);
 
         }
         private void LoadPageSettings(string pageTitle)
@@ -162,7 +164,7 @@ namespace PortfolioMVP.Pages
                 ProjectModel subProjectToAdd = _db.GetProjectByTitle(subProject.Title, AllProjects);
 
                 // Create a presentation model from project
-                PresentaionProjectModel subPresentationProjectToAdd = CreatePresentationProject(subProjectToAdd, AllProjects, _db);
+                PresentaionProjectModel subPresentationProjectToAdd = _db.CreatePresentationProject(subProjectToAdd, AllProjects, _db);
 
                 // Order the sub project list by priority
                 subPresentationProjectToAdd.SubprojectPresentationModels = subPresentationProjectToAdd.SubprojectPresentationModels.OrderBy(x => x.Priority).ToList();
@@ -186,7 +188,7 @@ namespace PortfolioMVP.Pages
         }
         private void SelectMostRecentWorkedOnProject()
         {
-            AllProjectTimeUnits = GetAllRelevantTimeUnits(PageProject, AllTimeUnits, AllProjects, _db);
+            AllProjectTimeUnits = _db.GetAllRelevantTimeUnits(PageProject, AllTimeUnits, AllProjects, _db);
 
             if (AllProjectTimeUnits.Count > 0)
             {
@@ -198,7 +200,7 @@ namespace PortfolioMVP.Pages
 
                 MostRecentProject = AllProjects.Where(x => x.ProjectId == mostRecentTimeUnit.ProjectId).First();
 
-                (ProjectPictureFilePath, ShowPicture) = SetUpPictureShowing(MostRecentProject.Title, _db, _projectPhotosFolderPath);
+                (ProjectPictureFilePath, ShowPicture) = _startConfig.SetUpPictureShowing(MostRecentProject.Title, _db, _projectPhotosFolderPath);
             }
         }
 

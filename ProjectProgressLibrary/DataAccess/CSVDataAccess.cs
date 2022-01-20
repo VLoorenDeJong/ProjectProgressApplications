@@ -8,8 +8,9 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using static ProjectProgressLibrary.Enums;
-using static ProjectProgressLibrary.ApplicationLogic;
 using static ProjectProgressLibrary.Modifications.TekstModifications;
+using static ProjectProgressLibrary.Validation.DateTimeValidation;
+using static ProjectProgressLibrary.Validation.DataValidation;
 
 namespace ProjectProgressLibrary.DataAccess
 {
@@ -1657,7 +1658,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public static List<SolutionModel> LoadAllDictionaries(List<ProjectModel> allProjects, DictionaryClassification classification)
+        public List<SolutionModel> LoadAllDictionaries(List<ProjectModel> allProjects, DictionaryClassification classification)
         {
             List<SolutionModel> outputList = new List<SolutionModel>();
 
@@ -1722,8 +1723,12 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public static List<ProjectModel> FillProjectList(ProjectStatus status, List<ProjectModel> allProjects)
+        public List<ProjectModel> FillProjectList(ProjectStatus status, string mainGoal)
         {
+            // Get all projects
+            List<ProjectModel> allProjects = ReadAllProjectRecords(mainGoal);
+
+            // Create list to output
             List<ProjectModel> outputList = new List<ProjectModel>();
 
             // Remove all projects with more then one subproject
@@ -1749,7 +1754,7 @@ namespace ProjectProgressLibrary.DataAccess
             }
             return outputList;
         }
-        public static List<ProjectModel> FilterListsByDate(List<ProjectModel> projectList, DateTime selectionDate, ProjectStatus status)
+        public List<ProjectModel> FilterListsByDate(List<ProjectModel> projectList, DateTime selectionDate, ProjectStatus status)
         {
             List<ProjectModel> outputList = new List<ProjectModel>();
 

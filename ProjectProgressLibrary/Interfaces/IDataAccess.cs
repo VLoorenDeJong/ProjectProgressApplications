@@ -16,6 +16,8 @@ namespace ProjectProgressLibrary.DataAccess
         PresentaionProjectModel CreatePresentationProject(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db);
         void DeleteProject(string projectTitle, List<ProjectModel> allProjects, List<TimeUnitModel> allTimeUnits);
         string ExchangePunctuations(string projectName);
+        List<ProjectModel> FillProjectList(Enums.ProjectStatus status, string mainGoal);
+        List<ProjectModel> FilterListsByDate(List<ProjectModel> projectList, DateTime selectionDate, Enums.ProjectStatus status);
         Guid? FindProblemId(string mainProjectTitle, List<Guid?> subProjectIds, List<ProjectModel> allProjects);
         List<TimeUnitModel> GetAllRelevantTimeUnits(ProjectModel mainProject, List<TimeUnitModel> allTimeUnits, List<ProjectModel> allProjects, IDataAccess db);
         string GetFrontEndPhotoFolder();
@@ -24,6 +26,7 @@ namespace ProjectProgressLibrary.DataAccess
         ProjectModel GetProjectByTitle(string projectTitle, List<ProjectModel> projectsList);
         List<Guid> GetSubprojectIds(ProjectModel mainProject);
         TimeUnitModel GetTimeUnitById(Guid timeUnitId, List<TimeUnitModel> allTimeUnits);
+        List<SolutionModel> LoadAllDictionaries(List<ProjectModel> allProjects, Enums.DictionaryClassification classification);
         void MakeFirstEntry(string mainGoal);
         void ProcessPicture(IFormFile photo, string projectTitle);
         List<ProjectModel> ReadAllProjectRecords(string mainGoal);

@@ -6,12 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PortfolioMVP.Models;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
 using static ProjectProgressLibrary.Enums;
-using static ProjectProgressLibrary.ApplicationLogic;
+using static ProjectProgressLibrary.Validation.DateTimeValidation;
+using static ProjectProgressLibrary.Modifications.TekstModifications;
 
 namespace PortfolioMVP.Pages
 {
@@ -52,7 +52,10 @@ namespace PortfolioMVP.Pages
         public double PracticalHours { get; private set; }
         [BindProperty]
         public double GeneralHours { get; private set; }
+
+
         // Backend
+        private readonly IStartConfig _startConfig;
         private readonly ILogger _logger;
         private readonly IDataAccess _db;
         private readonly IConfiguration _config;
@@ -61,11 +64,12 @@ namespace PortfolioMVP.Pages
         public List<ProjectModel> AllProjects { get; set; } = new List<ProjectModel>();
         private ProjectModel MainProject { get; set; }
 
-        public TimeUnitOverviewPageModel(ILogger<TimeUnitOverviewPageModel> logger, IConfiguration config, IDataAccess db)
+        public TimeUnitOverviewPageModel(ILogger<TimeUnitOverviewPageModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _mainGoal) = GetDbConfig(config, db, "index");
+            (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
 

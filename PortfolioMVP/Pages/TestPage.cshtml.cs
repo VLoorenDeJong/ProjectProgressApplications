@@ -9,7 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {
@@ -30,18 +30,20 @@ namespace PortfolioMVP.Pages
         // Backend
         public readonly string _mainGoal;
         private readonly IDataAccess _db;
+        private readonly IStartConfig _startConfig;
         private readonly ILogger<TestPageModel> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
         public List<ProjectModel> AllProjects = new List<ProjectModel>();
         private List<TimeUnitModel> AllTimeUnits = new List<TimeUnitModel>();
 
-        public TestPageModel(ILogger<TestPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public TestPageModel(ILogger<TestPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
 
-            (_db, _mainGoal) = GetDbConfig(config, db, "projectPage");
+            (_db, _mainGoal) = startConfig.GetDbConfig(config, db, "projectPage");
 
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
 

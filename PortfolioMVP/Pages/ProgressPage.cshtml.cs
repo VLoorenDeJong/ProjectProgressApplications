@@ -8,9 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Logic;
 using static ProjectProgressLibrary.Enums;
-using static ProjectProgressLibrary.ApplicationLogic;
+using static ProjectProgressLibrary.Validation.DateTimeValidation;
+using static ProjectProgressLibrary.Modifications.TekstModifications;
+using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {
@@ -39,7 +40,9 @@ namespace PortfolioMVP.Pages
         public List<ProjectModel> AddedProjects { get; set; }
 
 
+
         // Back end
+        private readonly IStartConfig _startConfig;
         private readonly ILogger _logger;
         private readonly IDataAccess _db;
         private readonly IConfiguration _config;
@@ -47,12 +50,12 @@ namespace PortfolioMVP.Pages
         private List<ProjectModel> AllProjects { get; set; } = new List<ProjectModel>();
         private ProjectModel MainProject { get; set; }
 
-        public ProgressPageModel(ILogger<ProgressPageModel> logger, IConfiguration config, IDataAccess db)
+        public ProgressPageModel(ILogger<ProgressPageModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
-
+            _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _mainGoal) = GetDbConfig(config, db, "index");
+            (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             AllProjects = _db.ReadAllProjectRecords(_mainGoal);
 
@@ -63,7 +66,7 @@ namespace PortfolioMVP.Pages
         {
 
             LoadPageSettings();
-            SearchDate = CreateDateFromString(SearchDate.ToString());
+            SearchDate =  CreateDateFromString(SearchDate.ToString());
             if (SearchEnabled == false || SearchDate.ToString() == "01/01/0001 12:00:00 AM"
                                        || SearchDate.ToString() == "01/01/0001 00:00:00")
             {
@@ -79,9 +82,9 @@ namespace PortfolioMVP.Pages
 
         private void LoadSelectionLists()
         {
-            FinishedProjects = FilterListsByDate(FinishedProjects, SearchDate, ProjectStatus.Done);
-            StartedProjects = FilterListsByDate(StartedProjects, SearchDate, ProjectStatus.Doing);
-            AddedProjects = FilterListsByDate(AddedProjects, SearchDate, ProjectStatus.ToDo);
+            FinishedProjects = _db.FilterListsByDate(FinishedProjects, SearchDate, ProjectStatus.Done);
+            StartedProjects = _db.FilterListsByDate(StartedProjects, SearchDate, ProjectStatus.Doing);
+            AddedProjects = _db.FilterListsByDate(AddedProjects, SearchDate, ProjectStatus.ToDo);
         }
 
         public IActionResult OnPostSearchDate()
@@ -101,9 +104,9 @@ namespace PortfolioMVP.Pages
 
         private void LoadProjectLists()
         {
-            FinishedProjects = FillProjectList(ProjectStatus.Done, AllProjects);
-            StartedProjects = FillProjectList(ProjectStatus.Doing, AllProjects);
-            AddedProjects = FillProjectList(ProjectStatus.ToDo, AllProjects);
+            FinishedProjects = _db.FillProjectList(ProjectStatus.Done, _mainGoal);
+            StartedProjects = _db.FillProjectList(ProjectStatus.Doing, _mainGoal);
+            AddedProjects = _db.FillProjectList(ProjectStatus.ToDo, _mainGoal);
         }
         private void LoadPageHours(ProjectModel project)
         {

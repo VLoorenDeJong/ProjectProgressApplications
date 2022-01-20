@@ -6,10 +6,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using PortfolioMVP.Models;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static PortfolioMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {
@@ -35,6 +34,8 @@ namespace PortfolioMVP.Pages
         [BindProperty]
         public bool ShowPicture { get; set; } = false;
 
+        private readonly IStartConfig _startConfig;
+
 
         // Back end
         private readonly ILogger<DemoPageModel> _logger;
@@ -43,14 +44,16 @@ namespace PortfolioMVP.Pages
         private readonly string _mainGoal;
         private readonly string _rootFolderPath;
 
-        public DemoPageModel(ILogger<DemoPageModel> logger, IConfiguration config, IDataAccess db)
+        public DemoPageModel(ILogger<DemoPageModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _mainGoal) = GetDbConfig(config, db, "index");
+            
+            (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             AllProjects = _db.ReadAllProjectRecords(_mainGoal);
-            _rootFolderPath = GetProjectPhotosFolderPath(config);
+            _rootFolderPath = _startConfig.GetProjectPhotosFolderPath(config);
 
         }
 
@@ -62,12 +65,12 @@ namespace PortfolioMVP.Pages
 
         private void LoadPageDetails()
         {
-            AllDemoModels = CreateAllDemoModels(AllProjects);
+            AllDemoModels = _db.CreateAllDemoModels(AllProjects);
 
             if (string.IsNullOrEmpty(PageTitle) == false)
             {
                 DemoModelToShow = AllDemoModels.Where(x => x.Title == PageTitle).First();
-                (ProjectPictureFilePath, ShowPicture) = SetUpPictureShowing(DemoModelToShow.Title, _db, _rootFolderPath);
+                (ProjectPictureFilePath, ShowPicture) = _startConfig.SetUpPictureShowing(DemoModelToShow.Title, _db, _rootFolderPath);
             }
 
             if (string.IsNullOrEmpty(PageTitle) == true)

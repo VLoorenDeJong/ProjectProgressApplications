@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
+using ProjectProgressLibrary.StartConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using static PortfolioMVP.Logic;
 
 namespace PortfolioMVP.Pages
 {
@@ -30,17 +30,20 @@ namespace PortfolioMVP.Pages
 
 
 
+
         // Back end
+        private readonly IStartConfig _startConfig;
         private readonly ILogger<IndexModel> _logger;
         private readonly IDataAccess _db;
         private readonly string mainGoal;
 
         private List<ProjectModel> AllProjects = new List<ProjectModel>();
 
-        public IndexModel(ILogger<IndexModel> logger, IConfiguration config, IDataAccess db)
+        public IndexModel(ILogger<IndexModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
-            (_db, mainGoal) = GetDbConfig(config, db, "index");
+            (_db, mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
             AllProjects = _db.ReadAllProjectRecords(mainGoal);
 
