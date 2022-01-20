@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
+using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Validation.DataValidation;
 
@@ -54,6 +55,8 @@ namespace ProgressApplicationMVP.Pages
         private readonly ILogger<DictionaryValuesManagementPageModel> _logger;
         private readonly string _MainGoal;
         private List<ProjectModel> AllProjects = new List<ProjectModel>();
+        private IStartConfig _startConfig;
+
         private ProjectModel ProjectToChange { get; set; }
         [BindProperty(SupportsGet = true)]
         public Dictionary<string, List<string>> DictionaryToChange { get; private set; } = new Dictionary<string, List<string>>();
@@ -63,9 +66,12 @@ namespace ProgressApplicationMVP.Pages
         [BindProperty(SupportsGet = true)]
         public string ProjectTitle { get; set; }
 
-        public DictionaryValuesManagementPageModel(ILogger<DictionaryValuesManagementPageModel> logger, IDataAccess db, IConfiguration config)
+        public DictionaryValuesManagementPageModel(ILogger<DictionaryValuesManagementPageModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
-            (_db, _MainGoal) = GetDbConfig(config, db, "dictionaryManagement");
+
+            _startConfig = startConfig;
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
+           
 
             AllProjects = _db.ReadAllProjectRecords(_MainGoal);
         }

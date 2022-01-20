@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
+using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Enums;
 using static ProjectProgressLibrary.Validation.DataValidation;
@@ -23,6 +24,7 @@ namespace ProgressApplicationMVP.Pages
         private readonly IDataAccess _db;
         private readonly ILogger<ProjectPageModel> _logger;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly IStartConfig _startConfig;
 
         [BindProperty]
         public string BackendPhotoFilePath { get; set; } = null;
@@ -75,12 +77,12 @@ namespace ProgressApplicationMVP.Pages
 
         [BindProperty]
         public IFormFile Photo { get; set; }
-        public ProjectPageModel(ILogger<ProjectPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment)
+        public ProjectPageModel(ILogger<ProjectPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment, IStartConfig startConfig)
         {
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
-
-            (_db, _mainGoal) = GetDbConfig(config, db, "projectPage");
+            _startConfig = startConfig;
+            (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectPage");
 
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
             mainGoal = _mainGoal;

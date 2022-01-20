@@ -11,6 +11,8 @@ using ProjectProgressLibrary.Models;
 using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Validation.DataValidation;
+using ProjectProgressLibrary.StartConfig;
+
 namespace ProgressApplicationMVP.Pages
 {
     public class ProjectManagementPageModel : PageModel
@@ -20,6 +22,7 @@ namespace ProgressApplicationMVP.Pages
         private readonly ILogger<ProjectManagementPageModel> _logger;
         //See if private is ok
         public List<ProjectModel> AllProjects = new List<ProjectModel>();
+        private readonly IStartConfig _startConfig;
 
         [BindProperty(SupportsGet = true)]
         public string ProjectTitle { get; set; }
@@ -41,11 +44,12 @@ namespace ProgressApplicationMVP.Pages
 
         // Backend
         private List<TimeUnitModel> AllTimeUnits { get; set; }
-        public ProjectManagementPageModel(ILogger<ProjectManagementPageModel> logger, IDataAccess db, IConfiguration config)
+        public ProjectManagementPageModel(ILogger<ProjectManagementPageModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectManagement");
 
-            (_db, _MainGoal) = GetDbConfig(config, db, "projectManagement");
-
+            (IDataAccess _mockDb, string _Goal) = startConfig.GetDbConfig(config, db, "projectManagement");
 
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
 

@@ -11,6 +11,7 @@ using ProjectProgressLibrary.Models;
 using ProjectProgressLibrary.StartConfig;
 using ProjectProgressLibrary.Validation;
 
+
 namespace ProgressApplicationMVP.Pages
 {
     public class DictionaryManagementModel : PageModel
@@ -76,7 +77,9 @@ namespace ProgressApplicationMVP.Pages
         public DictionaryManagementModel(ILogger<DictionaryManagementModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
             _startConfig = startConfig;
-            (_db, _MainGoal) = _startConfig.GetDbConfig(config, db, "dictionaryManagement");
+            
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
+
 
             AllProjects = _db.ReadAllProjectRecords(_MainGoal);
         }

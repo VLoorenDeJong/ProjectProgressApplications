@@ -7,7 +7,7 @@ namespace ProjectProgressLibrary.StartConfig
     {
         bool DecideToShowPicture(string projectPictureFilePath);
         (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName);
-        string GetProjectPhotosFolderPath(IConfiguration config);
+        (IDataAccess database, string mainGoal) GetProgressDbConfig(IConfiguration config, IDataAccess db, string pageName);
         (string ProjectPictureFilePath, bool ShowPicture) SetUpPictureShowing(string title, IDataAccess db, string rootFolderPath);
     }
 }

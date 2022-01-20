@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
+using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 
 namespace ProgressApplicationMVP.Pages
@@ -16,6 +17,7 @@ namespace ProgressApplicationMVP.Pages
     {
         private readonly IDataAccess _db;
         private readonly ILogger<TimeUnitManagementModel> _logger;
+        private readonly IStartConfig _startConfig;
         private readonly string _MainGoal;
         public List<TimeUnitModel> AllTimeUnits;
         public List<ProjectModel> AllProjects;
@@ -24,12 +26,12 @@ namespace ProgressApplicationMVP.Pages
         public Guid TimeUnitId { get; set; }
         [BindProperty(SupportsGet = true)]
         public TimeUnitModel TimeUnit { get; set; }
-        public TimeUnitManagementModel(ILogger<TimeUnitManagementModel> logger, IDataAccess db, IConfiguration config)
+        public TimeUnitManagementModel(ILogger<TimeUnitManagementModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
             _logger = logger;
+            _startConfig = startConfig;
 
-
-            (_db, _MainGoal) = GetDbConfig(config, db, "timeUnitManagement");
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitManagement");
 
             AllProjects = _db.ReadAllProjectRecords(_MainGoal);
             AllTimeUnits = _db.ReadAllTimeUnits(_MainGoal);

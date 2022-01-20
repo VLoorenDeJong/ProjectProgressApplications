@@ -11,6 +11,8 @@ using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
 using ProjectProgressLibrary.Models;
 using static ProjectProgressLibrary.Validation.DataValidation;
+using ProjectProgressLibrary.StartConfig;
+
 namespace ProgressApplicationMVP.Pages
 {
     public class TimeUnitPageModel : PageModel
@@ -18,6 +20,7 @@ namespace ProgressApplicationMVP.Pages
         private readonly string _MainGoal;
         private readonly IDataAccess _db;
         private readonly ILogger<TimeUnitPageModel> _logger;
+        private readonly IStartConfig _startConfig;
 
         //ToDo check if lists can be private
         public List<TimeUnitModel> AllTimeUnits;
@@ -48,12 +51,12 @@ namespace ProgressApplicationMVP.Pages
         public DateTime TimeStamp { get; set; } = DateTime.Now;
         public List<ProjectModel> AllProjects { get => allProjects; set => allProjects = value; }
 
-        public TimeUnitPageModel(ILogger<TimeUnitPageModel> logger, IDataAccess db, IConfiguration config)
+        public TimeUnitPageModel(ILogger<TimeUnitPageModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
             _logger = logger;
+            _startConfig = startConfig;
 
-
-            (_db, _MainGoal) = GetDbConfig(config, db, "timeUnitPage");
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitPage");
 
             AllProjects = _db.ReadAllProjectRecords(_MainGoal);
             AllTimeUnits = _db.ReadAllTimeUnits(_MainGoal);

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.StartConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,16 +14,18 @@ namespace ProgressApplicationMVP.Pages
 {
     public class IndexModel : PageModel
     {
-        //ToDo Make all pages have a IsDemo bool
 
+        //ToDo Make all pages have a IsDemo bool
+        private readonly IStartConfig _startConfig;
         private readonly ILogger<IndexModel> _logger;
         public readonly string _MainGoal;
         private readonly IDataAccess _db;
 
-        public IndexModel(ILogger<IndexModel> logger, IDataAccess db, IConfiguration config)
+        public IndexModel(ILogger<IndexModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
+            _startConfig = startConfig;
             _logger = logger;
-            (_db, _MainGoal) = GetDbConfig(config, db, "index");
+            (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "index");
         }
 
         public void OnGet()
