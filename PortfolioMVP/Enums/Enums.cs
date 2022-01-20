@@ -7,11 +7,5 @@ namespace PortfolioMVP.Enums
 {
     public static class Enums
     {
-        public enum DictionaryClassification
-        {
-            Challenges,
-            FutureAdditions,
-            All
-        }
     }
 }

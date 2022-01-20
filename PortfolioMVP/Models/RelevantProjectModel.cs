@@ -7,8 +7,5 @@ namespace PortfolioMVP.Models
 {
     public class RelevantProjectModel
     {
-        public string ProjectTitle { get; set; }
-        public Guid ProjectId { get; set; }
-        public bool ShowItem { get; set; }
     }
 }

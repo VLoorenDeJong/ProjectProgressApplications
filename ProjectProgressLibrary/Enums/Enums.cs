@@ -20,5 +20,11 @@ namespace ProjectProgressLibrary
             Doing,
             Done
         }
+        public enum DictionaryClassification
+        {
+            Challenges,
+            FutureAdditions,
+            All
+        }
     }
 }
