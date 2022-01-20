@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace ProjectProgressLibrary.Validation
 {
-    public class DateTimeValidation
-    {
-
-
-
+    public static class DateTimeValidation
+    {        
         public static DateTime CreateDateFromString(string dateTimeStringToParse)
         {
             DateTime outputDate = DateTime.Now;

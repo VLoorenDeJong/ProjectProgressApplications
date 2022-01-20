@@ -54,19 +54,19 @@
             </div>
             <!--Result section-->
             <!--Result table title label-->
-            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.Challenges)
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == ProjectProgressLibrary.Enums.DictionaryClassification.Challenges)
             {
                 <div id="page-section-body-head" class="div-table-title-section">
                     <label class="page-text label-result-text">Oplossingen voor <label class="label-result-seacrhed">uitdagingen</label></label>
                 </div>
             }
-            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.FutureAdditions)
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == ProjectProgressLibrary.Enums.DictionaryClassification.FutureAdditions)
             {
                 <div id="page-section-body-head" class="div-table-title-section">
                     <label class="page-text label-result-text">Oplossingen voor <label class="label-result-seacrhed">features</label></label>
                 </div>
             }
-            @if (Model.SearchEnabled == false && Model.DictionaryClassification == Enums.Enums.DictionaryClassification.All)
+            @if (Model.SearchEnabled == false && Model.DictionaryClassification == ProjectProgressLibrary.Enums.DictionaryClassification.All)
                 @*{
                 <div id="page-section-body-head" class="div-table-title-section">
                     <label class="page-text label-result-text label-result-seacrhed">Alle oplossingen</label>

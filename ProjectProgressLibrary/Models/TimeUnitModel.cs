@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using static ProjectProgressLibrary.Enums;
-using static ProjectProgressLibrary.DataValidation;
-using static ProjectProgressLibrary.ApplicationLogic;
+using static ProjectProgressLibrary.Validation.DataValidation;
+using static ProjectProgressLibrary.Validation.DateTimeValidation;
 
 namespace ProjectProgressLibrary.Models
 {
