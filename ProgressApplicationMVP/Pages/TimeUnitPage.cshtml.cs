@@ -10,7 +10,7 @@ using ProjectProgressLibrary.DataAccess;
 using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
 using ProjectProgressLibrary.Models;
-
+using static ProjectProgressLibrary.Validation.DataValidation;
 namespace ProgressApplicationMVP.Pages
 {
     public class TimeUnitPageModel : PageModel

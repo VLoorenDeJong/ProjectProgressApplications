@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using static ProgressApplicationMVP.Logic;
+using ProjectProgressLibrary.StartConfig;
+using ProjectProgressLibrary.Validation;
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -55,9 +55,11 @@ namespace ProgressApplicationMVP.Pages
         // BackEnd
 
         private readonly ILogger<DictionaryManagementModel> _logger;
+        private IStartConfig _startConfig;
         private readonly IDataAccess _db;
         //See if private is ok
         private List<ProjectModel> AllProjects = new List<ProjectModel>();
+
         private ProjectModel ProjectToChange { get; set; }
         [BindProperty(SupportsGet = true)]
         public Dictionary<string, List<string>> DictionaryToChange { get; private set; } = new Dictionary<string, List<string>>();
@@ -71,10 +73,10 @@ namespace ProgressApplicationMVP.Pages
         [BindProperty(SupportsGet = true)]
         public string NewKeyValue { get; set; }
 
-        public DictionaryManagementModel(ILogger<DictionaryManagementModel> logger, IDataAccess db, IConfiguration config)
+        public DictionaryManagementModel(ILogger<DictionaryManagementModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
-
-            (_db, _MainGoal) = GetDbConfig(config, db, "dictionaryManagement");
+            _startConfig = startConfig;
+            (_db, _MainGoal) = _startConfig.GetDbConfig(config, db, "dictionaryManagement");
 
             AllProjects = _db.ReadAllProjectRecords(_MainGoal);
         }
@@ -95,17 +97,17 @@ namespace ProgressApplicationMVP.Pages
             LoadTheRightPageValues();
             if (SearchEnabled == true)
             {
-                (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+                (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
                 if (string.IsNullOrEmpty(ItemToSearch) == false)
                 {
                     List<string> allDictionaryKeys = DictionaryToChange.Select(x => x.Key).ToList();
-                    List<string> dictionaryKeysToFind = ItemToSearch.SearchInCollection(allDictionaryKeys);
+                    List<string> dictionaryKeysToFind = _db.SearchInCollection(ItemToSearch, allDictionaryKeys);
 
                     foreach (string key in dictionaryKeysToFind)
                     {
                         string itemFound = DictionaryToChange.Where(x => x.Key == key).Select(x => x.Key).First();
-                        List<string> valuesFound = MakeListFromDictionaryItemValues(DictionaryToChange, key);
+                        List<string> valuesFound = _db.MakeListFromDictionaryItemValues(DictionaryToChange, key);
                         SearchDictionary.Add(key, valuesFound);
                     }
 
@@ -116,7 +118,7 @@ namespace ProgressApplicationMVP.Pages
             }
             if (SearchEnabled == false)
             {
-                (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+                (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
             }
         }
 
@@ -178,7 +180,7 @@ namespace ProgressApplicationMVP.Pages
             }
 
 
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             foreach (var key in DictionaryToChange)
             {
@@ -205,7 +207,7 @@ namespace ProgressApplicationMVP.Pages
             string firstValue = $"No { ValueItemPlaceHolderText.ToLower()} yet.";
             DictionaryToChange.Add(EnteredKey, new List<string> { firstValue });
 
-            ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+            ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
             _db.SaveProject(ProjectToChange, AllProjects);
             return RedirectToPage(new
@@ -249,11 +251,11 @@ namespace ProgressApplicationMVP.Pages
         {
             GetValuesFromButton(item);
 
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             DictionaryToChange.Remove(OldKey);
 
-            ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+            ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
             _db.SaveProject(ProjectToChange, AllProjects);
 
@@ -272,7 +274,7 @@ namespace ProgressApplicationMVP.Pages
 
             LoadTheRightPageValues();
 
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             bool doubleKey = IsKeyDouble();
 
@@ -294,7 +296,7 @@ namespace ProgressApplicationMVP.Pages
                 DictionaryToChange.Add(NewKeyValue, oldValuesItems);
                 DictionaryToChange.Remove(OldKey);
 
-                ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+                ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
                 _db.SaveProject(ProjectToChange, AllProjects);
 
@@ -346,7 +348,7 @@ namespace ProgressApplicationMVP.Pages
 
             }
 
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             bool isNewValue = IsValueDouble(key);
 
@@ -374,7 +376,7 @@ namespace ProgressApplicationMVP.Pages
                 });
             }
 
-            ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+            ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
             _db.SaveProject(ProjectToChange, AllProjects);
 
@@ -387,7 +389,7 @@ namespace ProgressApplicationMVP.Pages
         }
         public IActionResult OnPostRemoveValue(string value)
         {
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             foreach (var item in DictionaryToChange)
             {
@@ -405,7 +407,7 @@ namespace ProgressApplicationMVP.Pages
                 }
             }
 
-            ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+            ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
             _db.SaveProject(ProjectToChange, AllProjects);
 
             return RedirectToPage(new

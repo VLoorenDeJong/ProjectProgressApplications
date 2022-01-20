@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
 using static ProgressApplicationMVP.Logic;
+using static ProjectProgressLibrary.Validation.DataValidation;
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -70,9 +71,9 @@ namespace ProgressApplicationMVP.Pages
         }
         public void OnGet()
         {
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
-            ItemValuesList = MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
+            ItemValuesList = _db.MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
 
             LoadTheRightPageValues();
         }
@@ -101,7 +102,7 @@ namespace ProgressApplicationMVP.Pages
             LoadTheRightPageValues();
 
             // Load the project and the correct dictionary
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
 
             // Check the entered value for content
@@ -110,7 +111,7 @@ namespace ProgressApplicationMVP.Pages
             if (itHasContent == true)
             {
                 // Extract the dictionary item values to a list
-                ItemValuesList = MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
+                ItemValuesList = _db.MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
 
                 // Check for entry in list
                 IsNewValue = false;
@@ -135,7 +136,7 @@ namespace ProgressApplicationMVP.Pages
 
 
                     // Put the update dictionary in the project
-                    ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+                    ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
                                       
 
                     // save the project
@@ -175,7 +176,7 @@ namespace ProgressApplicationMVP.Pages
             LoadTheRightPageValues();
 
             // Load the project and the correct dictionary
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
 
 
@@ -197,14 +198,14 @@ namespace ProgressApplicationMVP.Pages
 
             LoadTheRightPageValues();
             // Load the project and the correct dictionary
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             bool itHasContent = NewValue.ValidateStringHasContent();
             if (itHasContent == true)
             {
 
                 // Extract the dictionary item values to a list
-                ItemValuesList = MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
+                ItemValuesList = _db.MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
 
                 // Check for entry in list
                 IsNewValue = false;
@@ -222,7 +223,7 @@ namespace ProgressApplicationMVP.Pages
                     DictionaryToChange.Where(x => x.Key.ToLower() == ItemTitle.ToLower()).First().Value.Add(NewValue);
 
                     // Put the updated dictionary in the project
-                    ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+                    ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
                     // save the project
                     _db.SaveProject(ProjectToChange, AllProjects);
@@ -245,7 +246,7 @@ namespace ProgressApplicationMVP.Pages
             LoadTheRightPageValues();
 
             // Load the project and the correct dictionary
-            (ProjectToChange, DictionaryToChange) = LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
+            (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             // Remove value from dictionary
             DictionaryToChange.Where(x => x.Key.ToLower() == ItemTitle.ToLower()).First().Value.Remove(OldValue);
@@ -263,7 +264,7 @@ namespace ProgressApplicationMVP.Pages
 
 
             // Put the update dictionary in the project
-            ProjectToChange = OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
+            ProjectToChange = _db.OverrideDictionaryInProject(ProjectToChange, DictionaryToChange, FutureFeaturesLoaded, ChallengesLoaded);
 
             // save the project
             _db.SaveProject(ProjectToChange, AllProjects);

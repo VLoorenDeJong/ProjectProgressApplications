@@ -24,10 +24,14 @@ namespace ProjectProgressLibrary.DataAccess
         string GetMainProjectTitle(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db);
         ProjectModel GetProjectById(Guid projectId, List<ProjectModel> projectsList);
         ProjectModel GetProjectByTitle(string projectTitle, List<ProjectModel> projectsList);
+        Guid GetProjectIdByTitle(string projectTitle, List<ProjectModel> allprojects);
         List<Guid> GetSubprojectIds(ProjectModel mainProject);
         TimeUnitModel GetTimeUnitById(Guid timeUnitId, List<TimeUnitModel> allTimeUnits);
         List<SolutionModel> LoadAllDictionaries(List<ProjectModel> allProjects, Enums.DictionaryClassification classification);
+        (ProjectModel projectToChange, Dictionary<string, List<string>> dictionaryToChange) LoadProjectDetails(string projectTitle, List<ProjectModel> allProjects, bool futureFeaturesLoaded, bool challengesLoaded, IDataAccess _db);
         void MakeFirstEntry(string mainGoal);
+        List<string> MakeListFromDictionaryItemValues(Dictionary<string, List<string>> inputList, string itemKey);
+        ProjectModel OverrideDictionaryInProject(ProjectModel projectToChange, Dictionary<string, List<string>> updatedDictionary, bool futureFeaturesLoaded, bool challengesLoaded);
         void ProcessPicture(IFormFile photo, string projectTitle);
         List<ProjectModel> ReadAllProjectRecords(string mainGoal);
         (List<ProjectModel> projectList, List<TimeUnitModel> timeUnitsList) ReadAllRecords(string mainGoal);
@@ -38,5 +42,6 @@ namespace ProjectProgressLibrary.DataAccess
         void SaveAllTimeUnits(List<TimeUnitModel> timeUnits);
         void SaveProject(ProjectModel projectToSave, List<ProjectModel> allProjects);
         void SaveTimeUnit(TimeUnitModel timeUnitToSave, List<TimeUnitModel> timeUnits);
+        List<string> SearchInCollection(string stringToSeach, List<string> collection);
     }
 }

@@ -1477,7 +1477,7 @@ namespace ProjectProgressLibrary.DataAccess
 
         }
 
-        private static List<string> GetAllKeysFromDictionary(Dictionary<string, List<string>> dictionaryCollection)
+        private List<string> GetAllKeysFromDictionary(Dictionary<string, List<string>> dictionaryCollection)
         {
             List<string> outputList = new List<string>();
             foreach (var dictionary in dictionaryCollection)
@@ -1605,7 +1605,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             return relevantProjectIds;
         }
-        private static List<Guid> GetBaseIds(Guid mainProjectId, List<Guid> subProjectIds)
+        private List<Guid> GetBaseIds(Guid mainProjectId, List<Guid> subProjectIds)
         {
             List<Guid> outputList = new List<Guid>();
 
@@ -1706,7 +1706,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        private static List<SolutionModel> GetDictionaryItems(Dictionary<string, List<string>> dictionaryToConvert)
+        private List<SolutionModel> GetDictionaryItems(Dictionary<string, List<string>> dictionaryToConvert)
         {
             List<SolutionModel> outputList = new List<SolutionModel>();
 
@@ -1811,5 +1811,78 @@ namespace ProjectProgressLibrary.DataAccess
 
             return outputDemoModelList;
         }
+
+        public Guid GetProjectIdByTitle(string projectTitle, List<ProjectModel> allprojects)
+        {
+            return allprojects.Where(x => x.Title == projectTitle).First().ProjectId;
+        }
+
+        public (ProjectModel projectToChange, Dictionary<string, List<string>> dictionaryToChange) LoadProjectDetails(string projectTitle, List<ProjectModel> allProjects, bool futureFeaturesLoaded, bool challengesLoaded, IDataAccess _db)
+        {
+            ProjectModel outputProject = new ProjectModel();
+            Dictionary<string, List<string>> outputDictionary = new Dictionary<string, List<string>>();
+
+            outputProject = _db.GetProjectByTitle(projectTitle, allProjects);
+
+            if (futureFeaturesLoaded == true)
+            {
+                outputDictionary = outputProject.FutureAdditions;
+            }
+
+            if (challengesLoaded == true)
+            {
+                outputDictionary = outputProject.Challenges;
+            }
+
+            outputDictionary = outputDictionary.OrderBy(x => x.Key).ToDictionary(x => x.Key, x => x.Value);
+
+            return (outputProject, outputDictionary);
+        }
+
+        public ProjectModel OverrideDictionaryInProject(ProjectModel projectToChange, Dictionary<string, List<string>> updatedDictionary, bool futureFeaturesLoaded, bool challengesLoaded)
+        {
+
+            if (futureFeaturesLoaded == true)
+            {
+                projectToChange.FutureAdditions = updatedDictionary;
+            }
+
+            if (challengesLoaded == true)
+            {
+                projectToChange.Challenges = updatedDictionary;
+            }
+
+            return projectToChange;
+        }
+
+        public List<string> MakeListFromDictionaryItemValues(Dictionary<string, List<string>> inputList, string itemKey)
+        {
+            List<string> outputList = new List<string>();
+
+            foreach (var key in inputList)
+            {
+                if (key.Key.ToLower() == itemKey.ToLower())
+                {
+                    foreach (string value in key.Value)
+                    {
+                        outputList.Add(value);
+                    }
+                }
+            }
+
+            outputList = outputList.OrderBy(x => x).ToList();
+
+            return outputList;
+        }
+        public List<string> SearchInCollection(string stringToSeach, List<string> collection)
+        {
+            List<string> outputlist = new List<string>();
+
+            outputlist = collection.Where(x => x.ToLower().Contains(stringToSeach.ToLower())).ToList();
+
+            return outputlist;
+        }
+
+
     }
 }

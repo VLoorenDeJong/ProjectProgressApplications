@@ -13,6 +13,7 @@ using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Enums;
+using static ProjectProgressLibrary.Validation.DataValidation;
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -172,7 +173,7 @@ namespace ProgressApplicationMVP.Pages
 
                     if (projectExists == true)
                     {
-                        mainProjectId = GetProjectIdByTitle(MainProjectTitle, AllProjects);
+                        mainProjectId = _db.GetProjectIdByTitle(MainProjectTitle, AllProjects);
                     }
                     else
                     {
@@ -183,7 +184,7 @@ namespace ProgressApplicationMVP.Pages
                 // Failsafe if empty get main project id
                 if (string.IsNullOrEmpty(MainProjectTitle) == true)
                 {
-                    mainProjectId = GetProjectIdByTitle(_mainGoal, AllProjects);
+                    mainProjectId = _db.GetProjectIdByTitle(_mainGoal, AllProjects);
                 }
 
                 Project.SetMainProjectId(mainProjectId);

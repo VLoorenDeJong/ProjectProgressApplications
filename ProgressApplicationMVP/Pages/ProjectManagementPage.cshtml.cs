@@ -10,7 +10,7 @@ using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
 using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
-
+using static ProjectProgressLibrary.Validation.DataValidation;
 namespace ProgressApplicationMVP.Pages
 {
     public class ProjectManagementPageModel : PageModel
@@ -59,7 +59,7 @@ namespace ProgressApplicationMVP.Pages
             if (SearchEnabled == true)
             {
                 List<string> allProjectTitles = AllProjects.Select(x => x.Title).ToList();
-                allProjectTitles = ProjectTitle.SearchInCollection(allProjectTitles);
+                allProjectTitles = _db.SearchInCollection(ProjectTitle, allProjectTitles);
 
                 List<ProjectModel> foundProjects = new List<ProjectModel>();
                 foreach (string projectTitle in allProjectTitles)

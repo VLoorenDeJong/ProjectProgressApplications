@@ -53,8 +53,7 @@ namespace ProjectProgressLibrary.Validation
 
             return output;
         }
-        public static bool ValidateStringHasContent(this string stringToCheck)
-        {
+        public static bool ValidateStringHasContent(this string stringToCheck)        {
             bool output = false;
 
             if (string.IsNullOrEmpty(stringToCheck) ==  false)
@@ -64,7 +63,6 @@ namespace ProjectProgressLibrary.Validation
 
             return output;
         }
-
         public static bool ValidateIfProjectTitleExsists(this string projectTitle, List<ProjectModel> allProjects)
         {
 
