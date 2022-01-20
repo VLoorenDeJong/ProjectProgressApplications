@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using static ProjectProgressLibrary.Enums;
 
-namespace PortfolioMVP.Models
+namespace ProjectProgressLibrary.Models
 {
     public class PresentaionProjectModel
     {
