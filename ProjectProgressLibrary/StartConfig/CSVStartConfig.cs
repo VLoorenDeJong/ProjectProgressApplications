@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace ProjectProgressLibrary.StartConfig
 {
-    public static class CSVStartConfig
+    public class CSVStartConfig : IStartConfig
     {
-        public static (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
+        public (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
         {
             string currentDirectory = Directory.GetCurrentDirectory();
 
@@ -189,7 +189,7 @@ namespace ProjectProgressLibrary.StartConfig
             return output;
         }
 
-        internal static string GetProjectPhotosFolderPath(IConfiguration config)
+        public string GetProjectPhotosFolderPath(IConfiguration config)
         {
             string outputFilePath = "";
             bool isUbuntu = false;
@@ -208,7 +208,7 @@ namespace ProjectProgressLibrary.StartConfig
             return outputFilePath;
         }
 
-        public static (string ProjectPictureFilePath, bool ShowPicture) SetUpPictureShowing(string title, IDataAccess db, string rootFolderPath)
+        public (string ProjectPictureFilePath, bool ShowPicture) SetUpPictureShowing(string title, IDataAccess db, string rootFolderPath)
         {
             bool showPicture = false;
 
@@ -227,7 +227,7 @@ namespace ProjectProgressLibrary.StartConfig
         }
 
 
-        private static bool DecideToShowPicture(string projectPictureFilePath)
+        public bool DecideToShowPicture(string projectPictureFilePath)
         {
             bool showPicture = false;
 

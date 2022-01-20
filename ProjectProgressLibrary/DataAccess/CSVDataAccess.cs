@@ -47,7 +47,7 @@ namespace ProjectProgressLibrary.DataAccess
             _backendProjectTextFilePath = projectFilePath;
             _backendTimeUniTextFilePath = timeUnitFilePath;
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(databaseFileFolderPath, true).Result;
-            _backendPhotoFolderPath = MakeSureTheDirectoryIsThereAsync(projectPicturesFolderPath, true).Result;            
+            _backendPhotoFolderPath = MakeSureTheDirectoryIsThereAsync(projectPicturesFolderPath, true).Result;
             Task.Run(() => MakeSureTheDirectoryIsThereAsync(filesFolderPath, false));
             Task.Run(() => MakeSureTheDirectoryIsThereAsync(picturesFolderPath, false));
             Task.Run(() => MakeSureTheDirectoryIsThereAsync(randomItemsFolderPath, false));
@@ -63,8 +63,8 @@ namespace ProjectProgressLibrary.DataAccess
                 _backendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backendendPhotoFolderPath, true)).Result;
             }
 
-            
-            
+
+
 
             FrontEndEnabled = CheckIfEnabled(frontendProjectTextFilePath);
             BackupEnabled = CheckIfEnabled(backupProjectTextFilePath);
@@ -74,7 +74,7 @@ namespace ProjectProgressLibrary.DataAccess
                 _frontendProjectTextFilePath = frontendProjectTextFilePath;
                 _frontendTimeUniTextFilePath = frontendTimeUnitTextFilePath;
                 _frontendDatabaseFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendDatabaseFolderPath, false)).Result;
-                _frontendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendPhotoFolderPath, false)).Result;  
+                _frontendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendPhotoFolderPath, false)).Result;
             }
 
             if (BackupEnabled == true)
@@ -211,7 +211,7 @@ namespace ProjectProgressLibrary.DataAccess
                         oldMainGeneralHours = oldMainGeneralHours - projectToSave.GeneralHours;
 
                         if (oldMainTotalHours < 0 ||
-                            oldMainPracticalHours < 0||
+                            oldMainPracticalHours < 0 ||
                             oldMainTheoryHours < 0 ||
                             oldMainGeneralHours < 0)
                         {
@@ -354,7 +354,7 @@ namespace ProjectProgressLibrary.DataAccess
         {
             if (isBackend == true)
             {
-                await  Task.Run(() => Directory.CreateDirectory(filePath));                
+                await Task.Run(() => Directory.CreateDirectory(filePath));
             }
             if (isBackend == false)
             {
@@ -445,7 +445,7 @@ namespace ProjectProgressLibrary.DataAccess
 
                         project.AddFutureAddition(additionTitle, groomedSolutionList);
                     }
-                }               
+                }
 
                 string listOfTimeUnitIds = values[28];
                 string[] timeUnitIds = listOfTimeUnitIds.Split(listItemDelimiter);
@@ -484,7 +484,7 @@ namespace ProjectProgressLibrary.DataAccess
             // Create output vaiables
             string outputTitle = "";
             List<string> outputList;
-            
+
             // Get the output title
             outputTitle = challengeSolutionArray[0];
 
@@ -494,7 +494,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             // Order the list
             outputList = outputList.OrderBy(x => x).ToList();
-            
+
 
             return (outputTitle, outputList);
         }
@@ -540,7 +540,7 @@ namespace ProjectProgressLibrary.DataAccess
                 timeUnit.SetTimeUnitId(values[1]);
                 timeUnit.SetHoursPutIn(values[2]);
                 timeUnit.SetClassification(values[3]);
-                timeUnit.SetProjectId(values[4]);                
+                timeUnit.SetProjectId(values[4]);
                 timeUnit.SetTimeStamp(values[5]);
                 output.Add(timeUnit);
 
@@ -573,7 +573,7 @@ namespace ProjectProgressLibrary.DataAccess
             }
 
             File.WriteAllLines(_backendTimeUniTextFilePath, timeUnitRecords);
-            
+
             if (FrontEndEnabled == true)
             {
                 File.WriteAllLines(_frontendTimeUniTextFilePath, timeUnitRecords);
@@ -639,7 +639,7 @@ namespace ProjectProgressLibrary.DataAccess
 
                 project.CalculatePriority();
 
-                projectRecords.Add( $"{project.Title}{propertyDilimiter}" +
+                projectRecords.Add($"{project.Title}{propertyDilimiter}" +
                                     $"{project.ProjectId}{propertyDilimiter}" +
                                     $"{project.MainProjectId}{propertyDilimiter}" +
                                     $"{project.ShortDescription}{propertyDilimiter}" +
@@ -687,14 +687,14 @@ namespace ProjectProgressLibrary.DataAccess
             if (BackupEnabled == true)
             {
                 File.WriteAllLines(_backupProjectTextFilePath, projectRecords);
-                
+
                 // ToDo make Async
                 //WriteToSecodaryLocationAsync(_backupProjectTextFilePath, projectRecords);               
             }
         }
         private async Task WriteToSecodaryLocationAsync(string backupProjectTextFilePath, List<string> projectRecords)
         {
-           await Task.Run(() => File.WriteAllLines(_frontendProjectTextFilePath, projectRecords));
+            await Task.Run(() => File.WriteAllLines(_frontendProjectTextFilePath, projectRecords));
         }
         private string MakeStringFromDictionary(Dictionary<string, List<string>> dictionaries)
         {
@@ -832,12 +832,12 @@ namespace ProjectProgressLibrary.DataAccess
         public void DeleteProject(string projectTitle, List<ProjectModel> allProjects, List<TimeUnitModel> allTimeUnits)
         {
             ProjectModel projectToRemove = allProjects.Where(x => x.Title == projectTitle).First();
-            ProjectModel mainProject = allProjects.Where(x => x.ProjectId == projectToRemove.MainProjectId).First();           
+            ProjectModel mainProject = allProjects.Where(x => x.ProjectId == projectToRemove.MainProjectId).First();
 
             try
             {
                 if (projectToRemove.SubProjectIds.Count == 0 && projectToRemove.MainProjectId.ToString() != "00000000-0000-0000-0000-000000000000")
-                {                    
+                {
 
                     mainProject.SubProjectIds.Remove(projectToRemove.ProjectId);
 
@@ -1054,7 +1054,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             foreach (Guid governingId in governingProjectIds)
             {
-                foreach  (Guid subProjectId in allSubProjectIds)
+                foreach (Guid subProjectId in allSubProjectIds)
                 {
                     if (governingId == subProjectId)
                     {
@@ -1120,29 +1120,29 @@ namespace ProjectProgressLibrary.DataAccess
             // Create loop counter
             int counter = 0;
 
-                do
+            do
+            {
+                // Get all the next level down guids
+                nextLevelGuids = GetAllSubSubProjectids(subProjectIds, allProjects);
+
+                // Check for availability of more sub projects
+                moreSubprojects = CheckForSubprojects(nextLevelGuids);
+
+
+                subProjectIds = nextLevelGuids;
+
+                foreach (Guid guid in nextLevelGuids)
                 {
-                    // Get all the next level down guids
-                    nextLevelGuids = GetAllSubSubProjectids(subProjectIds, allProjects);
+                    relevantProjectIds.Add(guid);
+                }
 
-                    // Check for availability of more sub projects
-                    moreSubprojects = CheckForSubprojects(nextLevelGuids);
+                // add one to loop counter
+                counter = counter + 1;
 
+                CheckForInfiniteLoop(counter);
 
-                    subProjectIds = nextLevelGuids;
+            } while (moreSubprojects == true);
 
-                    foreach (Guid guid in nextLevelGuids)
-                    {
-                        relevantProjectIds.Add(guid);
-                    }
-
-                    // add one to loop counter
-                    counter = counter + 1;
-
-                    CheckForInfiniteLoop(counter);
-
-                } while (moreSubprojects == true);
-           
 
             return relevantProjectIds;
         }
@@ -1191,7 +1191,7 @@ namespace ProjectProgressLibrary.DataAccess
                 foreach (Guid guid in subSubProjectIds)
                 {
                     outputList.Add(guid);
-                }               
+                }
             }
 
             return outputList;
@@ -1204,7 +1204,7 @@ namespace ProjectProgressLibrary.DataAccess
         {
             throw new NotImplementedException();
         }
-        public void ProcessPicture(IFormFile photo ,string projectTitle)
+        public void ProcessPicture(IFormFile photo, string projectTitle)
         {
             if (string.IsNullOrEmpty(projectTitle) == false)
             {
@@ -1231,7 +1231,7 @@ namespace ProjectProgressLibrary.DataAccess
                 // save the picture
                 ProcessUploadedFile(photo, backendFilePath, frontendFilePath, backupFilePath);
             }
-            
+
         }
         private void RemoveExsistingPhoto(string filePath)
         {
@@ -1243,7 +1243,7 @@ namespace ProjectProgressLibrary.DataAccess
         private void ProcessUploadedFile(IFormFile photo, string backendFilePath, string frontendFilePath, string backupFilePath)
         {
             if (photo != null)
-            {                
+            {
                 using (var fileStream = new FileStream(backendFilePath, FileMode.Create))
                 {
                     photo.CopyTo(fileStream);
@@ -1282,7 +1282,7 @@ namespace ProjectProgressLibrary.DataAccess
             //string frontEndFoldePath = _db.GetFrontEndPhotoFolder();
             //FrontendPhotoFilePath = Path.Combine(frontEndFoldePath, photoName);
         }
-        
+
         // ToDo Move punctuations stuff to modfications folder
         public string ExchangePunctuations(string projectName)
         {
@@ -1293,10 +1293,10 @@ namespace ProjectProgressLibrary.DataAccess
 
             int punctuationsCounter = CountPunctuations(projectName, punctuations);
             int punctuationsReplacedCounter = 0;
-            
+
             {
                 (output, punctuationsReplacedCounter) = ReplacePunctuaions(projectName, punctuationsReplacedCounter, punctuations);
-            } while (punctuationsCounter != punctuationsReplacedCounter);
+            } while (punctuationsCounter != punctuationsReplacedCounter) ;
 
             return output;
         }
@@ -1314,8 +1314,8 @@ namespace ProjectProgressLibrary.DataAccess
                 foreach (PunctuationsMarkModel punctuationMark in punctuations)
                 {
                     if (word.Contains(punctuationMark.Punctuationmark))
-                    {                        
-                        newWord = word.Replace(punctuationMark.Punctuationmark, $"_{ punctuationMark.VerbosePunctuationmark }_");                       
+                    {
+                        newWord = word.Replace(punctuationMark.Punctuationmark, $"_{ punctuationMark.VerbosePunctuationmark }_");
                         outputCounter = outputCounter + 1;
                     }
                 }
@@ -1324,7 +1324,7 @@ namespace ProjectProgressLibrary.DataAccess
 
 
             outputProjectName = string.Join(" ", newProjectWords);
-            
+
 
 
             return (outputProjectName, outputCounter);
@@ -1332,7 +1332,7 @@ namespace ProjectProgressLibrary.DataAccess
         private int CountPunctuations(string projectName, List<PunctuationsMarkModel> punctuations)
         {
             int outputCounter = 0;
-                        
+
             string[] words = projectName.Split();
             foreach (string word in words)
             {
@@ -1349,7 +1349,7 @@ namespace ProjectProgressLibrary.DataAccess
         }
         private List<PunctuationsMarkModel> CreatePuntuationmarkList()
         {
-            List<PunctuationsMarkModel> outputList = new List<PunctuationsMarkModel> { 
+            List<PunctuationsMarkModel> outputList = new List<PunctuationsMarkModel> {
             new PunctuationsMarkModel{ Punctuationmark = "~", VerbosePunctuationmark = "tilde" },
             new PunctuationsMarkModel{ Punctuationmark = "`", VerbosePunctuationmark = "backQuote" },
             new PunctuationsMarkModel{ Punctuationmark = "!", VerbosePunctuationmark = "exclamationMark" },
@@ -1407,7 +1407,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public static string GetMainProjectTitle(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
+        public string GetMainProjectTitle(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
         {
             string outputProjectTitle = null;
 
@@ -1422,7 +1422,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputProjectTitle;
         }
 
-        public static PresentaionProjectModel CreatePresentationProject(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
+        public PresentaionProjectModel CreatePresentationProject(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
         {
             PresentaionProjectModel outputModel = new PresentaionProjectModel();
 
@@ -1487,7 +1487,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        private static List<PresentationSubProjectModel> GetPresentationSubProjectList(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
+        private List<PresentationSubProjectModel> GetPresentationSubProjectList(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db)
         {
             List<PresentationSubProjectModel> outputPresentationSubProjectModels = new List<PresentationSubProjectModel>();
 
@@ -1499,7 +1499,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             return outputPresentationSubProjectModels;
         }
-        private static List<PresentationSubProjectModel> CreatePresentationSubProjectList(List<Guid> subProjectIds, List<ProjectModel> allProjects, IDataAccess db)
+        private List<PresentationSubProjectModel> CreatePresentationSubProjectList(List<Guid> subProjectIds, List<ProjectModel> allProjects, IDataAccess db)
         {
             List<PresentationSubProjectModel> outputList = new List<PresentationSubProjectModel>();
 
@@ -1525,7 +1525,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public static List<TimeUnitModel> GetAllRelevantTimeUnits(ProjectModel mainProject, List<TimeUnitModel> allTimeUnits, List<ProjectModel> allProjects, IDataAccess db)
+        public List<TimeUnitModel> GetAllRelevantTimeUnits(ProjectModel mainProject, List<TimeUnitModel> allTimeUnits, List<ProjectModel> allProjects, IDataAccess db)
         {
             // Create a list of relevant project id's           
             List<Guid> relevantProjectIds = CreateRelevantGuidList(mainProject, allProjects, db);
@@ -1534,7 +1534,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             return allRelevantTimeUnits;
         }
-        private static List<TimeUnitModel> GetTimeUnits(List<Guid> relevantProjectIds, List<TimeUnitModel> allTimeUnits)
+        private List<TimeUnitModel> GetTimeUnits(List<Guid> relevantProjectIds, List<TimeUnitModel> allTimeUnits)
         {
             // Set up list to output
             List<TimeUnitModel> outputList = new List<TimeUnitModel>();
@@ -1553,7 +1553,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             return outputList;
         }
-        private static List<Guid> CreateRelevantGuidList(ProjectModel mainProject, List<ProjectModel> allProjects, IDataAccess db)
+        private List<Guid> CreateRelevantGuidList(ProjectModel mainProject, List<ProjectModel> allProjects, IDataAccess db)
         {
             List<Guid> relevantProjectIds = new List<Guid>();
 
@@ -1617,26 +1617,26 @@ namespace ProjectProgressLibrary.DataAccess
 
             return outputList;
         }
-        private static void CheckForInfiniteLoop(int counter)
-        {
-            if (counter == 2000)
-            {
-                throw new Exception("there are 2000 subprojects in this catagory is that right?");
-            }
-        }
-        private static bool CheckForSubprojects(List<Guid> nextLevelGuids)
-        {
-            bool output = true;
+        //private static void CheckForInfiniteLoop(int counter)
+        //{
+        //    if (counter == 2000)
+        //    {
+        //        throw new Exception("there are 2000 subprojects in this catagory is that right?");
+        //    }
+        //}
+        //private bool CheckForSubprojects(List<Guid> nextLevelGuids)
+        //{
+        //    bool output = true;
 
 
-            if (nextLevelGuids.Count == 0)
-            {
-                output = false;
-            }
+        //    if (nextLevelGuids.Count == 0)
+        //    {
+        //        output = false;
+        //    }
 
-            return output;
-        }
-        private static List<Guid> GetAllSubSubProjectids(List<Guid> subProjectIds, List<ProjectModel> allProjects, IDataAccess db)
+        //    return output;
+        //}
+        private List<Guid> GetAllSubSubProjectids(List<Guid> subProjectIds, List<ProjectModel> allProjects, IDataAccess db)
         {
             List<Guid> outputList = new List<Guid>();
 
@@ -1781,7 +1781,7 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public static List<PresentationDemoModel> CreateAllDemoModels(List<ProjectModel> allProjects)
+        public List<PresentationDemoModel> CreateAllDemoModels(List<ProjectModel> allProjects)
         {
             List<PresentationDemoModel> outputDemoModelList = new List<PresentationDemoModel>();
 
