@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.StartConfig;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +17,13 @@ namespace BlazorTestServerApp
 {
     public class Startup
     {
+        private readonly string _storageType;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+
+            _storageType = configuration.GetSection("DataStorageType").GetValue<string>("Current");
         }
 
         public IConfiguration Configuration { get; }
@@ -26,6 +32,12 @@ namespace BlazorTestServerApp
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+
+            if (_storageType.ToLower() == "csv")
+            {
+                services.AddTransient<IDataAccess, CSVDataAccess>();
+                services.AddTransient<IStartConfig, CSVStartConfig>();
+            }
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
