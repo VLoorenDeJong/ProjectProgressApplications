@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioApp2.0", "PortfolioApp2.0\PortfolioApp2.0.csproj", "{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTestServerApp", "BlazorTestServerApp\BlazorTestServerApp.csproj", "{A665D8F3-4975-4B09-A915-70F5F55AD6DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
