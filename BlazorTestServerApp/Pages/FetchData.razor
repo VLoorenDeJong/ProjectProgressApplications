@@ -1,6 +1,14 @@
 ﻿@page "/fetchdata"
 
 @using BlazorTestServerApp.Data
+
+@using ProjectProgressLibrary.Models
+@using ProjectProgressLibrary.DataAccess
+@using ProjectProgressLibrary.StartConfig
+
+@inject IStartConfig _startConfig
+@inject IConFiguration config 
+
 @inject WeatherForecastService ForecastService
 
 <h1>Weather forecast</h1>
@@ -30,6 +38,7 @@ else
                     <td>@forecast.TemperatureC</td>
                     <td>@forecast.TemperatureF</td>
                     <td>@forecast.Summary</td>
+                    <td>@test.ProjectId</td>
                 </tr>
             }
         </tbody>
@@ -37,10 +46,25 @@ else
 }
 
 @code {
+
+    private IDataAccess _db;
+    private string mainGoal;
+
+    protected override async Task OnInitializedAsync()
+    {
+        (_db, mainGoal) = _startConfig.GetProgressDbConfig();
+    }
+
+
     private WeatherForecast[] forecasts;
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
+
+
+
+    ProjectModel test = new ProjectModel();
+
 }
