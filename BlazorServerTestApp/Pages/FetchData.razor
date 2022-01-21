@@ -1,5 +1,8 @@
 ﻿@page "/fetchdata"
 
+
+
+
 @using BlazorServerTestApp.Data
 @inject WeatherForecastService ForecastService
 
@@ -43,4 +46,8 @@ else
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
     }
+
+
+    List<ProjectProgressLibrary.Models.ProjectModel> allProject = _db.
+
 }

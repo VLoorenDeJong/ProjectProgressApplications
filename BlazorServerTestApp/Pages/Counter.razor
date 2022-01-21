@@ -1,5 +1,6 @@
 ﻿@page "/counter"
-
+@*@inject IDataAccess _db*@
+@inject IStartConfig _startConfig;
 <h1>Counter</h1>
 
 <p>Current count: @currentCount</p>
@@ -13,4 +14,8 @@
     {
         currentCount++;
     }
+
+    //(IDataAccess _db, string mainGoal) = _startConfig.GetProgressDbConfig();
+
+    //List<ProjectProgressLibrary.Models.ProjectModel> allProjects = _db.ReadAllProjectRecords();
 }
