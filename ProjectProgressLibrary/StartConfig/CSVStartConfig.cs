@@ -327,7 +327,8 @@ namespace ProjectProgressLibrary.StartConfig
 
             return output;
         }
-        private static string GetProjectPhotosFolderPath(IConfiguration config)
+
+        public string GetProjectPhotosFolderPath(IConfiguration config)
         {
             string outputFilePath = "";
             bool isUbuntu = false;
