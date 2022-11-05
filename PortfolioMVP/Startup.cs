@@ -22,7 +22,7 @@ namespace PortfolioMVP
             Configuration = configuration;
 
             _connectionType = configuration.GetSection("DataStorageType").GetValue<string>("Current");
-
+            // Will it push?
         }
 
         public IConfiguration Configuration { get; }
