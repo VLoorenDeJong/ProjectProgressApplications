@@ -6,12 +6,13 @@
 @using ProjectProgressLibrary.DataAccess
 @using ProjectProgressLibrary.StartConfig
 
-@inject IStartConfig _startConfig
+
+@*@inject IStartConfig _startConfig
 @inject IConFiguration config 
 
-@inject WeatherForecastService ForecastService
+@inject WeatherForecastService ForecastService*@
 
-<h1>Weather forecast</h1>
+@*<h1>Weather forecast</h1>
 
 <p>This component demonstrates fetching data from a service.</p>
 
@@ -43,28 +44,28 @@ else
             }
         </tbody>
     </table>
-}
+}*@
 
 @code {
 
-    private IDataAccess _db;
-    private string mainGoal;
+    //private IDataAccess _db;
+    //private string mainGoal;
 
-    protected override async Task OnInitializedAsync()
-    {
-        (_db, mainGoal) = _startConfig.GetProgressDbConfig();
-    }
-
-
-    private WeatherForecast[] forecasts;
-
-    protected override async Task OnInitializedAsync()
-    {
-        forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    (_db, mainGoal) = _startConfig.GetProgressDbConfig();
+    //}
 
 
+    //private WeatherForecast[] forecasts;
 
-    ProjectModel test = new ProjectModel();
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+    //}
+
+
+
+    //ProjectModel test = new ProjectModel();
 
 }
