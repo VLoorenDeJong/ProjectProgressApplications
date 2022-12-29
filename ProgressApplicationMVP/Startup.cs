@@ -29,7 +29,7 @@ namespace ProgressApplicationMVP
             if (string.IsNullOrWhiteSpace(configuration.GetSection("DataStorageType").GetValue<string>("Current")))
             {
                 _connectionType = "CSV";
-                Console.WriteLine("!! No connection specified !!"); 
+                Console.WriteLine("!! No connection specified !!");
                 Console.WriteLine(_connectionType);
             }
 
