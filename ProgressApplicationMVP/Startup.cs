@@ -29,10 +29,13 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_connectionType.ToLower() == "csv")
+            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()) && services is not null)
             {
-                services.AddTransient<IStartConfig, CSVStartConfig>();
-                services.AddTransient<IDataAccess, CSVDataAccess>();
+                if (_connectionType.ToLower() == "csv")
+                {
+                    services.AddTransient<IStartConfig, CSVStartConfig>();
+                    services.AddTransient<IDataAccess, CSVDataAccess>();
+                }
             }
             services.AddRazorPages();
         }
