@@ -22,6 +22,22 @@ namespace ProgressApplicationMVP
 
             _connectionType = configuration.GetSection("DataStorageType").GetValue<string>("Current");
 
+            Console.WriteLine(configuration);
+            Console.WriteLine(configuration.GetSection("DataStorageType").GetValue<string>("Current"));
+            Console.WriteLine(_connectionType);
+
+            if (string.IsNullOrWhiteSpace(configuration.GetSection("DataStorageType").GetValue<string>("Current")))
+            {
+                _connectionType = "CSV";
+                Console.WriteLine("!! No connection specified !!"); 
+                Console.WriteLine(_connectionType);
+            }
+
+            if (string.IsNullOrWhiteSpace(_connectionType))
+            {
+                Console.WriteLine("!! No connection type  !!");
+            }
+
         }
 
         public IConfiguration Configuration { get; }
@@ -29,7 +45,7 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()) && services is not null)
+            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()))
             {
                 if (_connectionType.ToLower() == "csv")
                 {
