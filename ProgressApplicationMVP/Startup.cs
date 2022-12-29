@@ -38,7 +38,7 @@ namespace ProgressApplicationMVP
                 Console.WriteLine("!! No connection type  !!");
             }
 
-        }
+        }  
 
         public IConfiguration Configuration { get; }
 
