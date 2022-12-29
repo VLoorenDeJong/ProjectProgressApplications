@@ -45,7 +45,7 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()))
+            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()) && services is not null)
             {
                 if (_connectionType.ToLower() == "csv")
                 {
