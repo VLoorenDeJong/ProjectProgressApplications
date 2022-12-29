@@ -19,7 +19,7 @@ namespace ProjectProgressLibrary.Models.Options
         public string FrontendProjectPicturesFolderPath { get; set; }
 
         public string BackupDatabaseFolderLocation { get; set; }
-        public string BackupPhotoFolderLocation { get; set; }
+        public string BackupProjectPicturesFolderPath { get; set; }
     }
 
     public class PossibleDataStorage
@@ -31,8 +31,8 @@ namespace ProjectProgressLibrary.Models.Options
 
     public class PredefinedGoals
     {
-        public const string DemoGoal = "Demoing the app";
-        public const string DevelopmentGoal = "!!!! DEVELOPMENT ENVIRONMENT !!!!";
+        public const string DemoGoal = "Demoing_the_app";
+        public const string DevelopmentGoal = "!!!!_DEVELOPMENT_ENVIRONMENT_!!!!";
     }
 
     public class FileNames

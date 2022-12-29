@@ -24,7 +24,7 @@ namespace ProjectProgressLibrary.DataAccess
         private string DictionaryKeyDelimiter = "|=*&*=|";
         private string DictionaryItemDelimiter = "|=*$*=|";
         private string listItemDelimiter = "|=*!*=|";
-        private object puntuationMark;
+
         private readonly string _backendProjectTextFilePath;
         private readonly string _backendTimeUniTextFilePath;
         public readonly string _backendDatabaseFolderPath;
@@ -47,6 +47,9 @@ namespace ProjectProgressLibrary.DataAccess
         {
             _backendProjectTextFilePath = projectFilePath;
             _backendTimeUniTextFilePath = timeUnitFilePath;
+
+            if (string.IsNullOrWhiteSpace(databaseFileFolderPath)) throw new Exception("ID: 1 databaseFileFolderPath not specified");
+            if (string.IsNullOrWhiteSpace(projectPicturesFolderPath)) throw new Exception("ID: 3projectPicturesFolderPath not specified");
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(databaseFileFolderPath, true).Result;
             _backendPhotoFolderPath = MakeSureTheDirectoryIsThereAsync(projectPicturesFolderPath, true).Result;
         }
@@ -54,9 +57,13 @@ namespace ProjectProgressLibrary.DataAccess
         {
             _backendProjectTextFilePath = backendProjectTextFilePath;
             _backendTimeUniTextFilePath = backendTimeUniTextFilePath;
+            
+            if (string.IsNullOrWhiteSpace(backendDatabaseFolderPath)) throw new Exception("ID: 4 backendDatabaseFolderPath not specified");
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(backendDatabaseFolderPath, true).Result;
+
             if (string.IsNullOrEmpty(backendendPhotoFolderPath) == false)
             {
+                if (string.IsNullOrWhiteSpace(backendendPhotoFolderPath)) throw new Exception("ID: 5 backendendPhotoFolderPath not specified");
                 _backendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backendendPhotoFolderPath, true)).Result;
             }
 
@@ -67,6 +74,9 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 _frontendProjectTextFilePath = frontendProjectTextFilePath;
                 _frontendTimeUniTextFilePath = frontendTimeUnitTextFilePath;
+
+                if (string.IsNullOrWhiteSpace(frontendDatabaseFolderPath)) throw new Exception("ID: 6 frontendDatabaseFolderPath not specified");
+                if (string.IsNullOrWhiteSpace(frontendPhotoFolderPath)) throw new Exception("ID: 7 frontendPhotoFolderPath not specified");
                 _frontendDatabaseFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendDatabaseFolderPath, false)).Result;
                 _frontendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendPhotoFolderPath, false)).Result;
             }
@@ -75,6 +85,9 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 _backupProjectTextFilePath = backupProjectTextFilePath;
                 _backupTimeUniTextFilePath = backupTimeUnitTextFilePath;
+
+                if (string.IsNullOrWhiteSpace(backupDatabaseFolderPath)) throw new Exception("ID: 8 backupDatabaseFolderPath not specified");
+                if (string.IsNullOrWhiteSpace(backupPhotoFolderPath)) throw new Exception("ID: 9 backupPhotoFolderPath not specified");
                 _backupDatabaseFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backupDatabaseFolderPath, false)).Result;
                 _backupPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backupPhotoFolderPath, false)).Result;
             }
@@ -104,6 +117,7 @@ namespace ProjectProgressLibrary.DataAccess
 
             return (projectsList, timeUnitsList);
         }
+
         private void MakeSureThereIsAnEntry<T>(List<T> entryList, string mainGoal)
         {
             if (entryList is List<TimeUnitModel> && entryList.Count == 0)
@@ -114,14 +128,14 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 CreateFirstProjectEntry(mainGoal);
             }
-
         }
+
         public void MakeFirstEntry(string mainGoal)
         {
             CreateFirstProjectEntry(mainGoal);
             CreateFirstTimeUnitEntry(mainGoal);
-
         }
+
         private void CreateFirstTimeUnitEntry(string mainGoal)
         {
             // Setting up all needed parameters
@@ -209,10 +223,10 @@ namespace ProjectProgressLibrary.DataAccess
                             oldMainTheoryHours < 0 ||
                             oldMainGeneralHours < 0)
                         {
-                            throw new Exception($"Tot{ oldMainTotalHours } " +
-                                                $"Pra{ oldMainPracticalHours }" +
-                                                $"The{ oldMainTheoryHours }" +
-                                                $"Gen{ oldMainGeneralHours }");
+                            throw new Exception($"Tot{oldMainTotalHours} " +
+                                                $"Pra{oldMainPracticalHours}" +
+                                                $"The{oldMainTheoryHours}" +
+                                                $"Gen{oldMainGeneralHours}");
                         }
 
                         // Set new hour values for project
@@ -1266,9 +1280,9 @@ namespace ProjectProgressLibrary.DataAccess
 
             projectName = ExchangePunctuations(projectName);
 
-            string fileName = $"{ projectName }.jpg";
+            string fileName = $"{projectName}.jpg";
 
-            outputFilePath = @$"{ folderPath }{ fileName }";
+            outputFilePath = @$"{folderPath}{fileName}";
 
             return outputFilePath;
             //string photoName = $"{ Project.Title }.jpg";
@@ -1309,7 +1323,7 @@ namespace ProjectProgressLibrary.DataAccess
                 {
                     if (word.Contains(punctuationMark.Punctuationmark))
                     {
-                        newWord = word.Replace(punctuationMark.Punctuationmark, $"_{ punctuationMark.VerbosePunctuationmark }_");
+                        newWord = word.Replace(punctuationMark.Punctuationmark, $"_{punctuationMark.VerbosePunctuationmark}_");
                         outputCounter = outputCounter + 1;
                     }
                 }

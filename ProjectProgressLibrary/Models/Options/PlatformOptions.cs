@@ -8,7 +8,7 @@ namespace ProjectProgressLibrary.Models.Options
 {
     public class PlatformOptions
     {
-        public string CurrentPlatform { get; set; }
+        public string CurrentPlatform { get; set; }       
     }
 
     public class PossiblePlatforms

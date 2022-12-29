@@ -8,7 +8,7 @@ namespace ProjectProgressLibrary.Models.Options
 {
     public class EnvironmentOptions
     {
-        public string CurrentEnvironment { get; set; }
+        public string CurrentEnvironment { get; set; }   
     }
     public class PossibleEvironments
     {
@@ -16,4 +16,6 @@ namespace ProjectProgressLibrary.Models.Options
         public const string Development = "Development";
         public const string Demo = "Demo";
     }
+
+   
 }

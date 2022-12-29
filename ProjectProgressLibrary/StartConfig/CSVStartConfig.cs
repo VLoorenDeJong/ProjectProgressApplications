@@ -25,18 +25,11 @@ namespace ProjectProgressLibrary.StartConfig
         {
             string currentDirectory = Directory.GetCurrentDirectory();
 
-            bool isUbuntu = false;
-            bool isWindows = false;
-
             string projectFilePath = "";
             string timeUnitFilePath = "";
 
             string databseFolderPath = "";
             string projectPicturesFolderPath = "";
-            string filesFolderPath = "";
-            string picturesFolderPath = "";
-            string randomItemsFolderPath = "";
-
 
             // Get all base settings from json file
             string connectionType = _applicationOptions?.Value?.CurrentDataStorage;
@@ -98,6 +91,8 @@ namespace ProjectProgressLibrary.StartConfig
         // ToDo combine front and backend to one
         public (IDataAccess database, string mainGoal) GetProgressDbConfig(IConfiguration config, IDataAccess db, string pageName)
         {
+            string folderDelimiter = SetCurrentDelimiter(_platformOptions?.Value?.CurrentPlatform);
+                      
             string backendProjectFilePath = "";
             string backendTimeUnitFilePath = "";
             string backendDatabaseFolderPath = "";
@@ -124,26 +119,54 @@ namespace ProjectProgressLibrary.StartConfig
                     switch (_environmentOptions?.Value?.CurrentEnvironment)
                     {
                         case PossibleEvironments.Demo:
+
                             mainGoal = PredefinedGoals.DemoGoal;
-                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DemoFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
-                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DemoFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
-                            backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
+                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{FileNames.ProjectsFile}";
+                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            backendDatabaseFolderPath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}";
+
+                            if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.BackupDatabaseFolderLocation))
+                            {
+                                string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                                backupProjectFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{date}_{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                                backupTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{date}_{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                backupDatabaseFolderPath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}";
+                                backupPhotoFolderPath = @$"{_applicationOptions.Value?.BackupProjectPicturesFolderPath}{_environmentOptions?.Value?.CurrentEnvironment}";
+                            }
+
                             break;
                         case PossibleEvironments.Development:
-                            mainGoal = PredefinedGoals.DevelopmentGoal;
-                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DevelopmentFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
-                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DevelopmentFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
-                            backendendPhotoFolderPath = @$"{_applicationOptions?.Value?.BackupPhotoFolderLocation}DevelopmentFolder\";
-                            backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
 
+                            mainGoal = PredefinedGoals.DevelopmentGoal;
+                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            backendendPhotoFolderPath = @$"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}{_environmentOptions?.Value?.CurrentEnvironment}";
+                            backendDatabaseFolderPath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}";
+
+                            if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.FrontendDatabaseFolderLocation))
+                            {
+                                frondendProjectFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                                frontendTimeUnitFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                frontEndDatabaseFolderPath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}";
+                                frontendPhotoFolderPath = @$"{_applicationOptions?.Value?.FrontendProjectPicturesFolderPath}{_environmentOptions?.Value?.CurrentEnvironment}";
+                            }
+
+                            if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.BackupDatabaseFolderLocation))
+                            {
+                                string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                                backupProjectFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                                backupTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}{folderDelimiter}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                backupDatabaseFolderPath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}";
+                                backupPhotoFolderPath = @$"{_applicationOptions.Value?.BackupProjectPicturesFolderPath}{_environmentOptions?.Value?.CurrentEnvironment}";
+                            }
                             break;
                         default:
-                            mainGoal = _applicationOptions.Value?.CurrentMainProjectGoal;
 
+                            mainGoal = _applicationOptions.Value?.CurrentMainProjectGoal;
                             backendProjectFilePath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
                             backendTimeUnitFilePath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
                             backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
-                            backendendPhotoFolderPath = _applicationOptions?.Value?.BackupPhotoFolderLocation;
+                            backendendPhotoFolderPath = $"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}";
 
                             if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.FrontendDatabaseFolderLocation))
                             {
@@ -157,9 +180,9 @@ namespace ProjectProgressLibrary.StartConfig
                             {
                                 string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
                                 backupProjectFilePath = $"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
-                                backendTimeUnitFilePath = $"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                backupTimeUnitFilePath = $"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
                                 backupDatabaseFolderPath = _applicationOptions?.Value?.BackupDatabaseFolderLocation;
-                                backendendPhotoFolderPath = _applicationOptions.Value?.BackupPhotoFolderLocation;
+                                backupPhotoFolderPath = _applicationOptions.Value?.BackupProjectPicturesFolderPath;
                             }
                             break;
                     }
@@ -321,6 +344,25 @@ namespace ProjectProgressLibrary.StartConfig
             }
 
             return showPicture;
+        }
+
+        private string SetCurrentDelimiter(string currentPlatform)
+        {
+            string output = "";
+
+            if (string.IsNullOrWhiteSpace(currentPlatform)) throw new Exception("No platform set in appsettings");
+            else
+            {
+                switch (currentPlatform)
+                {
+                    case PossiblePlatforms.Windows:
+                        return @"\";
+                        
+                    case PossiblePlatforms.Ubuntu:
+                        return @"/";                        
+                }
+            }
+            return output;
         }
     }
 }
