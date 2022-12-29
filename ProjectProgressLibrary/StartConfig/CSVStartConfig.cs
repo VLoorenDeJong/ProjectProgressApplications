@@ -1,16 +1,25 @@
 ﻿using Microsoft.Extensions.Configuration;
 using ProjectProgressLibrary.DataAccess;
+using System.Runtime.CompilerServices;
+using ProjectProgressLibrary.Models.Options;
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Options;
 
 namespace ProjectProgressLibrary.StartConfig
 {
     public class CSVStartConfig : IStartConfig
     {
+        private readonly IOptions<ApplicationOptions> _applicationOptions;
+        private readonly IOptions<EnvironmentOptions> _environmentOptions;
+        private readonly IOptions<PlatformOptions> _platformOptions;
+        public CSVStartConfig(IOptions<ApplicationOptions> applicationOptions, IOptions<EnvironmentOptions> environmentOptions, IOptions<PlatformOptions> platformOptions)
+        {
+            _applicationOptions = applicationOptions;
+            _environmentOptions = environmentOptions;
+            _platformOptions = platformOptions;
+        }
+
         //ToDo make this front end
         public (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
         {
@@ -30,55 +39,48 @@ namespace ProjectProgressLibrary.StartConfig
 
 
             // Get all base settings from json file
-            string connectionType = GetStringValueFromConfig(config, "DataStorageType", "Current");
-            string environment = GetStringValueFromConfig(config, "Environment", "Current");
-            string platform = GetStringValueFromConfig(config, "Platform", "Current");
-            string mainGoal = GetStringValueFromConfig(config, "MainProjectGoal", "Current");
+            string connectionType = _applicationOptions?.Value?.CurrentDataStorage;
+            string environment = _environmentOptions?.Value?.CurrentEnvironment;
+            string platform = _platformOptions?.Value?.CurrentPlatform;
+            string mainGoal = "";
+
+            switch (_applicationOptions?.Value?.CurrentDataStorage)
+            {
+                case PossibleDataStorage.CSV:
+                    switch (_environmentOptions?.Value?.CurrentEnvironment)
+                    {
+                        case PossibleEvironments.Development:
+                            mainGoal = PredefinedGoals.DevelopmentGoal;
+                            projectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            timeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            projectPicturesFolderPath = @$"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}";
+                            databseFolderPath = _applicationOptions?.Value?.BackendDatabaseFolderLocation;
+
+                            break;
+                        case PossibleEvironments.Demo:
+                            mainGoal = PredefinedGoals.DemoGoal;
+                            projectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            timeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            projectPicturesFolderPath = @$"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}";
+                            databseFolderPath = _applicationOptions?.Value?.BackendDatabaseFolderLocation;
+                            break;
+                        default:
+                            mainGoal = _applicationOptions?.Value?.CurrentMainProjectGoal;
+                            projectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            timeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            projectPicturesFolderPath = @$"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}";
+                            databseFolderPath = _applicationOptions?.Value?.BackendDatabaseFolderLocation;
+                            break;
+                    }
+                    break;
+            }
 
             // Get all locations from json file
             IDataAccess outputDb;
 
-            if (environment.ToLower() == "demo")
-            {
-                mainGoal = "Demoing the app";
-            }
-            if (environment.ToLower() == "development")
-            {
-                mainGoal = "!!!! DEVELOPMENT ENVIRONMENT !!!!";
-            }
-
-            (isUbuntu, isWindows) = DecidePlatform(platform);
-
-            if (connectionType.ToLower() == "csv" && mainGoal != "!!!! DEVELOPMENT ENVIRONMENT !!!!")
-            {
-
-                databseFolderPath = GetCSVFolderLocation("DatabaseFolderPath", currentDirectory, config, isUbuntu, isWindows);
-
-                projectFilePath = $"{ databseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                timeUnitFilePath = $"{ databseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
-
-                projectPicturesFolderPath = GetFolderLocation("ProjectPicturesFolderPath", currentDirectory, config, isUbuntu, isWindows);
-                filesFolderPath = GetFolderLocation("FilesFolderPath", currentDirectory, config, isUbuntu, isWindows);
-                picturesFolderPath = GetFolderLocation("PicturesFolder", currentDirectory, config, isUbuntu, isWindows);
-                randomItemsFolderPath = GetFolderLocation("RandomItemsFolder", currentDirectory, config, isUbuntu, isWindows);
-
-            }
-
-            if (connectionType == "CSV" && mainGoal == "!!!! DEVELOPMENT ENVIRONMENT !!!!")
-            {
-                databseFolderPath = GetCSVFolderLocation("DatabaseFolderPath", currentDirectory, config, isUbuntu, isWindows);
-                projectFilePath = @$"{ databseFolderPath }DevelopmentFolder\{ mainGoal }{ environment }ProjectsFile.CSV";
-                timeUnitFilePath = @$"{ databseFolderPath }DevelopmentFolder\{ mainGoal }{ environment }TimeUnitsFile.CSV";
-
-                projectPicturesFolderPath = GetDevelopmentFolderLocation("ProjectPicturesFolderPath", currentDirectory, config);
-                filesFolderPath = GetDevelopmentFolderLocation("FilesFolderPath", currentDirectory, config);
-                picturesFolderPath = GetDevelopmentFolderLocation("PicturesFolder", currentDirectory, config);
-                randomItemsFolderPath = GetDevelopmentFolderLocation("RandomItemsFolder", currentDirectory, config);
-
-            }
             if (db is CSVDataAccess)
             {
-                outputDb = new CSVDataAccess(projectFilePath, timeUnitFilePath, databseFolderPath, projectPicturesFolderPath, filesFolderPath, picturesFolderPath, randomItemsFolderPath);
+                outputDb = new CSVDataAccess(projectFilePath, timeUnitFilePath, databseFolderPath, projectPicturesFolderPath);
             }
             else
             {
@@ -108,106 +110,65 @@ namespace ProjectProgressLibrary.StartConfig
             string backupTimeUnitFilePath = "";
             string backupDatabaseFolderPath = "";
 
-            // Get base setting from json file
-            // mainSection, subSection, value, config
-            string connectionType = GetStringValueFromConfig(config, "DataStorageType", "Current");
-            string environment = GetStringValueFromConfig(config, "Environment", "Current");
-            string mainGoal = GetStringValueFromConfig(config, "MainProjectGoal", "Current");
+            string mainGoal = "";
 
             // Get pictureFolder path from json file
-            string backendendPhotoFolderPath = GetProjectPhotosFolderPath("Backend", config);
-            string frontendPhotoFolderPath = GetProjectPhotosFolderPath("Frontend", config);
-            string backupPhotoFolderPath = GetProjectPhotosFolderPath("Backup", config);
+            string backendendPhotoFolderPath = "";
+            string frontendPhotoFolderPath = "";
+            string backupPhotoFolderPath = "";
 
             IDataAccess outputDb;
-
-            if (environment.ToLower() == "demo")
+            switch (_applicationOptions?.Value?.CurrentDataStorage)
             {
-                mainGoal = "Demoing the app";
-            }
-            if (environment.ToLower() == "development")
-            {
-                mainGoal = "!!!! DEVELOPMENT ENVIRONMENT !!!!";
-            }
+                case PossibleDataStorage.CSV:
+                    switch (_environmentOptions?.Value?.CurrentEnvironment)
+                    {
+                        case PossibleEvironments.Demo:
+                            mainGoal = PredefinedGoals.DemoGoal;
+                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DemoFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DemoFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
+                            break;
+                        case PossibleEvironments.Development:
+                            mainGoal = PredefinedGoals.DevelopmentGoal;
+                            backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DevelopmentFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}DevelopmentFolder\{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            backendendPhotoFolderPath = @$"{_applicationOptions?.Value?.BackupPhotoFolderLocation}DevelopmentFolder\";
+                            backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
 
-            if (connectionType == "CSV" && mainGoal != "Demoing the app" && mainGoal != "!!!! DEVELOPMENT ENVIRONMENT !!!!")
-            {
-                backendDatabaseFolderPath = GetDatabaseLocation("Backend", config);
-                backendProjectFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                backendTimeUnitFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
+                            break;
+                        default:
+                            mainGoal = _applicationOptions.Value?.CurrentMainProjectGoal;
 
+                            backendProjectFilePath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                            backendTimeUnitFilePath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                            backendDatabaseFolderPath = $"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
+                            backendendPhotoFolderPath = _applicationOptions?.Value?.BackupPhotoFolderLocation;
 
-                frontEndDatabaseFolderPath = GetDatabaseLocation("Frontend", config);
-                if (string.IsNullOrEmpty(frontEndDatabaseFolderPath) == false)
-                {
-                    frondendProjectFilePath = $"{ frontEndDatabaseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                    frontendTimeUnitFilePath = $"{ frontEndDatabaseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
+                            if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.FrontendDatabaseFolderLocation))
+                            {
+                                frondendProjectFilePath = $"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                                frontendTimeUnitFilePath = $"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                frontEndDatabaseFolderPath = $"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}";
+                                frontendPhotoFolderPath = _applicationOptions?.Value?.FrontendProjectPicturesFolderPath;
+                            }
 
-                }
-
-                backupDatabaseFolderPath = GetDatabaseLocation("Backup", config);
-                if (string.IsNullOrEmpty(backupDatabaseFolderPath) == false)
-                {
-                    string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
-                    backupProjectFilePath = $"{ backupDatabaseFolderPath }{ date }_{ mainGoal }{ environment }ProjectsFile.CSV";
-                    backupTimeUnitFilePath = $"{ backupDatabaseFolderPath }{ date }_{ mainGoal }{ environment }TimeUnitsFile.CSV";
-                }
-            }
-
-            if (connectionType == "CSV" && mainGoal == "!!!! DEVELOPMENT ENVIRONMENT !!!!")
-            {
-                backendDatabaseFolderPath = GetDatabaseLocation("Backend", config);
-                backendDatabaseFolderPath = @$"{backendDatabaseFolderPath}DevelopmentFolder\";
-                backendendPhotoFolderPath = @$"{backendendPhotoFolderPath}DevelopmentFolder\";
-
-                backendProjectFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                backendTimeUnitFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
-
-
-                frontEndDatabaseFolderPath = GetDatabaseLocation("Frontend", config);
-                if (string.IsNullOrEmpty(frontEndDatabaseFolderPath) == false)
-                {
-                    frontEndDatabaseFolderPath = @$"{frontEndDatabaseFolderPath}DevelopmentFolder\";
-                    frontendPhotoFolderPath = @$"{frontendPhotoFolderPath}DevelopmentFolder\";
-
-                    frondendProjectFilePath = $"{ frontEndDatabaseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                    frontendTimeUnitFilePath = $"{ frontEndDatabaseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
-                }
-
-
-                // Clear all not needed file paths
-                backupProjectFilePath = "";
-                backupTimeUnitFilePath = "";
-                backupDatabaseFolderPath = "";
-                backupPhotoFolderPath = "";
+                            if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.BackupDatabaseFolderLocation))
+                            {
+                                string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
+                                backupProjectFilePath = $"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.ProjectsFile}";
+                                backendTimeUnitFilePath = $"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}{FileNames.TimeUnitsFile}";
+                                backupDatabaseFolderPath = _applicationOptions?.Value?.BackupDatabaseFolderLocation;
+                                backendendPhotoFolderPath = _applicationOptions.Value?.BackupPhotoFolderLocation;
+                            }
+                            break;
+                    }
+                    break;
 
             }
 
 
-            if (connectionType == "CSV" && mainGoal == "Demoing the app")
-            {
-                backendDatabaseFolderPath = GetDatabaseLocation("Backend", config);
-                backendDatabaseFolderPath = @$"{backendDatabaseFolderPath}DemoFolder\";
 
-
-                backendProjectFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }ProjectsFile.CSV";
-                backendTimeUnitFilePath = $"{ backendDatabaseFolderPath }{ mainGoal }{ environment }TimeUnitsFile.CSV";
-
-                // Clear all not needed file paths
-                backendendPhotoFolderPath = "";
-
-                frondendProjectFilePath = "";
-                frontendTimeUnitFilePath = "";
-                frontEndDatabaseFolderPath = "";
-                frontendPhotoFolderPath = "";
-
-                backupProjectFilePath = "";
-                backupTimeUnitFilePath = "";
-                backupDatabaseFolderPath = "";
-                backupPhotoFolderPath = "";
-
-
-            }
             if (db is CSVDataAccess)
             {
                 outputDb = new CSVDataAccess(backendProjectFilePath, backendTimeUnitFilePath, backendDatabaseFolderPath, backendendPhotoFolderPath, frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPhotoFolderPath, backupProjectFilePath, backupTimeUnitFilePath, backupDatabaseFolderPath, backupPhotoFolderPath);
@@ -217,9 +178,9 @@ namespace ProjectProgressLibrary.StartConfig
                 outputDb = db;
             }
 
-            if (pageName.ToLower() == "index" && environment.ToLower() == "demo")
+            if (pageName.ToLower() == "index" && string.Equals(_environmentOptions?.Value?.CurrentEnvironment, PossibleEvironments.Demo, StringComparison.CurrentCultureIgnoreCase))
             {
-                outputDb.MakeFirstEntry("Demoing the app");
+                outputDb.MakeFirstEntry(PredefinedGoals.DemoGoal);
             }
 
 
@@ -244,29 +205,7 @@ namespace ProjectProgressLibrary.StartConfig
             return (isUbuntu, isWindows);
 
         }
-        private static string GetCSVFolderLocation(string value, string currentDirectory, IConfiguration config, bool isUbuntu, bool isWindows)
-        {
-            string outputLocation = "";
-
-            string mainSection = "DataAccess";
-            string subSection = "CSV";
-            string finalFolderPath = GetStringValueFromConfig(mainSection, subSection, value, config);
-
-            if (isUbuntu == true)
-            {
-                outputLocation = finalFolderPath;
-            }
-
-            if (isWindows == true)
-            {
-                string placementFolderPath = @"\wwwroot\";
-
-                outputLocation = $"{ currentDirectory }{ placementFolderPath }{ finalFolderPath }";
-            }
-
-
-            return outputLocation;
-        }
+        
         private static string GetFolderLocation(string value, string currentDirectory, IConfiguration config, bool isUbuntu, bool isWindows)
         {
             string outputLocation = "";
@@ -283,7 +222,7 @@ namespace ProjectProgressLibrary.StartConfig
             {
                 string placementFolderPath = @"\wwwroot\";
 
-                outputLocation = $"{ currentDirectory }{ placementFolderPath }{ finalFolderPath }";
+                outputLocation = $"{currentDirectory}{placementFolderPath}{finalFolderPath}";
             }
 
 
@@ -301,7 +240,7 @@ namespace ProjectProgressLibrary.StartConfig
 
             string finalFolderPath = GetStringValueFromConfig(mainSection, subSection, value, config);
 
-            string location = $"{ currentDirectory }{ placementFolderPath }{ finalFolderPath }{ developmentFolderPath }";
+            string location = $"{currentDirectory}{placementFolderPath}{finalFolderPath}{developmentFolderPath}";
 
             return location;
 
@@ -361,14 +300,14 @@ namespace ProjectProgressLibrary.StartConfig
 
 
             string pictureName = db.ExchangePunctuations(title);
-            string projectPhotoName = $"{ pictureName }.jpg";
+            string projectPhotoName = $"{pictureName}.jpg";
 
             string fullFilePath = rootFolderPath + projectPhotoName;
 
             showPicture = DecideToShowPicture(fullFilePath);
 
             // Do not put in a full file path start from rootwww 
-            string outputFilepath = @$"project_photos\{ projectPhotoName }"; ;
+            string outputFilepath = @$"project_photos\{projectPhotoName}"; ;
 
             return (outputFilepath, showPicture);
         }
@@ -376,7 +315,7 @@ namespace ProjectProgressLibrary.StartConfig
         {
             bool showPicture = false;
 
-            if (System.IO.File.Exists($"{ projectPictureFilePath }") == true)
+            if (System.IO.File.Exists($"{projectPictureFilePath}") == true)
             {
                 showPicture = true;
             }

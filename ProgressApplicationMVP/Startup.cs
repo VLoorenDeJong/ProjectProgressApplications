@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
 using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Models.Options;
 using ProjectProgressLibrary.StartConfig;
 using System;
 using System.Collections.Generic;
@@ -16,43 +18,41 @@ namespace ProgressApplicationMVP
     public class Startup
     {
         private readonly string _connectionType = "";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
 
-            _connectionType = configuration.GetSection("DataStorageType").GetValue<string>("Current");
+            _connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
 
-            Console.WriteLine(configuration);
-            Console.WriteLine(configuration.GetSection("DataStorageType").GetValue<string>("Current"));
-            Console.WriteLine(_connectionType);
-
-            if (string.IsNullOrWhiteSpace(configuration.GetSection("DataStorageType").GetValue<string>("Current")))
-            {
-                _connectionType = "CSV";
-                Console.WriteLine("!! No connection specified !!");
-                Console.WriteLine(_connectionType);
-            }
 
             if (string.IsNullOrWhiteSpace(_connectionType))
             {
-                Console.WriteLine("!! No connection type  !!");
+                _connectionType = "CSV";
+                Console.WriteLine("!! No connection specified !!");
             }
 
-        }  
+        }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (!string.IsNullOrWhiteSpace(_connectionType.ToLower()) && services is not null)
+            services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
+            services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
+            services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
+
+            if (!string.IsNullOrWhiteSpace(_connectionType) && services is not null)
             {
-                if (_connectionType.ToLower() == "csv")
+                if (string.Equals(_connectionType, PossibleDataStorage.CSV, StringComparison.OrdinalIgnoreCase))
                 {
                     services.AddTransient<IStartConfig, CSVStartConfig>();
                     services.AddTransient<IDataAccess, CSVDataAccess>();
                 }
             }
+
+
             services.AddRazorPages();
         }
 

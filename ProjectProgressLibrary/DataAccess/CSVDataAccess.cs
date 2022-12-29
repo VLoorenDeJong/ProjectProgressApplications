@@ -43,16 +43,12 @@ namespace ProjectProgressLibrary.DataAccess
         public CSVDataAccess()
         {
         }
-        public CSVDataAccess(string projectFilePath, string timeUnitFilePath, string databaseFileFolderPath, string projectPicturesFolderPath, string filesFolderPath, string picturesFolderPath, string randomItemsFolderPath)
+        public CSVDataAccess(string projectFilePath, string timeUnitFilePath, string databaseFileFolderPath, string projectPicturesFolderPath)
         {
             _backendProjectTextFilePath = projectFilePath;
             _backendTimeUniTextFilePath = timeUnitFilePath;
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(databaseFileFolderPath, true).Result;
             _backendPhotoFolderPath = MakeSureTheDirectoryIsThereAsync(projectPicturesFolderPath, true).Result;
-            Task.Run(() => MakeSureTheDirectoryIsThereAsync(filesFolderPath, false));
-            Task.Run(() => MakeSureTheDirectoryIsThereAsync(picturesFolderPath, false));
-            Task.Run(() => MakeSureTheDirectoryIsThereAsync(randomItemsFolderPath, false));
-
         }
         public CSVDataAccess(string backendProjectTextFilePath, string backendTimeUniTextFilePath, string backendDatabaseFolderPath, string backendendPhotoFolderPath, string frontendProjectTextFilePath, string frontendTimeUnitTextFilePath, string frontendDatabaseFolderPath, string frontendPhotoFolderPath, string backupProjectTextFilePath, string backupTimeUnitTextFilePath, string backupDatabaseFolderPath, string backupPhotoFolderPath)
         {
@@ -63,9 +59,6 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 _backendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backendendPhotoFolderPath, true)).Result;
             }
-
-
-
 
             FrontEndEnabled = CheckIfEnabled(frontendProjectTextFilePath);
             BackupEnabled = CheckIfEnabled(backupProjectTextFilePath);
