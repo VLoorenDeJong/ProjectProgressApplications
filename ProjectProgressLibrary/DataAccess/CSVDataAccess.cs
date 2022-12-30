@@ -11,6 +11,7 @@ using static ProjectProgressLibrary.Enums;
 using static ProjectProgressLibrary.Modifications.TekstModifications;
 using static ProjectProgressLibrary.Validation.DateTimeValidation;
 using static ProjectProgressLibrary.Validation.DataValidation;
+using System.Security.Cryptography.X509Certificates;
 
 namespace ProjectProgressLibrary.DataAccess
 {
@@ -57,7 +58,7 @@ namespace ProjectProgressLibrary.DataAccess
         {
             _backendProjectTextFilePath = backendProjectTextFilePath;
             _backendTimeUniTextFilePath = backendTimeUniTextFilePath;
-            
+
             if (string.IsNullOrWhiteSpace(backendDatabaseFolderPath)) throw new Exception("ID: 4 backendDatabaseFolderPath not specified");
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(backendDatabaseFolderPath, true).Result;
 
@@ -753,8 +754,13 @@ namespace ProjectProgressLibrary.DataAccess
 
         public ProjectModel GetProjectByTitle(string projectTitle, List<ProjectModel> projectsList)
         {
-            ProjectModel projectToFind = projectsList.Where(x => x.Title == projectTitle).First();
+            ProjectModel projectToFind = new();
 
+            if (projectsList is not null)
+            {
+                List<string> projectTitles = projectsList.Select(x => x.Title).ToList();
+                if(projectTitles.Contains(projectTitle)) projectToFind = projectsList.Where(x => x.Title == projectTitle).First();
+            }
             return projectToFind;
         }
         public void AddTime(ProjectModel projectToAddHousTo, TimeUnitModel timeUnitToAdd, List<ProjectModel> allProjects, List<TimeUnitModel> allTimeUnits)

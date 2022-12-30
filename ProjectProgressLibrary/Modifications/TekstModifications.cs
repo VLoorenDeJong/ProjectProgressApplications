@@ -23,11 +23,13 @@ namespace ProjectProgressLibrary.Modifications
         }
         internal static List<string> CreateDeveloperNamesList(string developerName)
         {
-
-            string delimiter = @", ";
-            string[] developers = developerName.Split(delimiter);
-            List<string> outputList = developers.ToList();
-
+            List<string> outputList = new();
+            if (!string.IsNullOrWhiteSpace(developerName))
+            {
+                string delimiter = @", ";
+                string[] developers = developerName.Split(delimiter);
+                outputList = developers.ToList();
+            }
             return outputList;
         }
         public static string DecideDayOfWeek(DateTime searchDate)

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Models.Options;
 using ProjectProgressLibrary.StartConfig;
 using System;
 using System.Collections.Generic;
@@ -21,7 +22,7 @@ namespace PortfolioMVP
         {
             Configuration = configuration;
 
-            _connectionType = configuration.GetSection("DataStorageType").GetValue<string>("Current");
+            _connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
 
         }
 
@@ -30,11 +31,18 @@ namespace PortfolioMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            if (_connectionType.ToLower() == "csv")
+            services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
+            services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
+            services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
+
+            if (!string.IsNullOrWhiteSpace(_connectionType))
             {
-                services.AddTransient<IStartConfig, CSVStartConfig>();
-                services.AddTransient<IDataAccess, CSVDataAccess>();
-                //Comment
+                if (string.Equals(_connectionType, PossibleDataStorage.CSV, StringComparison.CurrentCultureIgnoreCase) && services is not null)
+                {
+                    services.AddTransient<IStartConfig, CSVStartConfig>();
+                    services.AddTransient<IDataAccess, CSVDataAccess>();
+                    //Comment
+                }
             }
             services.AddRazorPages();
         }
