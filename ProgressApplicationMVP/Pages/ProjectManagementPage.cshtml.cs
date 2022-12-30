@@ -49,8 +49,6 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectManagement");
 
-            (IDataAccess _mockDb, string _Goal) = startConfig.GetDbConfig(config, db, "projectManagement");
-
             (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
 
             AllProjects = AllProjects.OrderBy(x => x.SubProjectIds.Count).ToList();
