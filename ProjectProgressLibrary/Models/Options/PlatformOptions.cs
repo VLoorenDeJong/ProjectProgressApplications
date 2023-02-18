@@ -8,6 +8,7 @@ namespace ProjectProgressLibrary.Models.Options
 {
     public class PlatformOptions
     {
+        public const string AppSettingsSection = "Platform";
         public string CurrentPlatform { get; set; }       
     }
 

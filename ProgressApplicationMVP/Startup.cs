@@ -39,6 +39,7 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<ProgressAppInstanceOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));

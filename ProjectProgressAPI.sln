@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectProgressLibrary", "ProjectProgressLibrary\ProjectProgressLibrary.csproj", "{3514E229-96A8-44A7-BFB4-A4CCB44229B1}"
 EndProject
@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMV
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioApp2.0", "PortfolioApp2.0\PortfolioApp2.0.csproj", "{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTestServerApp", "BlazorTestServerApp\BlazorTestServerApp.csproj", "{A665D8F3-4975-4B09-A915-70F5F55AD6DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorTestServerApp", "BlazorTestServerApp\BlazorTestServerApp.csproj", "{A665D8F3-4975-4B09-A915-70F5F55AD6DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProgressAppAPI1", "ProgressAppAPI1\ProgressAppAPI1.csproj", "{A68C6EB1-EDC8-46F8-A892-182D4EAA827E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A68C6EB1-EDC8-46F8-A892-182D4EAA827E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A68C6EB1-EDC8-46F8-A892-182D4EAA827E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A68C6EB1-EDC8-46F8-A892-182D4EAA827E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A68C6EB1-EDC8-46F8-A892-182D4EAA827E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

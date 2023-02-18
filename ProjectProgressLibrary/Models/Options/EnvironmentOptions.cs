@@ -8,7 +8,8 @@ namespace ProjectProgressLibrary.Models.Options
 {
     public class EnvironmentOptions
     {
-        public string CurrentEnvironment { get; set; }   
+        public const string AppSettingsSection = "Environment";
+        public string CurrentEnvironment { get; set; }
     }
     public class PossibleEvironments
     {

@@ -8,6 +8,12 @@ namespace ProjectProgressLibrary
 {
     public class Enums
     {
+        public enum ProjectInstance
+        {
+            demo_application,
+            victor_developer,
+            de_kunst_van_het_hopen
+        }
         public enum HourClassification
         {
             Practical,

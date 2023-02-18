@@ -10,17 +10,9 @@ namespace ProjectProgressLibrary.Models.Options
     public class ApplicationOptions
     {
         public string CurrentDataStorage { get; set; }
-        public string CurrentMainProjectGoal { get; set; }
-
-        public string BackendDatabaseFolderLocation { get; set; }
-        public string BackendProjectPicturesFolderPath { get; set; }
-
-        public string FrontendDatabaseFolderLocation { get; set; }
-        public string FrontendProjectPicturesFolderPath { get; set; }
-
-        public string BackupDatabaseFolderLocation { get; set; }
-        public string BackupProjectPicturesFolderPath { get; set; }
+     
     }
+
 
     public class PossibleDataStorage
     {
@@ -40,6 +32,14 @@ namespace ProjectProgressLibrary.Models.Options
         public const string ProjectsFile = "ProjectsFile.CSV";
         public const string TimeUnitsFile = "TimeUnitsFile.CSV";
 
+    }
+
+    public class AppsettingsSections
+    {
+        public const string ApplicationSettings = "ApplicationSettings";
+        public const string DataStorageSection = "DataStorage";
+        public const string AppliactionInstances = "AppliactionInstances";
+        public const string CurrentMainProjectGoal = "CurrentMainProjectGoal";
     }
 
 }

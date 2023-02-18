@@ -13,11 +13,14 @@ namespace ProjectProgressLibrary.StartConfig
         private readonly IOptions<ApplicationOptions> _applicationOptions;
         private readonly IOptions<EnvironmentOptions> _environmentOptions;
         private readonly IOptions<PlatformOptions> _platformOptions;
-        public CSVStartConfig(IOptions<ApplicationOptions> applicationOptions, IOptions<EnvironmentOptions> environmentOptions, IOptions<PlatformOptions> platformOptions)
+        private readonly IOptions<ProgressAppInstanceOptions> _progressAppInstanceOptions;
+
+        public CSVStartConfig(IOptions<ApplicationOptions> applicationOptions, IOptions<EnvironmentOptions> environmentOptions, IOptions<PlatformOptions> platformOptions, IOptions<ProgressAppInstanceOptions> progressAppInstanceOptions)
         {
             _applicationOptions = applicationOptions;
             _environmentOptions = environmentOptions;
             _platformOptions = platformOptions;
+            _progressAppInstanceOptions = progressAppInstanceOptions;
         }
 
         public (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
@@ -47,14 +50,14 @@ namespace ProjectProgressLibrary.StartConfig
                             mainGoal = PredefinedGoals.DemoGoal;
                             break;
                         default:
-                            mainGoal = _applicationOptions?.Value?.CurrentMainProjectGoal;
+                            mainGoal = _progressAppInstanceOptions?.Value?.CurrentMainProjectGoal;
                             break;
                     }
 
-                    frondendProjectFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
-                    frontendTimeUnitFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
-                    frontEndDatabaseFolderPath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}";
-                    frontendPicturesFolderPath = $@"{_applicationOptions?.Value?.FrontendProjectPicturesFolderPath}";
+                    frondendProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
+                    frontendTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
+                    frontEndDatabaseFolderPath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}";
+                    frontendPicturesFolderPath = $@"{_progressAppInstanceOptions?.Value?.FrontendProjectPicturesFolderPath}";
 
                     break;
             }
@@ -108,7 +111,7 @@ namespace ProjectProgressLibrary.StartConfig
                     switch (_environmentOptions?.Value?.CurrentEnvironment)
                     {
                         case PossibleEvironments.Production:
-                            mainGoal = _applicationOptions.Value?.CurrentMainProjectGoal;
+                            mainGoal = _progressAppInstanceOptions.Value?.CurrentMainProjectGoal;
                             break;
 
                         case PossibleEvironments.Development:
@@ -120,29 +123,29 @@ namespace ProjectProgressLibrary.StartConfig
                             break;
                     }
 
-                    if (!string.IsNullOrEmpty(_applicationOptions?.Value?.BackendDatabaseFolderLocation))
+                    if (!string.IsNullOrEmpty(_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation))
                     {
-                        backendProjectFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_applicationOptions?.Value?.CurrentMainProjectGoal}_{FileNames.ProjectsFile}";
-                        backendTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_applicationOptions?.Value?.CurrentMainProjectGoal}_{FileNames.TimeUnitsFile}";
-                        backendDatabaseFolderPath = @$"{_applicationOptions?.Value?.BackendDatabaseFolderLocation}";
-                        backendendPicturesFolderPath = @$"{_applicationOptions?.Value?.BackendProjectPicturesFolderPath}";
+                        backendProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_progressAppInstanceOptions?.Value?.CurrentMainProjectGoal}_{FileNames.ProjectsFile}";
+                        backendTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_progressAppInstanceOptions?.Value?.CurrentMainProjectGoal}_{FileNames.TimeUnitsFile}";
+                        backendDatabaseFolderPath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}";
+                        backendendPicturesFolderPath = @$"{_progressAppInstanceOptions?.Value?.BackendProjectPicturesFolderPath}";
                     }
 
-                    if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.FrontendDatabaseFolderLocation))
+                    if (!string.IsNullOrWhiteSpace(_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation))
                     {
-                        frondendProjectFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
-                        frontendTimeUnitFilePath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
-                        frontEndDatabaseFolderPath = @$"{_applicationOptions?.Value?.FrontendDatabaseFolderLocation}";
-                        frontendPicturesFolderPath = $@"{_applicationOptions?.Value?.FrontendProjectPicturesFolderPath}";
+                        frondendProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
+                        frontendTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
+                        frontEndDatabaseFolderPath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}";
+                        frontendPicturesFolderPath = $@"{_progressAppInstanceOptions?.Value?.FrontendProjectPicturesFolderPath}";
                     }
 
-                    if (!string.IsNullOrWhiteSpace(_applicationOptions?.Value?.BackupDatabaseFolderLocation))
+                    if (!string.IsNullOrWhiteSpace(_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation))
                     {
                         string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
-                        backupProjectFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
-                        backupTimeUnitFilePath = @$"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
-                        backupDatabaseFolderPath = $@"{_applicationOptions?.Value?.BackupDatabaseFolderLocation}";
-                        backupPicturesFolderPath = $@"{_applicationOptions.Value?.BackupProjectPicturesFolderPath}";
+                        backupProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
+                        backupTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
+                        backupDatabaseFolderPath = $@"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}";
+                        backupPicturesFolderPath = $@"{_progressAppInstanceOptions.Value?.BackupProjectPicturesFolderPath}";
                     }
                     break;
             }
@@ -226,7 +229,7 @@ namespace ProjectProgressLibrary.StartConfig
         {
             string outputFilePath = "";
 
-            outputFilePath = _applicationOptions?.Value?.FrontendProjectPicturesFolderPath;
+            outputFilePath = _progressAppInstanceOptions?.Value?.FrontendProjectPicturesFolderPath;
 
             return outputFilePath;
         }
