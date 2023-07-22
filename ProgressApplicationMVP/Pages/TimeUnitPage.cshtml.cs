@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
 using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
 using ProjectProgressLibrary.Models;
 using static ProjectProgressLibrary.Validation.DataValidation;
-using ProjectProgressLibrary.StartConfig;
+using ProjectProgressLibrary.Interfaces;
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -58,8 +57,7 @@ namespace ProgressApplicationMVP.Pages
 
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitPage");
 
-            AllProjects = _db.ReadAllProjectRecords(_MainGoal);
-            AllTimeUnits = _db.ReadAllTimeUnits(_MainGoal);
+            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
 
             AllProjects = AllProjects.OrderBy(x => x.Title).ToList();
 
@@ -138,7 +136,7 @@ namespace ProgressApplicationMVP.Pages
                     ForgotHours = true
                 });
             }
-            SaveTimeUnit();
+            SaveTimeUnit(_logger);
             return RedirectToPage();
         }
 
@@ -206,9 +204,9 @@ namespace ProgressApplicationMVP.Pages
             TimeUnitToAdd.SetTimeStamp(TimeStamp.ToString());
         }
 
-        private void SaveTimeUnit()
+        private void SaveTimeUnit(ILogger logger)
         {
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
+            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
 
             ProjectModel projectToAddHoursTo = _db.GetProjectByTitle(ProjectTitle, AllProjects);
 

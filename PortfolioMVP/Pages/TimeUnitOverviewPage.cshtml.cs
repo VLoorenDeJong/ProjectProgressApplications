@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 using static ProjectProgressLibrary.Enums;
 using static ProjectProgressLibrary.Validation.DateTimeValidation;
 using static ProjectProgressLibrary.Modifications.TekstModifications;
+using ProjectProgressLibrary.Interfaces;
 
 namespace PortfolioMVP.Pages
 {

@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 using ProjectProgressLibrary.Validation;
 
 
@@ -74,14 +74,12 @@ namespace ProgressApplicationMVP.Pages
         [BindProperty(SupportsGet = true)]
         public string NewKeyValue { get; set; }
 
-        public DictionaryManagementModel(ILogger<DictionaryManagementModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
+        public DictionaryManagementModel(ILogger logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
             _startConfig = startConfig;
-            
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
 
-
-            AllProjects = _db.ReadAllProjectRecords(_MainGoal);
+            AllProjects = Task.Run(() => db.ReadAllProjectRecordsAsync(_MainGoal)).Result;
         }
 
         public void OnGet()

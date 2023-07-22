@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {

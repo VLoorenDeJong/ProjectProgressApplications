@@ -5,6 +5,8 @@ using ProjectProgressLibrary.Models.Options;
 using System;
 using System.IO;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Logging;
+using ProjectProgressLibrary.Interfaces;
 
 namespace ProjectProgressLibrary.StartConfig
 {
@@ -14,13 +16,17 @@ namespace ProjectProgressLibrary.StartConfig
         private readonly IOptions<EnvironmentOptions> _environmentOptions;
         private readonly IOptions<PlatformOptions> _platformOptions;
         private readonly IOptions<ProgressAppInstanceOptions> _progressAppInstanceOptions;
+        private readonly ILogger<CSVStartConfig> _logger;
 
-        public CSVStartConfig(IOptions<ApplicationOptions> applicationOptions, IOptions<EnvironmentOptions> environmentOptions, IOptions<PlatformOptions> platformOptions, IOptions<ProgressAppInstanceOptions> progressAppInstanceOptions)
+        public CSVStartConfig(IOptions<ApplicationOptions> applicationOptions, IOptions<EnvironmentOptions> environmentOptions, IOptions<PlatformOptions> platformOptions, IOptions<ProgressAppInstanceOptions> progressAppInstanceOptions, ILogger<CSVStartConfig> logger)
         {
             _applicationOptions = applicationOptions;
             _environmentOptions = environmentOptions;
             _platformOptions = platformOptions;
             _progressAppInstanceOptions = progressAppInstanceOptions;
+            _logger = logger;
+
+            _logger.LogInformation("CSVStartConfig => CTOR => CSV Enabled");
         }
 
         public (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
@@ -67,7 +73,7 @@ namespace ProjectProgressLibrary.StartConfig
 
             if (db is CSVDataAccess)
             {
-                outputDb = new CSVDataAccess(frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPicturesFolderPath);
+                outputDb = new CSVDataAccess(frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPicturesFolderPath, _logger);
             }
             else
             {
@@ -152,7 +158,7 @@ namespace ProjectProgressLibrary.StartConfig
 
             if (db is CSVDataAccess)
             {
-                outputDb = new CSVDataAccess(backendProjectFilePath, backendTimeUnitFilePath, backendDatabaseFolderPath, backendendPicturesFolderPath, frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPicturesFolderPath, backupProjectFilePath, backupTimeUnitFilePath, backupDatabaseFolderPath, backupPicturesFolderPath);
+                outputDb = new CSVDataAccess(backendProjectFilePath, backendTimeUnitFilePath, backendDatabaseFolderPath, backendendPicturesFolderPath, frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPicturesFolderPath, backupProjectFilePath, backupTimeUnitFilePath, backupDatabaseFolderPath, backupPicturesFolderPath, _logger);
             }
             else
             {
@@ -210,7 +216,7 @@ namespace ProjectProgressLibrary.StartConfig
             return outputLocation;
 
         }
-        
+
         private static string GetStringValueFromConfig(IConfiguration config, string section, string value)
         {
             string output = config.GetSection(section).GetValue<string>(value);
@@ -224,7 +230,7 @@ namespace ProjectProgressLibrary.StartConfig
 
             return output;
         }
-        
+
         public string GetProjectPhotosFolderPath(IConfiguration config)
         {
             string outputFilePath = "";

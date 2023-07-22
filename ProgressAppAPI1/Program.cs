@@ -1,4 +1,5 @@
 using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models.Options;
 using System.Configuration;
 
@@ -10,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddLogging();
 
 // Added configs
 builder.Services.Configure<ProgressAppInstanceOptions>(builder.Configuration.GetSection(AppsettingsSections.AppliactionInstances));

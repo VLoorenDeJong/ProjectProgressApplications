@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Models;
 using static ProjectProgressLibrary.Enums;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Validation.DataValidation;
-using ProjectProgressLibrary.StartConfig;
+using ProjectProgressLibrary.Interfaces;
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -49,7 +48,7 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectManagement");
 
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
+            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
 
             AllProjects = AllProjects.OrderBy(x => x.SubProjectIds.Count).ToList();
             

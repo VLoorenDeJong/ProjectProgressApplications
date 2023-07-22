@@ -12,11 +12,15 @@ using static ProjectProgressLibrary.Modifications.TekstModifications;
 using static ProjectProgressLibrary.Validation.DateTimeValidation;
 using static ProjectProgressLibrary.Validation.DataValidation;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.Extensions.Logging;
+using ProjectProgressLibrary.Interfaces;
 
 namespace ProjectProgressLibrary.DataAccess
 {
     public class CSVDataAccess : IDataAccess
     {
+        private readonly ILogger<CSVDataAccess> _logger;
+        private readonly ILogger _externalLogger;
 
         public bool FrontEndEnabled = false;
         public bool BackupEnabled = false;
@@ -41,31 +45,76 @@ namespace ProjectProgressLibrary.DataAccess
         public readonly string _backupDatabaseFolderPath;
         public readonly string _backupPhotoFolderPath;
 
-        public CSVDataAccess()
+        public CSVDataAccess(ILogger<CSVDataAccess> logger)
         {
-        }
-        public CSVDataAccess(string projectFilePath, string timeUnitFilePath, string databaseFileFolderPath, string projectPicturesFolderPath)
-        {
-            _backendProjectTextFilePath = projectFilePath;
-            _backendTimeUniTextFilePath = timeUnitFilePath;
+            _logger = logger;
 
-            if (string.IsNullOrWhiteSpace(databaseFileFolderPath)) throw new Exception("ID: 1 databaseFileFolderPath not specified");
-            if (string.IsNullOrWhiteSpace(projectPicturesFolderPath)) throw new Exception("ID: 3projectPicturesFolderPath not specified");
+            _logger.LogInformation("CSVDataAccess => CTOR0 => CSV Enabled");
+        }
+
+        // CTOR:1
+        public CSVDataAccess(string projectFilePath, string timeUnitFilePath, string databaseFileFolderPath, string projectPicturesFolderPath, ILogger logger)
+        {
+            _externalLogger = logger;
+
+            _externalLogger.LogInformation("CSVDataAccess => CTOR1 => CSV Enabled");
+
+            _backendProjectTextFilePath = projectFilePath;
+            _externalLogger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: _backendProjectTextFilePath: {path}", _backendProjectTextFilePath);
+
+            _backendTimeUniTextFilePath = timeUnitFilePath;
+            _externalLogger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: _backendTimeUniTextFilePath: {path}", _backendTimeUniTextFilePath);
+
+            if (string.IsNullOrWhiteSpace(databaseFileFolderPath))
+            {
+                _externalLogger.LogError("CSVDataAccess (CTOR:1) =>  CSVDataAccess: Empty Databasefolder value: {value}", databaseFileFolderPath);
+                throw new Exception("ID: 1 databaseFileFolderPath not specified");
+            }
+            if (string.IsNullOrWhiteSpace(projectPicturesFolderPath))
+            {
+                _externalLogger.LogError("CSVDataAccess (CTOR:1) => CSVDataAccess: Empty projectPicturesFolderPath value: {value}", projectPicturesFolderPath);
+                throw new Exception("ID: 3 projectPicturesFolderPath not specified");
+            }
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(databaseFileFolderPath, true).Result;
             _backendPhotoFolderPath = MakeSureTheDirectoryIsThereAsync(projectPicturesFolderPath, true).Result;
-        }
-        public CSVDataAccess(string backendProjectTextFilePath, string backendTimeUniTextFilePath, string backendDatabaseFolderPath, string backendendPhotoFolderPath, string frontendProjectTextFilePath, string frontendTimeUnitTextFilePath, string frontendDatabaseFolderPath, string frontendPhotoFolderPath, string backupProjectTextFilePath, string backupTimeUnitTextFilePath, string backupDatabaseFolderPath, string backupPhotoFolderPath)
-        {
-            _backendProjectTextFilePath = backendProjectTextFilePath;
-            _backendTimeUniTextFilePath = backendTimeUniTextFilePath;
 
-            if (string.IsNullOrWhiteSpace(backendDatabaseFolderPath)) throw new Exception("ID: 4 backendDatabaseFolderPath not specified");
+            logger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: databaseFileFolderPath: {path}", databaseFileFolderPath);
+            logger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: projectPicturesFolderPath: {path}", projectPicturesFolderPath);
+            logger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: _backendDatabaseFolderPath: {path}", _backendDatabaseFolderPath);
+            logger.LogInformation("SVDataAccess (CTOR:1) =>  CSVDataAccess: _backendPhotoFolderPath: {path}", _backendPhotoFolderPath);
+        }
+
+        // CTOR:2
+        public CSVDataAccess(string backendProjectTextFilePath, string backendTimeUniTextFilePath, string backendDatabaseFolderPath, string backendendPhotoFolderPath, string frontendProjectTextFilePath, string frontendTimeUnitTextFilePath, string frontendDatabaseFolderPath, string frontendPhotoFolderPath, string backupProjectTextFilePath, string backupTimeUnitTextFilePath, string backupDatabaseFolderPath, string backupPhotoFolderPath, ILogger logger)
+        {
+            _externalLogger = logger;
+
+            _externalLogger.LogInformation("CSVDataAccess => CTOR2 => CSV Enabled");
+
+            _backendProjectTextFilePath = backendProjectTextFilePath;
+            _externalLogger.LogInformation("SVDataAccess (CTOR:2) => CSVDataAccess: _backendProjectTextFilePath: {path}", _backendProjectTextFilePath);
+
+            _backendTimeUniTextFilePath = backendTimeUniTextFilePath;
+            _externalLogger.LogInformation("SVDataAccess (CTOR:2) => CSVDataAccess: _backendTimeUniTextFilePath: {path}", _backendTimeUniTextFilePath);
+
+            if (string.IsNullOrWhiteSpace(backendDatabaseFolderPath))
+            {
+                _externalLogger.LogError("CSVDataAccess (CTOR:2) => CSVDataAccess: Empty backendDatabaseFolderPath value: {value}", backendDatabaseFolderPath);
+                throw new Exception("ID: 4 backendDatabaseFolderPath not specified");
+            }
+
             _backendDatabaseFolderPath = MakeSureTheDirectoryIsThereAsync(backendDatabaseFolderPath, true).Result;
+            _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _backendDatabaseFolderPath: {path}", _backendDatabaseFolderPath);
 
             if (string.IsNullOrEmpty(backendendPhotoFolderPath) == false)
             {
-                if (string.IsNullOrWhiteSpace(backendendPhotoFolderPath)) throw new Exception("ID: 5 backendendPhotoFolderPath not specified");
+                if (string.IsNullOrWhiteSpace(backendendPhotoFolderPath))
+                {
+                    _logger.LogError("CSVDataAccess (CTOR:2) => CSVDataAccess: Empty backendendPhotoFolderPath value: {value}", backendendPhotoFolderPath);
+                    throw new Exception("ID: 5 backendendPhotoFolderPath not specified");
+                }
                 _backendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backendendPhotoFolderPath, true)).Result;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _backendPhotoFolderPath: {path}", _backendPhotoFolderPath);
             }
 
             FrontEndEnabled = CheckIfEnabled(frontendProjectTextFilePath);
@@ -73,24 +122,54 @@ namespace ProjectProgressLibrary.DataAccess
 
             if (FrontEndEnabled == true)
             {
-                _frontendProjectTextFilePath = frontendProjectTextFilePath;
-                _frontendTimeUniTextFilePath = frontendTimeUnitTextFilePath;
+                logger.LogInformation("CSVDataAccess (CTOR:2) => CSVDataAccess: Backup folder enabled");
 
-                if (string.IsNullOrWhiteSpace(frontendDatabaseFolderPath)) throw new Exception("ID: 6 frontendDatabaseFolderPath not specified");
-                if (string.IsNullOrWhiteSpace(frontendPhotoFolderPath)) throw new Exception("ID: 7 frontendPhotoFolderPath not specified");
+                _frontendProjectTextFilePath = frontendProjectTextFilePath;
+                logger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendProjectTextFilePath: {path}", _frontendProjectTextFilePath);
+
+                _frontendTimeUniTextFilePath = frontendTimeUnitTextFilePath;
+                logger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendTimeUniTextFilePath: {path}", _frontendTimeUniTextFilePath);
+
+                if (string.IsNullOrWhiteSpace(frontendDatabaseFolderPath))
+                {
+                    logger.LogError("CSVDataAccess (CTOR:2) => CSVDataAccess: Empty frontendDatabaseFolderPath value: {value}", frontendDatabaseFolderPath);
+                    throw new Exception("ID: 6 frontendDatabaseFolderPath not specified");
+                }
+                if (string.IsNullOrWhiteSpace(frontendPhotoFolderPath))
+                {
+                    throw new Exception("ID: 7 frontendPhotoFolderPath not specified");
+                }
                 _frontendDatabaseFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendDatabaseFolderPath, false)).Result;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendTimeUniTextFilePath: {path}", _frontendDatabaseFolderPath);
+
                 _frontendPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(frontendPhotoFolderPath, false)).Result;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendTimeUniTextFilePath: {path}", _frontendPhotoFolderPath);
             }
 
             if (BackupEnabled == true)
             {
                 _backupProjectTextFilePath = backupProjectTextFilePath;
-                _backupTimeUniTextFilePath = backupTimeUnitTextFilePath;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _backupProjectTextFilePath: {path}", _backupProjectTextFilePath);
 
-                if (string.IsNullOrWhiteSpace(backupDatabaseFolderPath)) throw new Exception("ID: 8 backupDatabaseFolderPath not specified");
-                if (string.IsNullOrWhiteSpace(backupPhotoFolderPath)) throw new Exception("ID: 9 backupPhotoFolderPath not specified");
+                _backupTimeUniTextFilePath = backupTimeUnitTextFilePath;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _backupTimeUniTextFilePath: {path}", _backupTimeUniTextFilePath);
+
+                if (string.IsNullOrWhiteSpace(backupDatabaseFolderPath))
+                {
+                    _externalLogger.LogError("CSVDataAccess (CTOR:2) => CSVDataAccess: Empty backupDatabaseFolderPath value: {value}", backupDatabaseFolderPath);
+                    throw new Exception("ID: 8 backupDatabaseFolderPath not specified");
+                }
+                if (string.IsNullOrWhiteSpace(backupPhotoFolderPath))
+                {
+                    _externalLogger.LogError("CSVDataAccess (CTOR:2) =>  CSVDataAccess: Empty backupPhotoFolderPath value: {value}", backupPhotoFolderPath);
+                    throw new Exception("ID: 9 backupPhotoFolderPath not specified");
+                }
+
                 _backupDatabaseFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backupDatabaseFolderPath, false)).Result;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendTimeUniTextFilePath: {path}", _backupDatabaseFolderPath);
+
                 _backupPhotoFolderPath = Task.Run(() => MakeSureTheDirectoryIsThereAsync(backupPhotoFolderPath, false)).Result;
+                _externalLogger.LogInformation("SVDataAccess (CTOR:2) =>  CSVDataAccess: _frontendTimeUniTextFilePath: {path}", _backupPhotoFolderPath);
             }
         }
 
@@ -108,22 +187,22 @@ namespace ProjectProgressLibrary.DataAccess
         {
             return _frontendPhotoFolderPath;
         }
-        public (List<ProjectModel> projectList, List<TimeUnitModel> timeUnitsList) ReadAllRecords(string mainGoal)
+        public async Task<(List<ProjectModel> projectList, List<TimeUnitModel> timeUnitsList)> ReadAllRecordsAsync(string mainGoal)
         {
             List<ProjectModel> projectsList = new List<ProjectModel>();
             List<TimeUnitModel> timeUnitsList = new List<TimeUnitModel>();
 
-            projectsList = ReadAllProjectRecords(mainGoal);
-            timeUnitsList = ReadAllTimeUnits(mainGoal);
+            projectsList = await ReadAllProjectRecordsAsync(mainGoal);
+            timeUnitsList = await ReadAllTimeUnits(mainGoal);
 
             return (projectsList, timeUnitsList);
         }
 
-        private void MakeSureThereIsAnEntry<T>(List<T> entryList, string mainGoal)
+        private async Task MakeSureThereIsAnEntry<T>(List<T> entryList, string mainGoal)
         {
             if (entryList is List<TimeUnitModel> && entryList.Count == 0)
             {
-                CreateFirstTimeUnitEntry(mainGoal);
+                await CreateFirstTimeUnitEntry(mainGoal);
             }
             if (entryList is List<ProjectModel> && entryList.Count == 0)
             {
@@ -131,18 +210,18 @@ namespace ProjectProgressLibrary.DataAccess
             }
         }
 
-        public void MakeFirstEntry(string mainGoal)
+        public async Task MakeFirstEntry(string mainGoal)
         {
             CreateFirstProjectEntry(mainGoal);
-            CreateFirstTimeUnitEntry(mainGoal);
+            await CreateFirstTimeUnitEntry(mainGoal);
         }
 
-        private void CreateFirstTimeUnitEntry(string mainGoal)
+        private async Task CreateFirstTimeUnitEntry(string mainGoal)
         {
             // Setting up all needed parameters
             List<TimeUnitModel> emptyList = new List<TimeUnitModel>();
             TimeUnitModel first = new TimeUnitModel();
-            List<ProjectModel> allProjects = ReadAllProjectRecords(mainGoal);
+            List<ProjectModel> allProjects = await ReadAllProjectRecordsAsync(mainGoal);
             ProjectModel mainProject = GetProjectByTitle(mainGoal, allProjects);
 
             // Set first timeunit details
@@ -322,7 +401,7 @@ namespace ProjectProgressLibrary.DataAccess
             SaveAllProjects(projects);
             SaveAllTimeUnits(timeUnits);
         }
-        public List<ProjectModel> ReadAllProjectRecords(string mainGoal)
+        public async Task<List<ProjectModel>> ReadAllProjectRecordsAsync(string mainGoal)
         {
             List<ProjectModel> output = new List<ProjectModel>();
 
@@ -330,7 +409,7 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 output = GetAllProjectRecords();
 
-                MakeSureThereIsAnEntry(output, mainGoal);
+                await MakeSureThereIsAnEntry(output, mainGoal);
             }
 
             else
@@ -344,7 +423,7 @@ namespace ProjectProgressLibrary.DataAccess
                 }
                 catch (DirectoryNotFoundException)
                 {
-                    MakeSureTheDirectoryIsThereAsync(_backendDatabaseFolderPath, true);
+                    await MakeSureTheDirectoryIsThereAsync(_backendDatabaseFolderPath, true);
 
                     using (File.Create(_backendProjectTextFilePath))
                     {
@@ -359,8 +438,11 @@ namespace ProjectProgressLibrary.DataAccess
             }
             return output;
         }
+
         private async Task<string> MakeSureTheDirectoryIsThereAsync(string filePath, bool isBackend)
         {
+            _externalLogger.LogInformation("SVDataAccess.MakeSureTheDirectoryIsThereAsync => Backend: {isBackend}  => Creating folder: {folder}", isBackend, filePath);
+
             if (isBackend == true)
             {
                 await Task.Run(() => Directory.CreateDirectory(filePath));
@@ -508,7 +590,7 @@ namespace ProjectProgressLibrary.DataAccess
             return (outputTitle, outputList);
         }
 
-        public List<TimeUnitModel> ReadAllTimeUnits(string mainGoal)
+        public async Task<List<TimeUnitModel>> ReadAllTimeUnits(string mainGoal)
         {
             List<TimeUnitModel> output = new List<TimeUnitModel>();
 
@@ -516,7 +598,7 @@ namespace ProjectProgressLibrary.DataAccess
             {
                 output = GetAllTimeUnitRecords();
 
-                MakeSureThereIsAnEntry(output, mainGoal);
+                await MakeSureThereIsAnEntry(output, mainGoal);
             }
             else
             {
@@ -524,7 +606,7 @@ namespace ProjectProgressLibrary.DataAccess
                 {
                 }
 
-                CreateFirstTimeUnitEntry(mainGoal);
+                await CreateFirstTimeUnitEntry(mainGoal);
             }
 
 
@@ -759,7 +841,7 @@ namespace ProjectProgressLibrary.DataAccess
             if (projectsList is not null)
             {
                 List<string> projectTitles = projectsList.Select(x => x.Title).ToList();
-                if(projectTitles.Contains(projectTitle)) projectToFind = projectsList.Where(x => x.Title == projectTitle).First();
+                if (projectTitles.Contains(projectTitle)) projectToFind = projectsList.Where(x => x.Title == projectTitle).First();
             }
             return projectToFind;
         }
@@ -1736,10 +1818,10 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        public List<ProjectModel> FillProjectList(ProjectStatus status, string mainGoal)
+        public async Task<List<ProjectModel>> FillProjectList(ProjectStatus status, string mainGoal)
         {
             // Get all projects
-            List<ProjectModel> allProjects = ReadAllProjectRecords(mainGoal);
+            List<ProjectModel> allProjects = await ReadAllProjectRecordsAsync(mainGoal);
 
             // Create list to output
             List<ProjectModel> outputList = new List<ProjectModel>();

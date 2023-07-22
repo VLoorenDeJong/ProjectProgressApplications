@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 
 namespace PortfolioMVP.Pages
 {
@@ -52,7 +51,7 @@ namespace PortfolioMVP.Pages
             
             (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            AllProjects = _db.ReadAllProjectRecords(_mainGoal);
+            AllProjects = Task.Run(() => _db.ReadAllProjectRecordsAsync(_mainGoal)).Result;
             _rootFolderPath = _startConfig.GetProjectPhotosFolderPath(config);
 
         }

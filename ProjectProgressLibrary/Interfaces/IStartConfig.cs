@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Configuration;
-using ProjectProgressLibrary.DataAccess;
+using Microsoft.Extensions.Logging;
 
-namespace ProjectProgressLibrary.StartConfig
+namespace ProjectProgressLibrary.Interfaces
 {
     public interface IStartConfig
     {

@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models.Options;
 using ProjectProgressLibrary.StartConfig;
 using System;
@@ -25,7 +27,6 @@ namespace ProgressApplicationMVP
 
             _connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
 
-
             if (string.IsNullOrWhiteSpace(_connectionType))
             {
                 _connectionType = "CSV";
@@ -39,6 +40,8 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            services.AddLogging();
             services.Configure<ProgressAppInstanceOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
@@ -52,8 +55,7 @@ namespace ProgressApplicationMVP
                     services.AddTransient<IDataAccess, CSVDataAccess>();
                 }
             }
-
-
+                        
             services.AddRazorPages();
         }
 

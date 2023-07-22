@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 
 namespace ProgressApplicationMVP.Pages
@@ -33,8 +32,7 @@ namespace ProgressApplicationMVP.Pages
 
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitManagement");
 
-            AllProjects = _db.ReadAllProjectRecords(_MainGoal);
-            AllTimeUnits = _db.ReadAllTimeUnits(_MainGoal);
+            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
 
             AllTimeUnits = AllTimeUnits.OrderByDescending(x => x.TimeStamp).ToList();
 

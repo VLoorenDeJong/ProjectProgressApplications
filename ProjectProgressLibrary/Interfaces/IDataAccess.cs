@@ -2,8 +2,9 @@
 using ProjectProgressLibrary.Models;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
-namespace ProjectProgressLibrary.DataAccess
+namespace ProjectProgressLibrary.Interfaces
 {
     public interface IDataAccess
     {
@@ -16,7 +17,7 @@ namespace ProjectProgressLibrary.DataAccess
         PresentaionProjectModel CreatePresentationProject(ProjectModel projectToConvert, List<ProjectModel> allProjects, IDataAccess db);
         void DeleteProject(string projectTitle, List<ProjectModel> allProjects, List<TimeUnitModel> allTimeUnits);
         string ExchangePunctuations(string projectName);
-        List<ProjectModel> FillProjectList(Enums.ProjectStatus status, string mainGoal);
+        Task<List<ProjectModel>> FillProjectList(Enums.ProjectStatus status, string mainGoal);
         List<ProjectModel> FilterListsByDate(List<ProjectModel> projectList, DateTime selectionDate, Enums.ProjectStatus status);
         Guid? FindProblemId(string mainProjectTitle, List<Guid?> subProjectIds, List<ProjectModel> allProjects);
         List<TimeUnitModel> GetAllRelevantTimeUnits(ProjectModel mainProject, List<TimeUnitModel> allTimeUnits, List<ProjectModel> allProjects, IDataAccess db);
@@ -29,13 +30,13 @@ namespace ProjectProgressLibrary.DataAccess
         TimeUnitModel GetTimeUnitById(Guid timeUnitId, List<TimeUnitModel> allTimeUnits);
         List<SolutionModel> LoadAllDictionaries(List<ProjectModel> allProjects, Enums.DictionaryClassification classification);
         (ProjectModel projectToChange, Dictionary<string, List<string>> dictionaryToChange) LoadProjectDetails(string projectTitle, List<ProjectModel> allProjects, bool futureFeaturesLoaded, bool challengesLoaded, IDataAccess _db);
-        void MakeFirstEntry(string mainGoal);
+        Task MakeFirstEntry(string mainGoal);
         List<string> MakeListFromDictionaryItemValues(Dictionary<string, List<string>> inputList, string itemKey);
         ProjectModel OverrideDictionaryInProject(ProjectModel projectToChange, Dictionary<string, List<string>> updatedDictionary, bool futureFeaturesLoaded, bool challengesLoaded);
         void ProcessPicture(IFormFile photo, string projectTitle);
-        List<ProjectModel> ReadAllProjectRecords(string mainGoal);
-        (List<ProjectModel> projectList, List<TimeUnitModel> timeUnitsList) ReadAllRecords(string mainGoal);
-        List<TimeUnitModel> ReadAllTimeUnits(string mainGoal);
+        Task<List<ProjectModel>> ReadAllProjectRecordsAsync(string mainGoal);
+        Task<(List<ProjectModel> projectList, List<TimeUnitModel> timeUnitsList)> ReadAllRecordsAsync(string mainGoal);
+        Task<List<TimeUnitModel>> ReadAllTimeUnits(string mainGoal);
         void RemoveTime(ProjectModel projectToAddHousTo, TimeUnitModel timeUnitToDelete, List<ProjectModel> allProjects, List<TimeUnitModel> allTimeUnits);
         void SaveAllProjects(List<ProjectModel> projects);
         void SaveAllRecords(List<ProjectModel> projects, List<TimeUnitModel> timeUnits);

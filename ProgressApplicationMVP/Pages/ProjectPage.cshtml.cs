@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ProjectProgressLibrary;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Enums;
 using static ProjectProgressLibrary.Validation.DataValidation;
@@ -84,7 +83,8 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
             (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectPage");
 
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
+            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_mainGoal)).Result;
+
             mainGoal = _mainGoal;
 
         }
@@ -203,7 +203,7 @@ namespace ProgressApplicationMVP.Pages
 
                     _db.SaveAllProjects(AllProjects);
 
-                    AllProjects = _db.ReadAllProjectRecords(_mainGoal);
+                    AllProjects = Task.Run(() => _db.ReadAllProjectRecordsAsync(_mainGoal)).Result;
 
                     // Photo saving
                     _db.ProcessPicture(Photo, Project.Title);
@@ -269,7 +269,8 @@ namespace ProgressApplicationMVP.Pages
                 Nullable<Guid> guidToCHeck = _db.FindProblemId(MainProjectTitle, oldProject.SubProjectIds, AllProjects);
                 if (guidToCHeck == null)
                 {
-                    AllProjects = _db.ReadAllProjectRecords(_mainGoal);
+                    AllProjects = Task.Run(() => _db.ReadAllProjectRecordsAsync(_mainGoal)).Result;
+
                     title = OldProjectTitle;
 
                     Project.SetProjectId(oldProject.ProjectId.ToString());
@@ -327,7 +328,7 @@ namespace ProgressApplicationMVP.Pages
                     if (OldProjectTitle != Project.Title)
                     {
                         // Get all time units
-                        List<TimeUnitModel> allTimeUnits = _db.ReadAllTimeUnits(_mainGoal);
+                        List<TimeUnitModel> allTimeUnits = Task.Run(() => _db.ReadAllTimeUnits(_mainGoal)).Result;
 
                         // Select units for this project
                         List<TimeUnitModel> timeunitsForProject = allTimeUnits.Where(x => x.ProjectId == Project.ProjectId).ToList();

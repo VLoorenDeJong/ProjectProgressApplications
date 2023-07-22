@@ -6,9 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using ProjectProgressLibrary.DataAccess;
+using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
-using ProjectProgressLibrary.StartConfig;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Validation.DataValidation;
 
@@ -71,9 +70,9 @@ namespace ProgressApplicationMVP.Pages
 
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
-           
 
-            AllProjects = _db.ReadAllProjectRecords(_MainGoal);
+
+            AllProjects = Task.Run(() => db.ReadAllProjectRecordsAsync(_MainGoal)).Result;
         }
         public void OnGet()
         {
