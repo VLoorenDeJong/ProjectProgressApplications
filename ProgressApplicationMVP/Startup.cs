@@ -19,19 +19,29 @@ namespace ProgressApplicationMVP
 {
     public class Startup
     {
-        private readonly string _connectionType = "";
+        private string _connectionType = "";
+        private double expectedAppsettingsVersion = 1.1;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
 
-            _connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
+            //_connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
 
-            if (string.IsNullOrWhiteSpace(_connectionType))
-            {
-                _connectionType = "CSV";
-                Console.WriteLine("!! No connection specified !!");
-            }
+            //string currentDataStorage = configuration["ApplicationOptions:CurrentDataStorage"];
+            //Console.ForegroundColor = ConsoleColor.Red;
+            //Console.WriteLine($"!! currentDataStorage: {currentDataStorage} !!");
+            
+            //Console.ForegroundColor = ConsoleColor.White;
+
+            //if (string.IsNullOrWhiteSpace(_connectionType))
+            //{
+            //    _connectionType = "CSV";
+            //    Console.ForegroundColor = ConsoleColor.Red;
+            //    Console.WriteLine("!! No connection specified !!");
+            //    Console.WriteLine("!! Appsettings not loaded !!");
+            //    Console.ForegroundColor = ConsoleColor.White;
+            //}
 
         }
 
@@ -40,6 +50,11 @@ namespace ProgressApplicationMVP
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Access configuration values here in the ConfigureServices method
+            string currentDataStorage = Configuration["ApplicationOptions:CurrentDataStorage"];
+            Console.ForegroundColor = ConsoleColor.Magenta;
+            Console.WriteLine($"CurrentDataStorage: {currentDataStorage}");
+            Console.ForegroundColor = ConsoleColor.White;
 
             services.AddLogging();
             services.Configure<ProgressAppInstanceOptions>(Configuration.GetSection("ApplicationOptions"));
@@ -47,16 +62,47 @@ namespace ProgressApplicationMVP
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
 
-            if (!string.IsNullOrWhiteSpace(_connectionType) && services is not null)
+            double currentAppSettingsVersion = Configuration.GetValue<double>("Environment:AppSettingsVersion");
+
+            CheckAppsettingsVersionMatch(expectedAppsettingsVersion, currentAppSettingsVersion);
+
+            if (!string.IsNullOrWhiteSpace(currentDataStorage) && services is not null)
             {
-                if (string.Equals(_connectionType, PossibleDataStorage.CSV, StringComparison.OrdinalIgnoreCase))
+                if (string.Equals(currentDataStorage, PossibleDataStorage.CSV, StringComparison.OrdinalIgnoreCase))
                 {
                     services.AddTransient<IStartConfig, CSVStartConfig>();
+
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.WriteLine("Startup => ConfigureServices => Added Service: CSVStartConfig");
+
                     services.AddTransient<IDataAccess, CSVDataAccess>();
+
+                    Console.WriteLine("Startup => ConfigureServices => Added Service: CSVDataAccess  ");
+                    Console.ForegroundColor = ConsoleColor.White;
                 }
             }
                         
             services.AddRazorPages();
+        }
+
+        private void CheckAppsettingsVersionMatch(double expectedAppsettingsVersion, double currentAppSettingsVersion)
+        {
+            if (expectedAppsettingsVersion == currentAppSettingsVersion)
+            {
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Startup => ConfigureServices => Version match! {expectedAppsettingsVersion}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"Startup => ConfigureServices => Appsettings version issue!: expected: {expectedAppsettingsVersion} -> Current: {currentAppSettingsVersion}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Make sure the appsettings match");
+                Console.ForegroundColor = ConsoleColor.White;
+                throw new ArgumentException("Appsettings version mis match!");
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

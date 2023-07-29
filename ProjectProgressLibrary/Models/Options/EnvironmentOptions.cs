@@ -10,6 +10,7 @@ namespace ProjectProgressLibrary.Models.Options
     {
         public const string AppSettingsSection = "Environment";
         public string CurrentEnvironment { get; set; }
+        public double AppSettingsVersion { get; set; }
     }
     public class PossibleEvironments
     {

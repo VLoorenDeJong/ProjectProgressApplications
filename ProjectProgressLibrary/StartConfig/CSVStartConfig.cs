@@ -27,6 +27,7 @@ namespace ProjectProgressLibrary.StartConfig
             _logger = logger;
 
             _logger.LogInformation("CSVStartConfig => CTOR => CSV Enabled");
+            ConfigCheck();
         }
 
         public (IDataAccess database, string mainGoal) GetDbConfig(IConfiguration config, IDataAccess db, string pageName)
@@ -43,6 +44,7 @@ namespace ProjectProgressLibrary.StartConfig
             string platform = _platformOptions?.Value?.CurrentPlatform;
             string mainGoal = "";
 
+            _logger.LogInformation("CSVStartConfig => GetDbConfig => CurrentDataStorage: {stor}", _applicationOptions?.Value?.CurrentDataStorage);
             switch (_applicationOptions?.Value?.CurrentDataStorage)
             {
                 case PossibleDataStorage.CSV:
@@ -111,6 +113,9 @@ namespace ProjectProgressLibrary.StartConfig
             string backupPicturesFolderPath = "";
 
             IDataAccess outputDb;
+
+            _logger.LogInformation("CSVStartConfig => GetProgressDbConfig => CurrentDataStorage: {stor}", _applicationOptions?.Value?.CurrentDataStorage);
+
             switch (_applicationOptions?.Value?.CurrentDataStorage)
             {
                 case PossibleDataStorage.CSV:
@@ -129,35 +134,54 @@ namespace ProjectProgressLibrary.StartConfig
                             break;
                     }
 
+                    _logger.LogInformation("CSVStartConfig => GetProgressDbConfig => MainGoal: {goal}", mainGoal);
+
                     if (!string.IsNullOrEmpty(_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation))
                     {
+                        _logger.LogInformation("CSVStartConfig => GetProgressDbConfig => BackendDatabaseFolderLocation: {loc}", _progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation);
                         backendProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_progressAppInstanceOptions?.Value?.CurrentMainProjectGoal}_{FileNames.ProjectsFile}";
                         backendTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{_progressAppInstanceOptions?.Value?.CurrentMainProjectGoal}_{FileNames.TimeUnitsFile}";
                         backendDatabaseFolderPath = @$"{_progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation}";
                         backendendPicturesFolderPath = @$"{_progressAppInstanceOptions?.Value?.BackendProjectPicturesFolderPath}";
                     }
+                    else
+                    {
+                        _logger.LogError("CSVStartConfig => GetProgressDbConfig => BackendDatabaseFolderLocation empty!!: {loc}", _progressAppInstanceOptions?.Value?.BackendDatabaseFolderLocation);
+                    }
 
                     if (!string.IsNullOrWhiteSpace(_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation))
                     {
+                        _logger.LogInformation("CSVStartConfig => GetProgressDbConfig => FrontendDatabaseFolderLocation: {loc}", _progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation);
                         frondendProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
                         frontendTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
                         frontEndDatabaseFolderPath = @$"{_progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation}";
                         frontendPicturesFolderPath = $@"{_progressAppInstanceOptions?.Value?.FrontendProjectPicturesFolderPath}";
                     }
+                    else
+                    {
+                        _logger.LogError("CSVStartConfig => GetProgressDbConfig => FrontendDatabaseFolderLocation empty!!: {loc}", _progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation);
+                    }
 
                     if (!string.IsNullOrWhiteSpace(_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation))
                     {
+                        _logger.LogInformation("CSVStartConfig => GetProgressDbConfig => BackupDatabaseFolderLocation: {loc}", _progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation);
                         string date = DateTime.Now.Date.ToString("yyyy-MM-dd");
                         backupProjectFilePath = @$"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.ProjectsFile}";
                         backupTimeUnitFilePath = @$"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}{date}_{_environmentOptions?.Value?.CurrentEnvironment}_{mainGoal}{_environmentOptions?.Value?.CurrentEnvironment}_{FileNames.TimeUnitsFile}";
                         backupDatabaseFolderPath = $@"{_progressAppInstanceOptions?.Value?.BackupDatabaseFolderLocation}";
                         backupPicturesFolderPath = $@"{_progressAppInstanceOptions.Value?.BackupProjectPicturesFolderPath}";
                     }
+                    else
+                    {
+                        _logger.LogError("CSVStartConfig => GetProgressDbConfig => BackupDatabaseFolderLocation empty!!: {loc}", _progressAppInstanceOptions?.Value?.FrontendDatabaseFolderLocation);
+                    }
                     break;
             }
 
             if (db is CSVDataAccess)
             {
+                _logger.LogInformation("CSVtartConfig => GetProgressDbConfig => Starting CSVDataAccess CTOR 2");
+
                 outputDb = new CSVDataAccess(backendProjectFilePath, backendTimeUnitFilePath, backendDatabaseFolderPath, backendendPicturesFolderPath, frondendProjectFilePath, frontendTimeUnitFilePath, frontEndDatabaseFolderPath, frontendPicturesFolderPath, backupProjectFilePath, backupTimeUnitFilePath, backupDatabaseFolderPath, backupPicturesFolderPath, _logger);
             }
             else
@@ -266,6 +290,34 @@ namespace ProjectProgressLibrary.StartConfig
             }
 
             return showPicture;
+        }
+
+        private void ConfigCheck()
+        {
+            _logger.LogInformation("CSVStartConfig => CTOR => Start config check");
+
+            if (_applicationOptions is null) _logger.LogError("CSVStartConfig => CTOR => ConfigCheck => _applicationOptions is null!!");
+            else _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _applicationOptions is not null");
+
+
+            if (_environmentOptions is null) _logger.LogError("CSVStartConfig => CTOR => ConfigCheck => _environmentOptions is null!!");
+            else _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _environmentOptions.CurrentEnvironment: {env}", _environmentOptions.Value?.CurrentEnvironment);
+
+
+            if (_platformOptions is null) _logger.LogError("CSVStartConfig => CTOR => ConfigCheck => _platformOptions is null!!");
+            else _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _platformOptions.CurrentPlatform: {plat}", _platformOptions.Value?.CurrentPlatform);
+
+            if (_progressAppInstanceOptions is null) _logger.LogError("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions is null!!");
+            else 
+            {
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.CurrentMainProjectGoal: {info}", _progressAppInstanceOptions.Value?.CurrentMainProjectGoal);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.BackendDatabaseFolderLocation: {info}", _progressAppInstanceOptions.Value?.BackendDatabaseFolderLocation);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.BackendProjectPicturesFolderPath: {info}", _progressAppInstanceOptions.Value?.BackendProjectPicturesFolderPath);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.FrontendDatabaseFolderLocation: {info}", _progressAppInstanceOptions.Value?.FrontendDatabaseFolderLocation);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.FrontendProjectPicturesFolderPath: {info}", _progressAppInstanceOptions.Value?.FrontendProjectPicturesFolderPath);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.BackupDatabaseFolderLocation: {info}", _progressAppInstanceOptions.Value?.BackupDatabaseFolderLocation);
+                _logger.LogInformation("CSVStartConfig => CTOR => ConfigCheck => _progressAppInstanceOptions.BackupProjectPicturesFolderPath: {info}", _progressAppInstanceOptions.Value?.BackupProjectPicturesFolderPath);
+            }
         }
     }
 }
