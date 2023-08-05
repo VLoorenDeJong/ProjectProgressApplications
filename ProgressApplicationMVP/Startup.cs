@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using ProgressApplicationMVP.Options;
 using ProjectProgressLibrary.DataAccess;
 using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models.Options;
@@ -20,7 +21,7 @@ namespace ProgressApplicationMVP
     public class Startup
     {
         private string _connectionType = "";
-        private double expectedAppsettingsVersion = 1.2;
+        private double expectedAppsettingsVersion = 1.3;
 
         public Startup(IConfiguration configuration)
         {
@@ -44,6 +45,7 @@ namespace ProgressApplicationMVP
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
             services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSetings"));
+            services.Configure<IndexContentOptions>(Configuration.GetSection("IndexContent"));
 
             double currentAppSettingsVersion = Configuration.GetValue<double>("Environment:AppSettingsVersion");
 
