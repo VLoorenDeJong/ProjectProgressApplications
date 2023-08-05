@@ -9,7 +9,7 @@
             <div class="div-page-content-head-section">
                 <!--Title-->
                 <div class="div-page-title">
-                    <label class="label-page-title page-text">Runways</label>
+                    <label class="label-page-title page-text">Overview of all the Challenges & Additions with the solutions</label>
                 </div>
                 @*<div id="button row" class="div-button-row d-inline-flex">
                 <div class="div-button-section">
@@ -23,32 +23,14 @@
                 </div>
             </div>*@
             </div>
-
-
-            <!--Explanation section-->
-            <div class="div-explanation-section">
-                <label class="label-about-me-text-section page-text">Op deze pagina worden alle project uitdagingen en toekomstplannen weer gegeven.</label>
-                <br />
-                <label class="label-about-me-text-section page-text">Als ik een oplossing hier voor heb, dan sla ik het op in mijn Progress Application,</label>
-                <br />
-                <label class="label-about-me-text-section page-text">bij Challenges en Additions. Hierdoor kan ik terugvinden waar ik in mijn leerproces veel aan gehad heb.</label>
-                <br />
-                <label class="label-about-me-text-section page-text">Als andere mensen hier ook mee geholpen zijn, is dat helemaal mooi mee genomen.</label>
-                <br />
-                <a href="https://demo.victorloorendejong.nl" target="_blank">
-                    <label class="label-about-me-text-section page-text">Klik <labek class="border-bottom ">hier</labek> om zelf toekomstplannen en uitdagingen toe te voegen aan projecten.</label>
-                </a>
-            </div>
-
+                       
             <!--Search section-->
             <div id="page-section-search" class="div-input-section d-inline-flex">
                 <!--Field button combination-->
                 <div id="page-section-search-date-section" class="div-input-field-button-combination-section">
                     <div id="page-section-search-date-field" class="div-input-field-section">
-                        <input type="text" spellcheck="true" placeholder="Probleem" class="menu-text text-field-formatting" asp-for="@Model.SearchTerm" />
-                    </div>
-                    <div id="page-section-search-button" class="div-button-section">
-                        <button type="submit" class="button-formatting button-text menu-text" asp-route-classification="All" asp-page-handler="search">Zoek</button>
+                        <input type="text" spellcheck="true" placeholder="Probleem" class="table-dark" asp-for="@Model.SearchTerm" />
+                        <button type="submit" class="btn btn-dark" asp-route-classification="All" asp-page-handler="search">Zoek</button>
                     </div>
                 </div>
             </div>
@@ -91,7 +73,7 @@
                                 </th>
                                 <th>
                                     <div class="div-table-sub-column-head-section">
-                                        <label class="label-table-head page-text">Runway</label>
+                                        <label class="label-table-head page-text">Solution</label>
                                     </div>
                                 </th>
                             </tr>
