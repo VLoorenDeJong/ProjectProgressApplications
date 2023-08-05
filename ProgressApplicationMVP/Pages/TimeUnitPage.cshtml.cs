@@ -56,14 +56,14 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
 
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitPage");
+        }
+        public async Task OnGet(string timeUnit)
+        {
 
-            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
 
             AllProjects = AllProjects.OrderBy(x => x.Title).ToList();
 
-        }
-        public void OnGet(string timeUnit)
-        {
             if (ProjectTitle.ValidateStringHasContent() == true)
             {
                 FromManagementPage = true;
@@ -113,10 +113,10 @@ namespace ProgressApplicationMVP.Pages
             return RedirectToPage();
         }
 
-
-
-        public IActionResult OnPostSave()
+        public async Task<IActionResult> OnPostSave()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             if (string.IsNullOrEmpty(ProjectTitle) == true)
             {
                 return RedirectToPage(new
@@ -136,13 +136,17 @@ namespace ProgressApplicationMVP.Pages
                     ForgotHours = true
                 });
             }
-            SaveTimeUnit(_logger);
+
+            await SaveTimeUnit(_logger);
+
             return RedirectToPage();
         }
 
 
-        public IActionResult OnPostSaveChangeProject(string timeUnit)
+        public async Task<IActionResult> OnPostSaveChangeProject(string timeUnit)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             if (HoursPutIn == 0)
             {
                 return RedirectToPage(new
@@ -155,8 +159,10 @@ namespace ProgressApplicationMVP.Pages
             HandelChangedTimeUnit(timeUnit, true);
             return RedirectToPage("ProjectManagementPage");
         }
-        public IActionResult OnPostSaveChangedTimeUnit(string timeUnit)
+        public async Task<IActionResult> OnPostSaveChangedTimeUnit(string timeUnit)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             HandelChangedTimeUnit(timeUnit, false);
             return RedirectToPage("TimeUnitManagement");
         }
@@ -204,9 +210,9 @@ namespace ProgressApplicationMVP.Pages
             TimeUnitToAdd.SetTimeStamp(TimeStamp.ToString());
         }
 
-        private void SaveTimeUnit(ILogger logger)
+        private async Task SaveTimeUnit(ILogger logger)
         {
-            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
 
             ProjectModel projectToAddHoursTo = _db.GetProjectByTitle(ProjectTitle, AllProjects);
 

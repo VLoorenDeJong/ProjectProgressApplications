@@ -82,14 +82,13 @@ namespace ProgressApplicationMVP.Pages
             _webHostEnvironment = webHostEnvironment;
             _startConfig = startConfig;
             (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectPage");
-
-            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_mainGoal)).Result;
-
             mainGoal = _mainGoal;
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_mainGoal);
+
             if (mainGoal == "Demoing the app")
             {
                 IsDemo = true;
@@ -127,8 +126,9 @@ namespace ProgressApplicationMVP.Pages
         {
             return RedirectToPage();
         }
-        public IActionResult OnPostSave()
+        public async Task<IActionResult> OnPostSave()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_mainGoal);
 
             if (string.IsNullOrEmpty(Project.Title) == true)
             {
@@ -203,7 +203,7 @@ namespace ProgressApplicationMVP.Pages
 
                     _db.SaveAllProjects(AllProjects);
 
-                    AllProjects = Task.Run(() => _db.ReadAllProjectRecordsAsync(_mainGoal)).Result;
+                    AllProjects = await _db.ReadAllProjectRecordsAsync(_mainGoal);
 
                     // Photo saving
                     _db.ProcessPicture(Photo, Project.Title);
@@ -260,8 +260,10 @@ namespace ProgressApplicationMVP.Pages
                 NoProjectTitle = true
             });
         }
-        public IActionResult OnPostSaveEditedProject()
+        public async Task<IActionResult> OnPostSaveEditedProject()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_mainGoal);
+
             if (string.IsNullOrEmpty(Project.Title) == false)
             {
                 string title = "";

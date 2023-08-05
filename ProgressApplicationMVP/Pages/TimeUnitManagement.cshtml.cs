@@ -31,21 +31,21 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
 
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "timeUnitManagement");
-
-            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
+        }
+        public async Task OnGet()
+        {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
 
             AllTimeUnits = AllTimeUnits.OrderByDescending(x => x.TimeStamp).ToList();
-
-        }
-        public void OnGet()
-        {
         }
         public IActionResult OnPostEdit(string timeUnit)
         {
             return RedirectToPage("TimeUnitPage", new { timeUnit });
         }
-        public IActionResult OnPostRemove(string timeUnit)
+        public async Task<IActionResult> OnPostRemove(string timeUnit)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             Guid timeUnitGuid = new Guid(timeUnit);
             TimeUnitModel timeUnitToDelete = _db.GetTimeUnitById(timeUnitGuid, AllTimeUnits);
             ProjectModel projectWithTime = _db.GetProjectById(timeUnitToDelete.ProjectId, AllProjects);

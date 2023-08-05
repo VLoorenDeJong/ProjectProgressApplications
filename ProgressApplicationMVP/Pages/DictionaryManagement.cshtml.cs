@@ -160,8 +160,10 @@ namespace ProgressApplicationMVP.Pages
                 ItemToSearch = ItemToSearch
             });
         }
-        public IActionResult OnPostAddItem(string item)
+        public async Task<IActionResult> OnPostAddItem(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             GetValuesFromButton(item);
 
             // Entery check key
@@ -247,8 +249,11 @@ namespace ProgressApplicationMVP.Pages
 
                 );
         }
-        public IActionResult OnPostRemoveItem(string item)
+        public async Task<IActionResult> OnPostRemoveItem(string item)
         {
+
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             GetValuesFromButton(item);
 
             (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
@@ -267,8 +272,10 @@ namespace ProgressApplicationMVP.Pages
                 Mode = Mode
             });
         }
-        public IActionResult OnPostSaveKey(string item)
+        public async Task<IActionResult> OnPostSaveKey(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             // ToDo test wit values
             GetValuesFromButton(item);
 
@@ -332,8 +339,10 @@ namespace ProgressApplicationMVP.Pages
 
             });
         }
-        public IActionResult OnPostAddValue(string key)
+        public async Task<IActionResult> OnPostAddValue(string key)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             if (string.IsNullOrEmpty(EnteredValue) == true)
             {
 
@@ -387,8 +396,10 @@ namespace ProgressApplicationMVP.Pages
                 ChallengesLoaded = ChallengesLoaded
             });
         }
-        public IActionResult OnPostRemoveValue(string value)
+        public async Task<IActionResult> OnPostRemoveValue(string value)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             foreach (var item in DictionaryToChange)

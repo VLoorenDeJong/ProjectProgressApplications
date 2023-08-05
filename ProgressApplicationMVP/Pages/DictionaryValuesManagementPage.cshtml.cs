@@ -51,7 +51,6 @@ namespace ProgressApplicationMVP.Pages
 
         // Back end
         private readonly IDataAccess _db;
-        private readonly ILogger<DictionaryValuesManagementPageModel> _logger;
         private readonly string _MainGoal;
         private List<ProjectModel> AllProjects = new List<ProjectModel>();
         private IStartConfig _startConfig;
@@ -65,17 +64,15 @@ namespace ProgressApplicationMVP.Pages
         [BindProperty(SupportsGet = true)]
         public string ProjectTitle { get; set; }
 
-        public DictionaryValuesManagementPageModel(ILogger<DictionaryValuesManagementPageModel> logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
+        public DictionaryValuesManagementPageModel(IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
-
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
-
-
-            AllProjects = Task.Run(() => db.ReadAllProjectRecordsAsync(_MainGoal)).Result;
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             (ProjectToChange, DictionaryToChange) = _db.LoadProjectDetails(ProjectTitle, AllProjects, FutureFeaturesLoaded, ChallengesLoaded, _db);
 
             ItemValuesList = _db.MakeListFromDictionaryItemValues(DictionaryToChange, ItemTitle);
@@ -100,8 +97,10 @@ namespace ProgressApplicationMVP.Pages
         {
             return RedirectToPage("ProjectManagementPage");
         }
-        public IActionResult OnPostAddValue(string item)
+        public async Task<IActionResult> OnPostAddValue(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             // Get the send values from page en make the right page settings
             //GetValuesFromButton(item);
             LoadTheRightPageValues();
@@ -174,8 +173,10 @@ namespace ProgressApplicationMVP.Pages
                 ItemTitle = ItemTitle
             });
         }
-        public IActionResult OnPostEditValue(string item)
+        public async Task<IActionResult> OnPostEditValue(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             // Get the send values from page en make the right page settings
             //GetValuesFromButton(item);
             LoadTheRightPageValues();
@@ -198,8 +199,9 @@ namespace ProgressApplicationMVP.Pages
 
             }); ;
         }
-        public IActionResult OnPostSaveEditedValue()
+        public async Task<IActionResult> OnPostSaveEditedValue()
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
 
             LoadTheRightPageValues();
             // Load the project and the correct dictionary
@@ -244,8 +246,10 @@ namespace ProgressApplicationMVP.Pages
                 IsNewValue = IsNewValue
             });
         }
-        public IActionResult OnPostRemoveValue(string item)
+        public async Task<IActionResult> OnPostRemoveValue(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             // Get the send values from page en make the right page settings
             //GetValuesFromButton(item);
             LoadTheRightPageValues();

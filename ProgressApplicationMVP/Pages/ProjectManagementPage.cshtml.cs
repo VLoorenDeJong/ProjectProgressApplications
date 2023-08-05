@@ -47,16 +47,13 @@ namespace ProgressApplicationMVP.Pages
         {
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectManagement");
-
-            (AllProjects, AllTimeUnits) = Task.Run(() => _db.ReadAllRecordsAsync(_MainGoal)).Result;
-
-            AllProjects = AllProjects.OrderBy(x => x.SubProjectIds.Count).ToList();
-            
             MainGoal = _MainGoal;
-
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+            AllProjects = AllProjects.OrderBy(x => x.SubProjectIds.Count).ToList();
+
             if (SearchEnabled == true)
             {
                 List<string> allProjectTitles = AllProjects.Select(x => x.Title).ToList();
@@ -79,35 +76,43 @@ namespace ProgressApplicationMVP.Pages
         }
         public IActionResult OnPostShowAll()
         {
-
             return RedirectToPage(new { ShowAll = true });
         }
-        public void OnPostStartProject(string title)
+        public async Task OnPostStartProject(string title)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
             ProjectStatus status = ProjectStatus.Doing;
             _db.ChangeProjectStatus(title, status, AllProjects);
         }
-        public void OnPostStopProject(string title)
+        public async Task OnPostStopProject(string title)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
             ProjectStatus status = ProjectStatus.ToDo;
             _db.ChangeProjectStatus(title, status, AllProjects);
         }
-        public void OnPostFinishProject(string title)
+        public async Task OnPostFinishProject(string title)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             ProjectStatus status = ProjectStatus.Done;
             _db.ChangeProjectStatus(title, status, AllProjects);
         }
-        public void OnPostRestartProject(string title)
+        public async Task OnPostRestartProject(string title)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             ProjectStatus status = ProjectStatus.Doing;
             _db.ChangeProjectStatus(title, status, AllProjects);
         }
-        public void OnPostDeleteProject(string title)
+        public async Task OnPostDeleteProject(string title)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
             _db.DeleteProject(title, AllProjects, AllTimeUnits);
         }
-        public IActionResult OnPostSearchProject()
+        public async Task<IActionResult> OnPostSearchProject()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
+
             bool hasTitleToSearch = ProjectTitle.ValidateStringHasContent();
             bool projectExists = ProjectTitle.ValidateIfSearchedProjectTitleExsists(AllProjects);
             if (hasTitleToSearch == true && projectExists == true)
