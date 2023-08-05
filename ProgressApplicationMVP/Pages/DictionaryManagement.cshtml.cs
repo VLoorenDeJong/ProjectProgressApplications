@@ -54,8 +54,6 @@ namespace ProgressApplicationMVP.Pages
 
 
         // BackEnd
-
-        private readonly ILogger<DictionaryManagementModel> _logger;
         private IStartConfig _startConfig;
         private readonly IDataAccess _db;
         //See if private is ok
@@ -74,16 +72,17 @@ namespace ProgressApplicationMVP.Pages
         [BindProperty(SupportsGet = true)]
         public string NewKeyValue { get; set; }
 
-        public DictionaryManagementModel(ILogger logger, IDataAccess db, IConfiguration config, IStartConfig startConfig)
+        public DictionaryManagementModel(IDataAccess db, IConfiguration config, IStartConfig startConfig)
         {
             _startConfig = startConfig;
             (_db, _MainGoal) = _startConfig.GetProgressDbConfig(config, db, "dictionaryManagement");
-
-            AllProjects = Task.Run(() => db.ReadAllProjectRecordsAsync(_MainGoal)).Result;
         }
 
-        public void OnGet()
+        public async Task OnGet()
         {
+
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             if (FromValuePage == true)
             {
                 if (Mode == "Challenges")

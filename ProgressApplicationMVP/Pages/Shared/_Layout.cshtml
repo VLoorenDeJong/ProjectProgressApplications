@@ -1,12 +1,21 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Logging;
+@inject ILogger<Pages_Shared__Layout> logger;
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ProgressApplicationMVP</title>
-    <link rel="stylesheet" href="/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
     <link rel="stylesheet" href=@($"{System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css") />
     <link rel="stylesheet" href=@($"{System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/css/site.css") />
+    @{
+        logger.LogInformation($"bootstrap filepath: {System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css");
+        logger.LogInformation($"site.css filepath: {System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/css/site.css");
+    }
 
 </head>
 <body class="body-color">
@@ -34,6 +43,9 @@
                         </li>
                         <li class="nav-item">
                             <a class="nav-link text-light" asp-area="" asp-page="/TimeUnitManagement">Time unit management</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-page="/SolutionsPage">Solutions page</a>
                         </li>
                     </ul>
                 </div>

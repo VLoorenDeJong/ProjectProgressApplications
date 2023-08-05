@@ -20,29 +20,11 @@ namespace ProgressApplicationMVP
     public class Startup
     {
         private string _connectionType = "";
-        private double expectedAppsettingsVersion = 1.1;
+        private double expectedAppsettingsVersion = 1.2;
 
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
-            //_connectionType = configuration.GetSection("ApplicationOptions").GetValue<string>("CurrentDataStorage");
-
-            //string currentDataStorage = configuration["ApplicationOptions:CurrentDataStorage"];
-            //Console.ForegroundColor = ConsoleColor.Red;
-            //Console.WriteLine($"!! currentDataStorage: {currentDataStorage} !!");
-            
-            //Console.ForegroundColor = ConsoleColor.White;
-
-            //if (string.IsNullOrWhiteSpace(_connectionType))
-            //{
-            //    _connectionType = "CSV";
-            //    Console.ForegroundColor = ConsoleColor.Red;
-            //    Console.WriteLine("!! No connection specified !!");
-            //    Console.WriteLine("!! Appsettings not loaded !!");
-            //    Console.ForegroundColor = ConsoleColor.White;
-            //}
-
         }
 
         public IConfiguration Configuration { get; }
@@ -61,6 +43,7 @@ namespace ProgressApplicationMVP
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSetings"));
 
             double currentAppSettingsVersion = Configuration.GetValue<double>("Environment:AppSettingsVersion");
 
@@ -123,7 +106,6 @@ namespace ProgressApplicationMVP
             app.UseStaticFiles();
 
             app.UseRouting();
-
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
