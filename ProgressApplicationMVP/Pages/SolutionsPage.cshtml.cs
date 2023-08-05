@@ -51,11 +51,10 @@ namespace PortfolioMVP.Pages
             _startConfig = startConfig;
             _logger = logger;
             _config = config;
-            (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "solutions");
 
+            (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "solutions");
 
             MainProject = _db.GetProjectByTitle(_mainGoal, AllProjects);
-
         }
 
         public async Task OnGet()
