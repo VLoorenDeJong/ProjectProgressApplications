@@ -89,7 +89,7 @@ namespace ProgressApplicationMVP.Pages
                 {
                     ChallengesLoaded = true;
                 }
-                if (Mode == "Future")
+                if (Mode == "Additions")
                 {
                     FutureFeaturesLoaded = true;
                 }
@@ -126,8 +126,10 @@ namespace ProgressApplicationMVP.Pages
         {
             return RedirectToPage();
         }
-        public IActionResult OnPostSearchItem(string item)
+        public async Task<IActionResult> OnPostSearchItem(string item)
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_MainGoal);
+
             GetValuesFromButton(item);
 
             bool hasSomethingToSearch = ItemToSearch.ValidateStringHasContent();
@@ -468,7 +470,7 @@ namespace ProgressApplicationMVP.Pages
         }
         private void LoadFutureValues()
         {
-            KeyTableHead = "Future";
+            KeyTableHead = "Additions";
             ValueTableHead = "Runway items";
             KeyItemPlaceholderText = "Addition";
             ValueItemPlaceHolderText = "Runway suggestion";

@@ -70,5 +70,20 @@ body {
   line-height: 60px; /* Vertically center the text there */
 }
 .body-color {
-    background-color: #eba434;
+    background-color: #eba434;/* old*/
+    background-color: #ecfcff;
+}
+.nav-bar-styling {
+    background-color: #10232B;
+    background-color: #10232B;
+}
+.navbar-toggler-icon {
+    background-color: #eba434; /* old*/
+    background-color: #ecfcff;
+}
+.navbar-brand {
+    color: #547884 !important;
+}
+.nav-link {
+    color: #ecfcff !important;
 }
