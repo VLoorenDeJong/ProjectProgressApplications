@@ -87,7 +87,6 @@ namespace ProgressApplicationMVP.Pages
             _startConfig = startConfig;
             (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectPage");
             mainGoal = _mainGoal;
-            HasPortfolio = applicationOptions?.Value?.HasPortfolio;
         }
         public async Task OnGet()
         {

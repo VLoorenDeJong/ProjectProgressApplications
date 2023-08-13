@@ -11,7 +11,7 @@
     <label hidden="hidden" asp-for="@Model.Mode">@Model.Mode</label>
     <div>
         <input type="text" asp-for="@Model.ItemToSearch" class="input-field" spellcheck="true" />
-        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn search-button">Search <i class="fa fa-search"></i></button>
+        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn search-button"><i class="fa fa-search"></i></button>
         <br />
         <br />
         <div>
