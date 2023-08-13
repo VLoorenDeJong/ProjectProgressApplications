@@ -21,7 +21,7 @@ namespace ProgressApplicationMVP
     public class Startup
     {
         private string _connectionType = "";
-        private double expectedAppsettingsVersion = 1.5;
+        private double expectedAppsettingsVersion = 1.4;
 
         public Startup(IConfiguration configuration)
         {
