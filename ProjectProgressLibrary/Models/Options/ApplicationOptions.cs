@@ -10,7 +10,7 @@ namespace ProjectProgressLibrary.Models.Options
     public class ApplicationOptions
     {
         public string CurrentDataStorage { get; set; }
-     
+        public bool HasPortfolio { get; set; }
     }
 
 

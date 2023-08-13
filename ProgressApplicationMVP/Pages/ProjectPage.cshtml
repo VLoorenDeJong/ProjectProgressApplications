@@ -25,7 +25,7 @@
                 <label class="alert-danger">Please use an other project title this already exists</label>
             }
             <br />
-            <input type="text" asp-for="@Model.Project.Title" value="@Model.Project.Title" class="table-dark" spellcheck="true" placeholder="Project title" />
+            <input type="text" asp-for="@Model.Project.Title" value="@Model.Project.Title" class="input-field" spellcheck="true" placeholder="Project title" />
             <br />
             <br />
 
@@ -37,24 +37,24 @@
                 <div class="form-group row">
                     <div class="col-sm-10">
                         <div class="custom-file">
-                            <input type="file" asp-for="Photo" class="custom-file-input form-control bg-dark p-4" />
-                            <label class="custom-file-label bg-dark">Change photo</label>
+                            <input type="file" asp-for="Photo" class="custom-file-input form-control input-field p-4" />
+                            <label class="custom-file-label">Change photo</label>
                         </div>
                     </div>
                 </div>
                 <br />
 
             }
-            <input type="number" asp-for="@Model.Project.Impact" value="@Model.Project.Impact" class="table-dark" min="1" max="10" />
+            <input type="number" asp-for="@Model.Project.Impact" value="@Model.Project.Impact" class="input-field" min="1" max="10" />
             <label asp-for="@Model.Project.Impact"></label>
             <br />
-            <input type="number" asp-for="@Model.Project.Urgency" value="@Model.Project.Urgency" class="table-dark" min="1" max="10" />
+            <input type="number" asp-for="@Model.Project.Urgency" value="@Model.Project.Urgency" class="input-field" min="1" max="10" />
             <label asp-for="@Model.Project.Urgency"></label>
             <br />
-            <input type="number" asp-for="@Model.Project.EaseOffSuccess" value="@Model.Project.EaseOffSuccess" class="table-dark" min="1" max="10" />
+            <input type="number" asp-for="@Model.Project.EaseOffSuccess" value="@Model.Project.EaseOffSuccess" class="input-field" min="1" max="10" />
             <label asp-for="@Model.Project.EaseOffSuccess"></label>
             <br />
-            <input type="number" asp-for="@Model.Project.PersonalPreference" value="@Model.Project.PersonalPreference" class="table-dark" min="1" max="10" />
+            <input type="number" asp-for="@Model.Project.PersonalPreference" value="@Model.Project.PersonalPreference" class="input-field" min="1" max="10" />
             <label asp-for="@Model.Project.PersonalPreference"></label>
 
 
@@ -67,7 +67,7 @@
                 <label>Short description:</label>
                 <br />
             }
-            <input type="text" asp-for="@Model.Project.ShortDescription" value="@Model.Project.ShortDescription" class="table-dark" spellcheck="true" placeholder="Short description" />
+            <input type="text" asp-for="@Model.Project.ShortDescription" value="@Model.Project.ShortDescription" class="input-field" spellcheck="true" placeholder="Short description" />
             <br />
             <br />
             @if (Model.EditingProject == true)
@@ -75,7 +75,7 @@
                 <label>Desired outcome:</label>
                 <br />
             }
-            <input type="text" asp-for="@Model.Project.Outcome" value="@Model.Project.Outcome" class="table-dark" spellcheck="true" placeholder="Desired outcome" />
+            <input type="text" asp-for="@Model.Project.Outcome" value="@Model.Project.Outcome" class="input-field" spellcheck="true" placeholder="Desired outcome" />
 
             @if (Model.IsDemo == false)
             {
@@ -86,7 +86,7 @@
                     <label>Demo link:</label>
                     <br />
                 }
-                <input type="text" asp-for="@Model.Project.DemoLink" value="@Model.Project.DemoLink" class="table-dark" spellcheck="true" placeholder="Demo link" />
+                <input type="text" asp-for="@Model.Project.DemoLink" value="@Model.Project.DemoLink" class="input-field" spellcheck="true" placeholder="Demo link" />
 
                 <br />
                 <br />
@@ -95,28 +95,28 @@
                     <label>Github link:</label>
                     <br />
                 }
-                <input type="text" asp-for="@Model.Project.GitHubLink" value="@Model.Project.GitHubLink" class="table-dark" spellcheck="true" placeholder="Github link" />
+                <input type="text" asp-for="@Model.Project.GitHubLink" value="@Model.Project.GitHubLink" class="input-field" spellcheck="true" placeholder="Github link" />
 
             }
             <br />
             <br />
             <label>Developer name:</label>
             <br />
-            <input type="text" asp-for="@Model.Project.DeveloperName" value="@Model.Project.DeveloperName" class="table-dark" />
+            <input type="text" asp-for="@Model.Project.DeveloperName" value="@Model.Project.DeveloperName" class="input-field" />
             <br />
             @if (Model.IsDemo == false)
             {
                 <br />
-                <input type="checkbox" asp-for="@Model.Project.ShowItem" checked="@Model.Project.ShowItem" class="table-dark" />
+                <input type="checkbox" asp-for="@Model.Project.ShowItem" checked="@Model.Project.ShowItem" class="input-field" />
                 <label asp-for="@Model.Project.ShowItem"></label>
                 <br />
-                <input type="checkbox" asp-for="@Model.Project.HasDemo" checked="@Model.Project.HasDemo" class="table-dark" />
+                <input type="checkbox" asp-for="@Model.Project.HasDemo" checked="@Model.Project.HasDemo" class="input-field" />
                 <label asp-for="@Model.Project.HasDemo"></label>
                 <br />
-                <input type="checkbox" asp-for="@Model.Project.ShowProgressBar" checked="@Model.Project.ShowProgressBar" class="table-dark" />
+                <input type="checkbox" asp-for="@Model.Project.ShowProgressBar" checked="@Model.Project.ShowProgressBar" class="input-field" />
                 <label asp-for="@Model.Project.ShowProgressBar"></label>
                 <br />
-                <input type="checkbox" asp-for="@Model.Project.PriorityCalculation" class="table-dark" checked="@Model.Project.PriorityCalculation" />
+                <input type="checkbox" asp-for="@Model.Project.PriorityCalculation" class="input-field" checked="@Model.Project.PriorityCalculation" />
                 <label asp-for="@Model.Project.PriorityCalculation"></label>
 
             }
@@ -137,15 +137,15 @@
             {
                 <label>Create date</label>
                 <br />
-                <input type="datetime" asp-for="@Model.DateCreate" value="@Model.Project.DateCreated" class="table-dark" placeholder="@Model.Project.DateCreated" />
+                <input type="datetime" asp-for="@Model.DateCreate" value="@Model.Project.DateCreated" class="input-field" placeholder="@Model.Project.DateCreated" />
                 <br />
                 <label>Date doing</label>
                 <br />
-                <input type="datetime" asp-for="@Model.DateDoing" value="@Model.Project.DateDoing" class="table-dark" placeholder="@Model.Project.DateDoing" />
+                <input type="datetime" asp-for="@Model.DateDoing" value="@Model.Project.DateDoing" class="input-field" placeholder="@Model.Project.DateDoing" />
                 <br />
                 <label>Date done </label>
                 <br />
-                <input type="datetime" asp-for="@Model.DateDone" value="@Model.Project.DateDone" class="table-dark" placeholder="@Model.Project.DateDone" />
+                <input type="datetime" asp-for="@Model.DateDone" value="@Model.Project.DateDone" class="input-field" placeholder="@Model.Project.DateDone" />
                 <br />
                 <label>Project status</label>
                 <br />

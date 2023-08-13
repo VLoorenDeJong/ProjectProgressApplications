@@ -9,12 +9,12 @@
 <form method="post">
     <div>
         <br />
-        <button class="btn btn-dark" asp-page-handler="BackToItem" asp-route-projecttitle="@Model.ProjectTitle"
+        <button class="btn" asp-page-handler="BackToItem" asp-route-projecttitle="@Model.ProjectTitle"
                 asp-route-mode="@Model.Mode"
                 asp-route-itemtitle="@Model.ItemTitle">
             @Model.Mode
             </button>
-            <button class="btn btn-dark" asp-page-handler="BackToProjectManagement">Project Management</button>
+            <button class="btn" asp-page-handler="BackToProjectManagement">Project Management</button>
             <br />
             <br />
         </div>
@@ -22,8 +22,8 @@
             <thead>
                 <tr>
                     <th>
-                        <input type="text" asp-for="@Model.ValueToAdd" class="table-dark" spellcheck="true" placeholder="@Model.ValueItemPlaceHolderText" />
-                        <button class="btn btn-dark" asp-page-handler="AddValue" asp-route-projecttitle="@Model.ProjectTitle"
+                    <input type="text" asp-for="@Model.ValueToAdd" class="input-field" spellcheck="true" placeholder="@Model.ValueItemPlaceHolderText" />
+                        <button class="btn" asp-page-handler="AddValue" asp-route-projecttitle="@Model.ProjectTitle"
                                                             asp-route-mode="@Model.Mode"
                                                             asp-route-itemtitle="@Model.ItemTitle">
                             Add
@@ -61,10 +61,10 @@
                             @if (Model.EditingEnabled == true && value == Model.OldValue)
                             {
                                 <br />
-                                <input type="text" asp-for="@Model.NewValue" value="@Model.OldValue" class="table-dark" spellcheck="true" />
+                            <input type="text" asp-for="@Model.NewValue" value="@Model.OldValue" class="input-field" spellcheck="true" />
                                 <br />
                                 <br />
-                                <button class="btn btn-dark" asp-page-handler="saveeditedvalue" asp-route-projecttitle="@Model.ProjectTitle"
+                                <button class="btn" asp-page-handler="saveeditedvalue" asp-route-projecttitle="@Model.ProjectTitle"
                                         asp-route-mode="@Model.Mode"
                                         asp-route-itemtitle="@Model.ItemTitle"
                                         asp-route-oldvalue="@value"

@@ -12,6 +12,7 @@
 
     <link rel="stylesheet" href=@($"{System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css") />
     <link rel="stylesheet" href=@($"{System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/css/site.css") />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"> 
     @{
         logger.LogInformation($"bootstrap filepath: {System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css");
         logger.LogInformation($"site.css filepath: {System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)}/wwwroot/css/site.css");

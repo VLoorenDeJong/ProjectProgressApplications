@@ -10,8 +10,8 @@
     <label hidden="hidden" asp-for="@Model.ProjectTitle">@Model.ProjectTitle</label>
     <label hidden="hidden" asp-for="@Model.Mode">@Model.Mode</label>
     <div>
-        <input type="text" asp-for="@Model.ItemToSearch" class="table-dark" spellcheck="true" />
-        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn btn-dark">Search</button>
+        <input type="text" asp-for="@Model.ItemToSearch" class="input-field" spellcheck="true" />
+        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn search-button">Search <i class="fa fa-search"></i></button>
         <br />
         <br />
         <div>
@@ -24,7 +24,7 @@
         <thead>
             <tr>
                 <th>
-                    <input type="text" asp-for="@Model.EnteredKey" class="table-dark" spellcheck="true" placeholder="@Model.KeyItemPlaceholderText" />
+                    <input type="text" asp-for="@Model.EnteredKey" class="input-field" spellcheck="true" placeholder="@Model.KeyItemPlaceholderText" />
                     <button class="btn btn-outline-dark" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="AddItem">Add</button>
                     @if (Model.ItemKeyFound == true)
                     {
@@ -70,7 +70,7 @@
                             @if (@key.Key == Model.OldKey)
                             {
                                 <label>@key.Key</label>
-                                <input type="text" value="@Model.OldKey" asp-for="@Model.NewKeyValue" class="table-dark" />
+                                <input type="text" value="@Model.OldKey" asp-for="@Model.NewKeyValue" class="input-field" />
                                 <button class="btn btn-dark" asp-page-handler="SaveKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Save</button>
 
                                 <div class="p-5">

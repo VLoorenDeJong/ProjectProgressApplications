@@ -87,3 +87,39 @@ body {
 .nav-link {
     color: #ecfcff !important;
 }
+.custom-file-input {
+    background-color: #f2fdff;
+}
+.custom-file-label {
+    margin-top: 5px !important;
+    background-color: #f2fdff;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: #10232B;
+    color: #10232B;
+}
+
+.input-field {
+    background-color: #f2fdff;
+    border: solid 1px;
+    border-radius: 5px;
+    border-color: #10232B;
+    color: #10232B;
+    padding: 6px;
+}
+.search-button {
+}
+.show-all-button {
+}
+
+.btn {
+    background-color: #212529;
+    color: #ecfcff;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid;
+}
+    .btn:hover {
+        background-color: #ecfcff;
+        color: #212529;
+    }

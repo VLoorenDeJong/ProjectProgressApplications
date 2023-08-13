@@ -7,7 +7,7 @@
 <form method="post">
     <div class="row">
         <div>
-            <input type="number" asp-for="@Model.HoursPutIn" value="@Model.HoursPutIn" class="table-dark" min="0" />
+            <input type="number" asp-for="@Model.HoursPutIn" value="@Model.HoursPutIn" class="input-field" min="0" />
             @if (Model.ForgotHours == true)
             {
                 <br />
@@ -26,7 +26,7 @@
             @if (Model.TimeUnitLoaded == true)
             {
                 <div class="p-2">
-                    <input type="datetime" asp-for="@Model.TimeStamp" value="@Model.TimeStamp" class="table-dark text-muted" placeholder="@Model.TimeStamp" />
+                    <input type="datetime" asp-for="@Model.TimeStamp" value="@Model.TimeStamp" class="input-field text-muted" placeholder="@Model.TimeStamp" />
                 </div>
             }
             @if (Model.FromManagementPage == false && Model.TimeUnitLoaded == false)

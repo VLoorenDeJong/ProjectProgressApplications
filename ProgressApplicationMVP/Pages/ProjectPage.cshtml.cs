@@ -8,12 +8,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using ProjectProgressLibrary;
 using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
+using ProjectProgressLibrary.Models.Options;
 using static ProgressApplicationMVP.Logic;
 using static ProjectProgressLibrary.Enums;
 using static ProjectProgressLibrary.Validation.DataValidation;
+
 
 namespace ProgressApplicationMVP.Pages
 {
@@ -72,18 +75,19 @@ namespace ProgressApplicationMVP.Pages
         public DateTime DateDone { get; set; }
         [BindProperty(SupportsGet =true)]
         public ProjectStatus NewStatus { get; set; }
-
+        [BindProperty]
+        public bool? HasPortfolio { get; set; }
 
         [BindProperty]
         public IFormFile Photo { get; set; }
-        public ProjectPageModel(ILogger<ProjectPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment, IStartConfig startConfig)
+        public ProjectPageModel(ILogger<ProjectPageModel> logger, IDataAccess db, IConfiguration config, IWebHostEnvironment webHostEnvironment, IStartConfig startConfig, IOptions<ApplicationOptions> applicationOptions)
         {
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
             _startConfig = startConfig;
             (_db, _mainGoal) = _startConfig.GetProgressDbConfig(config, db, "projectPage");
             mainGoal = _mainGoal;
-
+            HasPortfolio = applicationOptions?.Value?.HasPortfolio;
         }
         public async Task OnGet()
         {
