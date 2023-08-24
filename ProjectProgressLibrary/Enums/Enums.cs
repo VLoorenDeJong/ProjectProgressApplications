@@ -32,5 +32,11 @@ namespace ProjectProgressLibrary
             FutureAdditions,
             All
         }
+
+        public enum DictionaryMode
+        {
+            Challenges,
+            Additions
+        }
     }
 }

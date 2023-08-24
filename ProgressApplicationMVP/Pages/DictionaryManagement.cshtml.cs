@@ -475,7 +475,7 @@ namespace ProgressApplicationMVP.Pages
             KeyItemPlaceholderText = "Addition";
             ValueItemPlaceHolderText = "Runway suggestion";
             FutureFeaturesLoaded = true;
-            Mode = "Future";
+            Mode = "Additions";
         }
         private void LoadChallengesValues()
         {
@@ -509,7 +509,7 @@ namespace ProgressApplicationMVP.Pages
             {
                 LoadChallengesValues();
             }
-            if (passedValues[1] == "Future")
+            if (passedValues[1] == "Additions")
             {
                 LoadFutureValues();
             }

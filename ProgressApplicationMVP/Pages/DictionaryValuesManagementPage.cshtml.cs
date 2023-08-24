@@ -314,7 +314,7 @@ namespace ProgressApplicationMVP.Pages
         private void LoadTheRightPageValues()
         {
 
-            if (Mode == "Future")
+            if (Mode == "Additions")
             {
                 LoadFutureValues();
             }
@@ -329,7 +329,7 @@ namespace ProgressApplicationMVP.Pages
             ValueTableHead = "Runway items";
             ValueItemPlaceHolderText = "Runway suggestion";
             FutureFeaturesLoaded = true;
-            Mode = "Future";
+            Mode = "Additions";
         }
         private void LoadChallengesValues()
         {
