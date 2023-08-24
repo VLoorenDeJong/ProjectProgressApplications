@@ -11,12 +11,12 @@
     <label hidden="hidden" asp-for="@Model.Mode">@Model.Mode</label>
     <div>
         <input type="text" asp-for="@Model.ItemToSearch" class="input-field" spellcheck="true" />
-        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="btn search-button"><i class="fa fa-search"></i></button>
+        <button type="submit" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="SearchItem" class="standard-button search-button"><i class="fa fa-search"></i></button>
         <br />
         <br />
         <div>
-            <button type="submit" asp-page-handler="GoBackToProjectManagement" class="btn btn-dark">Project management</button>
-            <button class="btn btn-outline-danger" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="EditItems">Edit</button>
+            <button type="submit" asp-page-handler="GoBackToProjectManagement" class="standard-button btn-dark">Project management</button>
+            <button class="standard-button btn-outline-danger" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="EditItems">Edit</button>
         </div>
         <br />
     </div>
@@ -25,7 +25,7 @@
             <tr>
                 <th>
                     <input type="text" asp-for="@Model.EnteredKey" class="input-field" spellcheck="true" placeholder="@Model.KeyItemPlaceholderText" />
-                    <button class="btn btn-outline-dark" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="AddItem">Add</button>
+                    <button class="standard-button btn-outline-dark" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode" asp-page-handler="AddItem">Add</button>
                     @if (Model.ItemKeyFound == true)
                     {
                         <br />
@@ -61,9 +61,9 @@
                             {
                                 <label>@key.Key</label>
                                 <label hidden="hidden">@key.Key</label>
-                                <button class="btn btn-dark" asp-page-handler="EditKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Edit</button>
+                                <button class="standard-button btn-dark" asp-page-handler="EditKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Edit</button>
                                 <div class="p-5">
-                                    <button class="btn btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button>
+                                    <button class="standard-button btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button>
                                 </div>
 
                             }
@@ -71,10 +71,10 @@
                             {
                                 <label>@key.Key</label>
                                 <input type="text" value="@Model.OldKey" asp-for="@Model.NewKeyValue" class="input-field" />
-                                <button class="btn btn-dark" asp-page-handler="SaveKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Save</button>
+                                <button class="standard-button btn-dark" asp-page-handler="SaveKey" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Save</button>
 
                                 <div class="p-5">
-                                    <button class="btn btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button>
+                                    <button class="standard-button btn-outline-danger" asp-page-handler="RemoveItem" asp-route-item="@Model.ProjectTitle@delimiter@Model.Mode@delimiter@key.Key">Remove</button>
                                 </div>
 
                             }

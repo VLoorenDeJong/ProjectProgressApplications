@@ -31,15 +31,15 @@
             }
             @if (Model.FromManagementPage == false && Model.TimeUnitLoaded == false)
             {
-                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="Save">Save</button>
+                <button type="submit" class="standard-button btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="Save">Save</button>
             }
             @if (Model.FromManagementPage == true)
             {
-                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="SaveChangeProject">Save</button>
+                <button type="submit" class="standard-button btn-dark" asp-route-timeunit="@Model.ProjectTitle" asp-page-handler="SaveChangeProject">Save</button>
             }
             @if (Model.TimeUnitLoaded == true)
             {
-                <button type="submit" class="btn btn-dark" asp-route-timeunit="@Model.TimeUnitToAdd.TimeUnitId" asp-page-handler="SaveChangedTimeUnit">Save</button>
+                <button type="submit" class="standard-button btn-dark" asp-route-timeunit="@Model.TimeUnitToAdd.TimeUnitId" asp-page-handler="SaveChangedTimeUnit">Save</button>
 
             }
         </div>

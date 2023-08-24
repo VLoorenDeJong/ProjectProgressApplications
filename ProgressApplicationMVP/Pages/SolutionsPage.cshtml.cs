@@ -77,8 +77,8 @@ namespace PortfolioMVP.Pages
         {
             switch (classification)
             {
-                case "Challenges":
-                    return RedirectToPage(new { classification = "Challenges" });
+                case DictionaryMode.Challenges:
+                    return RedirectToPage(new { classification = DictionaryMode.Challenges });
                 case "FutureAdditions":
                     return RedirectToPage(new { classification = "FutureAdditions" });
                 case "All":
@@ -107,7 +107,7 @@ namespace PortfolioMVP.Pages
         {
             switch (classification)
             {
-                case "Challenges":
+                case DictionaryMode.Challenges:
                     DictionaryClassification = DictionaryClassification.Challenges;
                     break;
                 case "FutureAdditions":

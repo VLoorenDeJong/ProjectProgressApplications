@@ -16,7 +16,7 @@
                     <button type="submit" asp-route-classification="All" asp-page-handler="classification" class="menu-text button-formatting">Alle</button>
                 </div>
                 <div class="div-button-section">
-                    <button type="submit" asp-route-classification="Challenges" asp-page-handler="classification" class="menu-text button-formatting">Uidagingen</button>
+                    <button type="submit" asp-route-classification=DictionaryMode.Challenges asp-page-handler="classification" class="menu-text button-formatting">Uidagingen</button>
                 </div>
                 <div class="div-button-section">
                     <button type="submit" asp-route-classification="FutureAdditions" asp-page-handler="classification" class="menu-text button-formatting">Toekomstige features</button>
@@ -30,7 +30,7 @@
                 <div id="page-section-search-date-section" class="div-input-field-button-combination-section">
                     <div id="page-section-search-date-field" class="div-input-field-section">
                         <input type="text" spellcheck="true" placeholder="Challenge / Addition" class="input-field" asp-for="@Model.SearchTerm" />
-                        <button type="submit" class="btn" asp-route-classification="All" asp-page-handler="search"><i class="fa fa-search"></i></button>
+                        <button type="submit" class="standard-button" asp-route-classification="All" asp-page-handler="search"><i class="fa fa-search"></i></button>
                     </div>
                 </div>
             </div>

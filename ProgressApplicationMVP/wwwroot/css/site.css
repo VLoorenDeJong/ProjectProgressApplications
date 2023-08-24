@@ -112,14 +112,14 @@ body {
 .show-all-button {
 }
 
-.btn {
+.standard-button {
     background-color: #212529;
     color: #ecfcff;
-    border-radius: 10px;
+    border-radius: 10px !important;
     padding: 10px;
     border: 1px solid;
 }
-    .btn:hover {
+    .standard-button:hover {
         background-color: #ecfcff;
         color: #212529;
     }

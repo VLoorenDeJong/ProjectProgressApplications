@@ -125,11 +125,11 @@
 
             @if (Model.EditingProject == false)
             {
-                <button type="submit" class="btn btn-dark" asp-page-handler="Save">Save project</button>
+                <button type="submit" class="standard-button btn-dark" asp-page-handler="Save">Save project</button>
             }
             @if (Model.EditingProject == true)
             {
-                <button type="submit" class="btn btn-dark" asp-page-handler="SaveEditedProject" asp-route-isdemo="@Model.IsDemo" value="none">Save project</button>
+                <button type="submit" class="standard-button btn-dark" asp-page-handler="SaveEditedProject" asp-route-isdemo="@Model.IsDemo" value="none">Save project</button>
             }
 
             <br />

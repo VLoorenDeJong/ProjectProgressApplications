@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.VisualBasic;
 using ProjectProgressLibrary.Interfaces;
 using ProjectProgressLibrary.Models;
 using ProjectProgressLibrary.Validation;
@@ -85,11 +86,11 @@ namespace ProgressApplicationMVP.Pages
 
             if (FromValuePage == true)
             {
-                if (Mode == "Challenges")
+                if (Mode == DictionaryMode.Challenges)
                 {
                     ChallengesLoaded = true;
                 }
-                if (Mode == "Additions")
+                if (Mode == DictionaryMode.Additions)
                 {
                     FutureFeaturesLoaded = true;
                 }
@@ -470,21 +471,21 @@ namespace ProgressApplicationMVP.Pages
         }
         private void LoadFutureValues()
         {
-            KeyTableHead = "Additions";
+            KeyTableHead = DictionaryMode.Additions;
             ValueTableHead = "Runway items";
             KeyItemPlaceholderText = "Addition";
             ValueItemPlaceHolderText = "Runway suggestion";
             FutureFeaturesLoaded = true;
-            Mode = "Additions";
+            Mode = DictionaryMode.Additions;
         }
         private void LoadChallengesValues()
         {
-            KeyTableHead = "Challenges";
+            KeyTableHead = DictionaryMode.Challenges;
             ValueTableHead = "Solutions";
             KeyItemPlaceholderText = "Challenge";
             ValueItemPlaceHolderText = "Solution suggestion";
             ChallengesLoaded = true;
-            Mode = "Challenges";
+            Mode = DictionaryMode.Challenges;
         }
         private bool IsKeyDouble()
         {
@@ -505,11 +506,11 @@ namespace ProgressApplicationMVP.Pages
 
             ProjectTitle = passedValues[0];
 
-            if (passedValues[1] == "Challenges")
+            if (passedValues[1] == DictionaryMode.Challenges)
             {
                 LoadChallengesValues();
             }
-            if (passedValues[1] == "Additions")
+            if (passedValues[1] == DictionaryMode.Additions)
             {
                 LoadFutureValues();
             }

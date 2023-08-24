@@ -314,12 +314,12 @@ namespace ProgressApplicationMVP.Pages
         private void LoadTheRightPageValues()
         {
 
-            if (Mode == "Additions")
+            if (Mode == DictionaryMode.Additions)
             {
                 LoadFutureValues();
             }
 
-            if (Mode == "Challenges")
+            if (Mode == DictionaryMode.Challenges)
             {
                 LoadChallengesValues();
             }
@@ -329,14 +329,14 @@ namespace ProgressApplicationMVP.Pages
             ValueTableHead = "Runway items";
             ValueItemPlaceHolderText = "Runway suggestion";
             FutureFeaturesLoaded = true;
-            Mode = "Additions";
+            Mode = DictionaryMode.Additions;
         }
         private void LoadChallengesValues()
         {
             ValueTableHead = "Solutions";
             ValueItemPlaceHolderText = "Solution suggestion";
             ChallengesLoaded = true;
-            Mode = "Challenges";
+            Mode = DictionaryMode.Challenges;
         }
     }
 }
