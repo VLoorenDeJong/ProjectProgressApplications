@@ -14,6 +14,8 @@ namespace PortfolioMVP.Pages
 {
     public class SolutionsPageModel : PageModel
     {
+
+        public readonly string Delimiter = "!*&";
         // Front end
         [BindProperty]
         public DictionaryClassification DictionaryClassification { get; private set; } = DictionaryClassification.All;
@@ -45,7 +47,6 @@ namespace PortfolioMVP.Pages
         private List<ProjectModel> AllProjects { get; set; } = new List<ProjectModel>();
         private ProjectModel MainProject { get; set; }
 
-
         public SolutionsPageModel(ILogger<SolutionsPageModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
             _startConfig = startConfig;
@@ -66,11 +67,11 @@ namespace PortfolioMVP.Pages
             if (SearchEnabled == true && string.IsNullOrEmpty(SearchTerm) == false)
             {
                 PageSolutions = PageSolutions.Where(x => x.Key.ToLower().Contains(SearchTerm.ToLower())).ToList();
-               
+
 
             }
             PageSolutions = PageSolutions.OrderBy(x => x.Key).ToList();
-            
+
         }
 
         public IActionResult OnPostClassification()
@@ -119,6 +120,25 @@ namespace PortfolioMVP.Pages
                 default:
                     break;
             }
+        }
+
+        public IActionResult OnPostEditValues(string item)
+        {
+            string[] passedValues = item.Split(Delimiter);
+
+            string projectTitle = passedValues[0];
+            string mode = passedValues[1];
+            string itemTitle = passedValues[2];
+
+            return RedirectToPage("DictionaryValuesManagementPage", new
+            {
+                ProjectTitle = projectTitle,
+                FutureFeaturesLoaded = (string.Equals(mode, DictionaryMode.Additions, StringComparison.CurrentCultureIgnoreCase)),
+                ChallengesLoaded = (string.Equals(mode, DictionaryMode.Challenges, StringComparison.CurrentCultureIgnoreCase)),
+                Mode = mode,
+                ItemTitle = itemTitle
+
+            });
         }
 
         private void LoadPageHours(ProjectModel project)

@@ -3,6 +3,9 @@
 @{
     ViewData["Title"] = "Runways";
 }
+@{
+    string delimiter = @Model.Delimiter;
+}
 <form method="post">
     <div id="wrapper">
         <div class="scrollable-page">
@@ -13,17 +16,17 @@
                 </div>
                 @*<div id="button row" class="div-button-row d-inline-flex">
                 <div class="div-button-section">
-                    <button type="submit" asp-route-classification="All" asp-page-handler="classification" class="menu-text button-formatting">Alle</button>
+                <button type="submit" asp-route-classification="All" asp-page-handler="classification" class="menu-text button-formatting">Alle</button>
                 </div>
                 <div class="div-button-section">
-                    <button type="submit" asp-route-classification=DictionaryMode.Challenges asp-page-handler="classification" class="menu-text button-formatting">Uidagingen</button>
+                <button type="submit" asp-route-classification=DictionaryMode.Challenges asp-page-handler="classification" class="menu-text button-formatting">Uidagingen</button>
                 </div>
                 <div class="div-button-section">
-                    <button type="submit" asp-route-classification="FutureAdditions" asp-page-handler="classification" class="menu-text button-formatting">Toekomstige features</button>
+                <button type="submit" asp-route-classification="FutureAdditions" asp-page-handler="classification" class="menu-text button-formatting">Toekomstige features</button>
                 </div>
-            </div>*@
+                </div>*@
             </div>
-                       
+
             <!--Search section-->
             <div id="page-section-search" class="div-input-section d-inline-flex">
                 <!--Field button combination-->
@@ -50,9 +53,9 @@
             }
             @if (Model.SearchEnabled == false && Model.DictionaryClassification == ProjectProgressLibrary.Enums.DictionaryClassification.All)
                 @*{
-                <div id="page-section-body-head" class="div-table-title-section">
-                    <label class="page-text label-result-text label-result-seacrhed">Alle oplossingen</label>
-                </div>
+            <div id="page-section-body-head" class="div-table-title-section">
+            <label class="page-text label-result-text label-result-seacrhed">Alle oplossingen</label>
+            </div>
             }*@
                 @if (Model.SearchEnabled == true)
                 {
@@ -60,56 +63,73 @@
                         <label class="page-text label-table-title">Alle oplossingen voor <label class="label-result-text">@Model.SearchTerm</label></label>
                     </div>
                 }
-                <!--Result table-->
-                <!--Table section-->
-                <div id="page-section-added-projects-table" class="div-table-section">
-                    <table class="table">
-                        <thead>
+            <!--Result table-->
+            <!--Table section-->
+            <div id="page-section-added-projects-table" class="div-table-section">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <div class="div-table-title-column-head-section">
+                                    <label class="label-table-head label-table-title page-text">Challenge / Addition</label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="div-table-sub-column-head-section">
+                                    <label class="label-table-head page-text">Solution</label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="div-table-title-column-head-section">
+                                    <label class="label-table-head label-table-title page-text">Project name</label>
+                                </div>
+                            </th>
+                            <th>
+                                <div class="div-table-title-column-head-section">
+                                    <label class="label-table-head label-table-title page-text">Edit</label>
+                                </div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var problem in Model.PageSolutions)
+                        {
                             <tr>
-                                <th>
-                                    <div class="div-table-title-column-head-section">
-                                        <label class="label-table-head label-table-title page-text">Challenge / Addition</label>
+                                <td>
+                                    <div class="div-table-row-title-item-section">
+                                        <label class="label-table-row page-text">@problem.Key</label>
                                     </div>
-                                </th>
-                                <th>
-                                    <div class="div-table-sub-column-head-section">
-                                        <label class="label-table-head page-text">Solution</label>
-                                    </div>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var problem in Model.PageSolutions)
-                            {
-                                <tr>
-                                    <td>
-                                        <div class="div-table-row-title-item-section">
-                                            <label class="label-table-row page-text">@problem.Key</label>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        @foreach (var solution in problem.Values)
+                                </td>
+                                <td>
+                                    @foreach (var solution in problem.Values)
+                                    {
+                                        @if (solution.Contains("http") == true)
                                         {
-                                            @if (solution.Contains("http") == true)
-                                            {
-                                                <div class="div-table-sub-column-item-section">
-                                                    <a href="@solution" target="_blank"><label class="label-table-row page-text">@solution</label> </a>
+                                            <div class="div-table-sub-column-item-section">
+                                                <a href="@solution" target="_blank"><label class="label-table-row page-text">@solution</label> </a>
 
-                                                </div>
-                                            }
-                                            if (solution.Contains("http") == false)
-                                            {
-                                                <div class="div-table-sub-column-item-section">
-                                                    <label class="label-table-row page-text">@solution</label>
-                                                </div>
-                                            }
+                                            </div>
                                         }
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
+                                        if (solution.Contains("http") == false)
+                                        {
+                                            <div class="div-table-sub-column-item-section">
+                                                <label class="label-table-row page-text">@solution</label>
+                                            </div>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <label class="label-table-row page-text">@problem.ProjectTitle</label>
+                                </td>
+                                <td>
+
+                                    <button class="btn btn-dark" asp-page-handler="EditValues" asp-route-item="@problem.ProjectTitle@delimiter@problem.Mode@delimiter@problem.Key">Edit</button>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
             </div>
+        </div>
     </div>
 </form>

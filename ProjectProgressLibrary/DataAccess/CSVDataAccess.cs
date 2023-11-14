@@ -1766,14 +1766,14 @@ namespace ProjectProgressLibrary.DataAccess
                 switch (classification)
                 {
                     case DictionaryClassification.Challenges:
-                        challengesSolutions = GetDictionaryItems(project.Challenges);
+                        challengesSolutions = GetDictionaryItems(project.Challenges, project.Title, DictionaryClassification.Challenges);
                         break;
                     case DictionaryClassification.FutureAdditions:
-                        futureAdditionSolutions = GetDictionaryItems(project.FutureAdditions);
+                        futureAdditionSolutions = GetDictionaryItems(project.FutureAdditions, project.Title, DictionaryClassification.FutureAdditions);
                         break;
                     case DictionaryClassification.All:
-                        challengesSolutions = GetDictionaryItems(project.Challenges);
-                        futureAdditionSolutions = GetDictionaryItems(project.FutureAdditions);
+                        challengesSolutions = GetDictionaryItems(project.Challenges, project.Title, DictionaryClassification.Challenges);
+                        futureAdditionSolutions = GetDictionaryItems(project.FutureAdditions, project.Title, DictionaryClassification.FutureAdditions);
                         break;
                     default:
                         break;
@@ -1801,16 +1801,16 @@ namespace ProjectProgressLibrary.DataAccess
             return outputList;
         }
 
-        private List<SolutionModel> GetDictionaryItems(Dictionary<string, List<string>> dictionaryToConvert)
+        private List<SolutionModel> GetDictionaryItems(Dictionary<string, List<string>> dictionaryToConvert, string projectTitle, DictionaryClassification dictionaryClassification)
         {
             List<SolutionModel> outputList = new List<SolutionModel>();
 
             foreach (var item in dictionaryToConvert)
             {
-                SolutionModel solutionToAdd = new SolutionModel();
+                SolutionModel solutionToAdd = new SolutionModel(dictionaryClassification);
                 solutionToAdd.Key = item.Key;
                 solutionToAdd.Values = item.Value;
-
+                solutionToAdd.ProjectTitle = projectTitle;
 
                 outputList.Add(solutionToAdd);
             }
