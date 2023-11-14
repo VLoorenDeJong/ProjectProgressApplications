@@ -123,3 +123,8 @@ body {
         background-color: #ecfcff;
         color: #212529;
     }
+
+.solution-column {
+    word-wrap:  anywhere;
+    max-width: 50%;
+}
