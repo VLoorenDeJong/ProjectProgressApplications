@@ -53,13 +53,14 @@ namespace PortfolioMVP.Pages
             _config = config;
             (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            AllProjects = _db.ReadAllProjectRecords(_mainGoal);
 
             MainProject = _db.GetProjectByTitle(_mainGoal, AllProjects);
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_mainGoal);
             LoadPageSettings();
             PageSolutions = _db.LoadAllDictionaries(AllProjects, DictionaryClassification);
             if (SearchEnabled == true && string.IsNullOrEmpty(SearchTerm) == false)

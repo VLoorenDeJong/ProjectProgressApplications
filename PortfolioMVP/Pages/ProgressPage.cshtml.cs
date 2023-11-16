@@ -56,16 +56,15 @@ namespace PortfolioMVP.Pages
             _config = config;
             (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            AllProjects = _db.ReadAllProjectRecords(_mainGoal);
 
             MainProject = _db.GetProjectByTitle(_mainGoal, AllProjects);
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
 
-            LoadPageSettings();
-            SearchDate =  CreateDateFromString(SearchDate.ToString());
+            await LoadPageSettings();
+            SearchDate = CreateDateFromString(SearchDate.ToString());
             if (SearchEnabled == false || SearchDate.ToString() == "01/01/0001 12:00:00 AM"
                                        || SearchDate.ToString() == "01/01/0001 00:00:00")
             {
@@ -95,17 +94,19 @@ namespace PortfolioMVP.Pages
             });
         }
 
-        private void LoadPageSettings()
+        private async Task LoadPageSettings()
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(_mainGoal);
             LoadPageHours(MainProject);
-            LoadProjectLists();
+            await LoadProjectLists();
         }
 
-        private void LoadProjectLists()
+        private async Task LoadProjectLists()
         {
-            FinishedProjects = _db.FillProjectList(ProjectStatus.Done, _mainGoal);
-            StartedProjects = _db.FillProjectList(ProjectStatus.Doing, _mainGoal);
-            AddedProjects = _db.FillProjectList(ProjectStatus.ToDo, _mainGoal);
+
+            FinishedProjects = await _db.FillProjectList(ProjectStatus.Done, _mainGoal);
+            StartedProjects = await _db.FillProjectList(ProjectStatus.Doing, _mainGoal);
+            AddedProjects = await _db.FillProjectList(ProjectStatus.ToDo, _mainGoal);
         }
         private void LoadPageHours(ProjectModel project)
         {

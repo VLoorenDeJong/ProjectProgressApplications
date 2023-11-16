@@ -19,6 +19,7 @@ namespace PortfolioMVP
     public class Startup
     {
         private readonly string _connectionType = "";
+        private double expectedAppsettingsVersion = 1;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -33,9 +34,14 @@ namespace PortfolioMVP
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddLogging();
+            services.Configure<ProgressAppInstanceOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
+
+            double currentAppSettingsVersion = Configuration.GetValue<double>("Environment:AppSettingsVersion");
+
+            CheckAppsettingsVersionMatch(expectedAppsettingsVersion, currentAppSettingsVersion);
 
             if (!string.IsNullOrWhiteSpace(_connectionType))
             {
@@ -75,6 +81,25 @@ namespace PortfolioMVP
             {
                 endpoints.MapRazorPages();
             });
+        }
+        private void CheckAppsettingsVersionMatch(double expectedAppsettingsVersion, double currentAppSettingsVersion)
+        {
+            if (expectedAppsettingsVersion == currentAppSettingsVersion)
+            {
+
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine($"Startup => ConfigureServices => Version match! {expectedAppsettingsVersion}");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.DarkRed;
+                Console.WriteLine($"Startup => ConfigureServices => Appsettings version issue!: expected: {expectedAppsettingsVersion} -> Current: {currentAppSettingsVersion}");
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Make sure the appsettings match");
+                Console.ForegroundColor = ConsoleColor.White;
+                throw new ArgumentException("Appsettings version mis match!");
+            }
         }
     }
 }

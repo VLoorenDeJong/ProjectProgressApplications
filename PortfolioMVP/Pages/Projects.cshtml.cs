@@ -73,14 +73,14 @@ namespace PortfolioMVP.Pages
             _config = config;
             (_db, _MainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_MainGoal);
             _projectPhotosFolderPath = _startConfig.GetProjectPhotosFolderPath(config);
 
         }
 
 
-        public void OnGet(string pageTitle)
+        public async Task OnGet(string pageTitle)
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_MainGoal);
             LoadPageDetails(pageTitle);
 
             bool isFirstProjectLayer = checkForFirstLayerProject(pageTitle);

@@ -43,7 +43,6 @@ namespace PortfolioMVP.Pages
             
             (_db, mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            AllProjects = _db.ReadAllProjectRecords(mainGoal);
 
             MainProject = _db.GetProjectByTitle(mainGoal, AllProjects);
 
@@ -53,8 +52,9 @@ namespace PortfolioMVP.Pages
             PracticalHours = MainProject.PracticalHours;
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(mainGoal);
         }
     }
 }

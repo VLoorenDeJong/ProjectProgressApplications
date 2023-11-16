@@ -70,13 +70,14 @@ namespace PortfolioMVP.Pages
             _config = config;
             (_db, _mainGoal) = _startConfig.GetDbConfig(config, db, "index");
 
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
 
             MainProject = _db.GetProjectByTitle(_mainGoal, AllProjects);
 
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_mainGoal);
             LoadPageHours(MainProject);
             TimeUnitsToShow = AllTimeUnits.OrderByDescending(x => x.TimeStamp).ToList();            
             

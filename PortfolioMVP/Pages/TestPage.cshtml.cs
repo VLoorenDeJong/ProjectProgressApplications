@@ -43,12 +43,11 @@ namespace PortfolioMVP.Pages
             _webHostEnvironment = webHostEnvironment;
 
             (_db, _mainGoal) = startConfig.GetDbConfig(config, db, "projectPage");
-
-            (AllProjects, AllTimeUnits) = _db.ReadAllRecords(_mainGoal);
-
         }
-        public void OnGet()
+        public async Task OnGet()
         {
+            (AllProjects, AllTimeUnits) = await _db.ReadAllRecordsAsync(_mainGoal);
+
             CreateFakePageModel();
             LoadPageHours();
         }
