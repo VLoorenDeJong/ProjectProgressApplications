@@ -7,7 +7,6 @@
 @using ProjectProgressLibrary.StartConfig
 
 @inject IStartConfig _startConfig
-@inject IConFiguration config 
 
 @inject WeatherForecastService ForecastService
 
@@ -50,17 +49,12 @@ else
     private IDataAccess _db;
     private string mainGoal;
 
-    protected override async Task OnInitializedAsync()
-    {
-        (_db, mainGoal) = _startConfig.GetProgressDbConfig();
-    }
-
-
     private WeatherForecast[] forecasts;
 
     protected override async Task OnInitializedAsync()
     {
         forecasts = await ForecastService.GetForecastAsync(DateTime.Now);
+
     }
 
 

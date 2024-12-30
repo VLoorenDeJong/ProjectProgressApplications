@@ -1,17 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31515.178
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34714.143
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProjectProgressLibrary", "ProjectProgressLibrary\ProjectProgressLibrary.csproj", "{3514E229-96A8-44A7-BFB4-A4CCB44229B1}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProgressApplicationMVP", "ProgressApplicationMVP\ProgressApplicationMVP.csproj", "{F82C4591-E800-4060-95F0-039E064A5164}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioMVP", "PortfolioMVP\PortfolioMVP.csproj", "{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PortfolioApp2.0", "PortfolioApp2.0\PortfolioApp2.0.csproj", "{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorTestServerApp", "BlazorTestServerApp\BlazorTestServerApp.csproj", "{A665D8F3-4975-4B09-A915-70F5F55AD6DD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,14 +27,6 @@ Global
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5776BC4E-A4D0-49F5-A8D4-9F39DCE43C32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6A2A9ED7-FE25-4F20-A4F3-0A651DA72B0B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A665D8F3-4975-4B09-A915-70F5F55AD6DD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
