@@ -40,9 +40,17 @@ namespace PortfolioMVP.Pages
 
         public IndexModel(ILogger<IndexModel> logger, IConfiguration config, IDataAccess db, IStartConfig startConfig)
         {
+         
             _startConfig = startConfig;
             _logger = logger;
             (_db, mainGoal) = _startConfig.GetDbConfig(config, db, "index");
+            
+
+        }
+
+        public async Task OnGet()
+        {
+            AllProjects = await _db.ReadAllProjectRecordsAsync(mainGoal);
 
 
             MainProject = _db.GetProjectByTitle(mainGoal, AllProjects);
@@ -51,12 +59,6 @@ namespace PortfolioMVP.Pages
             GeneralHours = MainProject.GeneralHours;
             TheoreticalHours = MainProject.TheoreticalHours;
             PracticalHours = MainProject.PracticalHours;
-        }
-
-        public async Task OnGet()
-        {
-
-            AllProjects = await _db.ReadAllProjectRecordsAsync(mainGoal);
         }
     }
 }
