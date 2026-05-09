@@ -9,5 +9,6 @@ namespace ProjectProgressLibrary.Models.Options
     public class ApplicationSettings
     {
         public string FooterText { get; set; }
+        public string EmailAddress { get; set; }
     }
 }

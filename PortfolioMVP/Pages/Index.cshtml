@@ -1,5 +1,8 @@
 ﻿@page
 @model IndexModel
+@using Microsoft.Extensions.Options;
+@using ProjectProgressLibrary.Models.Options;
+@inject IOptions<ApplicationSettings> AppSettings
 @{
     ViewData["Title"] = "Home";
 }
@@ -32,7 +35,7 @@
                 <label class="label-index-name-label page-text font-weight-bold">Kijk vooral rond en laat me weten wat je er van vindt.</label>
             </div>
             <div class="div-index-name-section">
-                <label class="label-index-name-label page-text">contact@victorloorendejong.nl</label>
+                <label class="label-index-name-label page-text">@AppSettings.Value.EmailAddress</label>
             </div>
             <div>
                 <a href="https://www.linkedin.com/in/victor-looren-de-jong" alt="linked in pagina" target="_blank">

@@ -1,5 +1,8 @@
 ﻿@using Microsoft.Extensions.Logging;
+@using Microsoft.Extensions.Options;
+@using ProjectProgressLibrary.Models.Options;
 @inject ILogger<Pages_Shared__Layout> logger;
+@inject IOptions<ApplicationSettings> AppSettings
 
 <!DOCTYPE html>
 <html lang="en">
@@ -68,7 +71,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            <h4 class="display-5 text-dark">Thank you for trying out the demo, let me know what you think at: contact@victorloorendejong.nl</h4>
+            <h4 class="display-5 text-dark">@AppSettings.Value.FooterText @AppSettings.Value.EmailAddress</h4>
         </div>        
     </footer>
 

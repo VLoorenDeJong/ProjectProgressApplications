@@ -38,6 +38,7 @@ namespace PortfolioMVP
             services.Configure<ApplicationOptions>(Configuration.GetSection("ApplicationOptions"));
             services.Configure<EnvironmentOptions>(Configuration.GetSection("Environment"));
             services.Configure<PlatformOptions>(Configuration.GetSection("Platform"));
+            services.Configure<ApplicationSettings>(Configuration.GetSection("ApplicationSetings"));
 
             double currentAppSettingsVersion = Configuration.GetValue<double>("Environment:AppSettingsVersion");
 

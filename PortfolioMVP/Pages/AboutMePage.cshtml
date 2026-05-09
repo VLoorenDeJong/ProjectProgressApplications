@@ -1,5 +1,8 @@
 ﻿@page
 @model PortfolioMVP.Pages.AboutMePageModel
+@using Microsoft.Extensions.Options;
+@using ProjectProgressLibrary.Models.Options;
+@inject IOptions<ApplicationSettings> AppSettings
 @{
     ViewData["Title"] = "Over mij";
 }
@@ -39,7 +42,7 @@
             <div class="div-name-section">
                 <label class="page-text label-name-text">Victor Looren de Jong</label>
                 <br />
-                <label class="page-text label-email-text">contact@victorloorendejong.nl</label>
+                <label class="page-text label-email-text">@AppSettings.Value.EmailAddress</label>
             </div>
 
             <div>

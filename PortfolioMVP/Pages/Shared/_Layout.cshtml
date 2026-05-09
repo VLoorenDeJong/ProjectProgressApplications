@@ -1,4 +1,7 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.Extensions.Options;
+@using ProjectProgressLibrary.Models.Options;
+@inject IOptions<ApplicationSettings> AppSettings
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -85,7 +88,7 @@
 
                         <ul  class="navbar-nav flex-grow-1">
                             <li>
-                                <label class="label-footer-email">contact@victorloorendejong.nl</label>
+                                <label class="label-footer-email">@AppSettings.Value.EmailAddress</label>
                             </li>
                             <li>
                                 <a href="https://www.linkedin.com/in/victor-looren-de-jong" alt="linked in pagina" target="_blank">
